@@ -1,13 +1,12 @@
-# 🃏 PokéTrumps - Kanto Edition
+# 🃏 PokéTrumps
 
-A professional, responsive digital card game inspired by the classic Brazilian **Super Trunfo (Grow)** and the original 151 Pokémon. Built with high-fidelity visuals using Glassmorphism, CSS animations, and real-time data from the PokéAPI.
+A professional, responsive digital card game inspired by the classic Brazilian **Super Trunfo (Grow)** + Pokémon. Built with high-fidelity visuals using Glassmorphism, CSS animations, and real-time data from the PokéAPI.
 
 LIVE DEMO: https://felipewkx.github.io/poke-trunfo/
 
 ## 🚀 Features
 
 - **Dynamic Data:** Fetches stats, types, and high-resolution artworks directly from [PokéAPI](https://pokeapi.co/).
-- **Original 151:** Exclusively features the classic Kanto Pokédex.
 - **Glassmorphism UI:** Modern interface with blur effects, neon borders, and professional shadows.
 - **Retro Mechanics:**
     - **Custom Stats:** Attributes calculated via logic (Average Attack/Defense).
