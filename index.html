@@ -1,57 +1,55 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>PokeTrumps Pro | Kanto Edition</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="glass-overlay"></div>
-    <div class="game-container">
-      <header>
-        <h1 class="logo">TRUNFO <span>POKÉMON</span></h1>
-        <div class="scoreboard-glass">
-          <div class="score-item">PLAYER <span id="player-score">0</span></div>
-          <div class="score-sep"></div>
-          <div class="score-item">CPU <span id="cpu-score">0</span></div>
-        </div>
-      </header>
 
-      <main class="battle-arena">
-        <div id="player-card-slot" class="card-slot"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>PokeTrumps Pro | Kanto Edition</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+    rel="stylesheet" />
+</head>
 
-        <div class="game-center">
-          <div id="status-bubble" class="status-bubble">READY?</div>
-          <div
-            id="log-display"
-            style="
+<body>
+  <div class="glass-overlay"></div>
+  <div id="generation-selection" class="generation-selection">
+    <h2>Select Generation</h2>
+    <button id="gen1-btn" class="btn-neon">First Generation (1-151)</button>
+    <button id="gen2-btn" class="btn-neon">Second Generation (152-251)</button>
+    <button id="gen3-btn" class="btn-neon">Third Generation (252-386)</button>
+    <button id="all-btn" class="btn-neon">All Generations (1-386)</button>
+  </div>
+  <div class="game-container" style="display: none;">
+    <header>
+      <h1 class="logo">TRUNFO <span>POKÉMON</span></h1>
+      <div class="scoreboard-glass">
+        <div class="score-item">PLAYER <span id="player-score">0</span></div>
+        <div class="score-sep"></div>
+        <div class="score-item">CPU <span id="cpu-score">0</span></div>
+      </div>
+    </header>
+
+    <main class="battle-arena">
+      <div id="player-card-slot" class="card-slot"></div>
+
+      <div class="game-center">
+        <div id="status-bubble" class="status-bubble">READY?</div>
+        <div id="log-display" style="
               font-size: 0.9rem;
               margin: 10px 0;
               min-height: 40px;
               color: #aaa;
-            "
-          ></div>
-          <button id="start-btn" class="btn-neon">START GAME</button>
-          <button
-            id="next-btn"
-            class="btn-neon"
-            style="display: none; margin-top: 10px"
-          >
-            NEXT ROUND
-          </button>
-        </div>
+            "></div>
+        <button id="start-btn" class="btn-neon">START GAME</button>
+        <button id="next-btn" class="btn-neon" style="display: none; margin-top: 10px">
+          NEXT ROUND
+        </button>
+      </div>
 
-        <div id="cpu-card-slot" class="card-slot"></div>
-      </main>
-    </div>
-    <script src="script.js"></script>
-  </body>
+      <div id="cpu-card-slot" class="card-slot"></div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+
 </html>

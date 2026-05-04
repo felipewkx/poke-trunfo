@@ -14,7 +14,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden; /* Evita scroll horizontal no mobile */
+  overflow-x: hidden;
+  /* Evita scroll horizontal no mobile */
 }
 
 .game-container {
@@ -30,7 +31,8 @@ body {
 /* Arena: Vertical no Mobile, Horizontal no PC */
 .battle-arena {
   display: flex;
-  flex-direction: column; /* Mobile first */
+  flex-direction: column;
+  /* Mobile first */
   align-items: center;
   justify-content: center;
   gap: 30px;
@@ -40,18 +42,21 @@ body {
 /* Media Query para Desktop (Telas maiores que 850px) */
 @media (min-width: 850px) {
   .battle-arena {
-    flex-direction: row; /* Horizontal no PC */
+    flex-direction: row;
+    /* Horizontal no PC */
     align-items: flex-start;
   }
 
   .game-center {
-    order: 0; /* Mantém o botão no meio */
+    order: 0;
+    /* Mantém o botão no meio */
   }
 }
 
 /* Ajuste das Cartas para caber em telas menores */
 .pokemon-card {
-  width: 90vw; /* Quase toda a largura no mobile */
+  width: 90vw;
+  /* Quase toda a largura no mobile */
   max-width: 280px;
   height: auto;
   min-height: 420px;
@@ -66,7 +71,8 @@ body {
 
 .pokemon-card img {
   width: 100%;
-  height: 160px; /* Reduzido um pouco para caber melhor */
+  height: 160px;
+  /* Reduzido um pouco para caber melhor */
   object-fit: contain;
   margin: 10px 0;
 }
@@ -97,12 +103,15 @@ body {
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
-  cursor: pointer; /* Cursor de mãozinha */
+  cursor: pointer;
+  /* Cursor de mãozinha */
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
-  user-select: none; /* Impede que o texto seja selecionado ao clicar rápido */
+  user-select: none;
+  /* Impede que o texto seja selecionado ao clicar rápido */
   position: relative;
-  z-index: 10; /* Garante que fique acima de efeitos holográficos */
+  z-index: 10;
+  /* Garante que fique acima de efeitos holográficos */
 }
 
 .stat-row:hover {
@@ -148,6 +157,7 @@ body {
 .rare-card {
   border-color: var(--neon-gold);
 }
+
 .rare-card::after {
   content: "";
   position: absolute;
@@ -155,12 +165,10 @@ body {
   left: -100%;
   width: 300%;
   height: 300%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 215, 0, 0.1),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 215, 0, 0.1),
+      transparent);
   animation: sweep 4s infinite;
 }
 
@@ -168,6 +176,7 @@ body {
   0% {
     transform: translate(-100%, -100%) rotate(45deg);
   }
+
   100% {
     transform: translate(100%, 100%) rotate(45deg);
   }
@@ -175,19 +184,31 @@ body {
 
 #cpu-card-slot .stat-row {
   cursor: default;
-  pointer-events: none; /* Desabilita cliques na carta da CPU */
+  pointer-events: none;
+  /* Desabilita cliques na carta da CPU */
 }
 
 #log-display b {
   color: var(--neon-blue);
 }
 
-#log-display {
-  font-family: "Rajdhani", sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 5px 15px;
-  border-radius: 4px;
+.generation-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 2px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  margin: 50px auto;
+}
+
+.generation-selection h2 {
+  color: var(--neon-blue);
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
 }

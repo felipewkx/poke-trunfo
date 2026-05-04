@@ -4,6 +4,7 @@ let cpuDeck = [];
 let scores = { player: 0, cpu: 0 };
 let currentRound = 0;
 const TOTAL_ROUNDS = 10;
+let selectedGen = { min: 1, max: 151 };
 
 async function fetchPokemon(id) {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -15,13 +16,9 @@ async function fetchPokemon(id) {
     isRare: data.name === "mew" || data.name === "mewtwo",
     stats: {
       HP: data.stats[0].base_stat,
-      ATTACK: Math.floor(
-        (data.stats[1].base_stat + data.stats[3].base_stat) / 2,
-      ),
-      DEFENSE: Math.floor(
-        (data.stats[2].base_stat + data.stats[4].base_stat) / 2,
-      ),
-      AGI: data.stats[5].base_stat,
+      ATTACK: data.stats[1].base_stat + data.stats[3].base_stat,
+      DEFENSE: data.stats[2].base_stat + data.stats[4].base_stat,
+      SPEED: data.stats[5].base_stat,
     },
   };
 }
@@ -38,14 +35,14 @@ async function startGame() {
   document.getElementById("status-bubble").innerText = "LOADING DECK...";
 
   try {
-    // Gera IDs aleatórios entre 1 e 151
+    // Gera IDs aleatórios entre min e max da geração selecionada
     const pIds = Array.from(
       { length: TOTAL_ROUNDS },
-      () => Math.floor(Math.random() * 151) + 1,
+      () => Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) + selectedGen.min,
     );
     const cIds = Array.from(
       { length: TOTAL_ROUNDS },
-      () => Math.floor(Math.random() * 151) + 1,
+      () => Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) + selectedGen.min,
     );
 
     // Baixa todos os Pokémon simultaneamente (Muito mais rápido)
@@ -95,7 +92,7 @@ function renderCard(pokemon, containerId, isFaceDown) {
                 <div class="stat-row" data-stat="HP"><span>HP</span> <span>${pokemon.stats.HP}</span></div>
                 <div class="stat-row" data-stat="ATTACK"><span>ATTACK</span> <span>${pokemon.stats.ATTACK}</span></div>
                 <div class="stat-row" data-stat="DEFENSE"><span>DEFENSE</span> <span>${pokemon.stats.DEFENSE}</span></div>
-                <div class="stat-row" data-stat="AGI"><span>AGI</span> <span>${pokemon.stats.AGI}</span></div>
+                <div class="stat-row" data-stat="SPEED"><span>SPEED</span> <span>${pokemon.stats.SPEED}</span></div>
             </div>
             <div style="margin-top:10px; font-size:0.7rem; color: #888; letter-spacing: 2px">TYPE: ${pokemon.type.toUpperCase()}</div>
         </div>
@@ -172,10 +169,22 @@ function finishGame() {
 
   document.getElementById("status-bubble").innerText = "GAME OVER";
   alert(finalMsg);
-  document.getElementById("start-btn").style.display = "block";
-  document.getElementById("start-btn").innerText = "RESTART GAME";
+  // Hide game and show generation selection for new game
+  document.querySelector(".game-container").style.display = "none";
+  document.getElementById("generation-selection").style.display = "flex";
 }
 
 document.getElementById("next-btn").addEventListener("click", nextRound);
 
 document.getElementById("start-btn").addEventListener("click", startGame);
+
+function selectGeneration(min, max) {
+  selectedGen = { min, max };
+  document.getElementById("generation-selection").style.display = "none";
+  document.querySelector(".game-container").style.display = "flex";
+}
+
+document.getElementById("gen1-btn").addEventListener("click", () => selectGeneration(1, 151));
+document.getElementById("gen2-btn").addEventListener("click", () => selectGeneration(152, 251));
+document.getElementById("gen3-btn").addEventListener("click", () => selectGeneration(252, 386));
+document.getElementById("all-btn").addEventListener("click", () => selectGeneration(1, 386));
