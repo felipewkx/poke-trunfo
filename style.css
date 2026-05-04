@@ -77,6 +77,28 @@ body {
   margin: 10px 0;
 }
 
+/* Mobile adjustments for card size */
+@media (max-width: 849px) {
+  .pokemon-card {
+    max-width: 200px;
+    min-height: 350px;
+    padding: 10px;
+  }
+
+  .pokemon-card h2 {
+    font-size: 1rem;
+  }
+
+  .stat-row {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .battle-arena {
+    gap: 15px;
+  }
+}
+
 /* Centralizador de Controles */
 .game-center {
   display: flex;
@@ -143,6 +165,21 @@ body {
   box-shadow: 0 0 20px var(--neon-blue);
 }
 
+#menu-btn {
+  font-size: 0.8em;
+  padding: 8px 20px;
+  background: #ffff99;
+  color: #666600;
+  border: 1px solid #cccc00;
+  margin-top: 20px;
+}
+
+#menu-btn:hover {
+  background: #ffff99;
+  color: #666600;
+  box-shadow: none;
+}
+
 .scoreboard-glass {
   display: flex;
   background: var(--glass-bg);
@@ -156,20 +193,39 @@ body {
 /* Efeito Holográfico */
 .rare-card {
   border-color: var(--neon-gold);
+  background: linear-gradient(45deg, silver, gold, silver, gold);
+  overflow: hidden;
 }
 
 .rare-card::after {
   content: "";
   position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(45deg,
       transparent,
       rgba(255, 215, 0, 0.1),
       transparent);
-  animation: sweep 4s infinite;
+}
+
+}
+
+.winner-outline {
+  box-shadow: 0 0 20px lightgreen !important;
+}
+
+.loser-outline {
+  box-shadow: 0 0 20px lightcoral !important;
+}
+
+.winner-stat {
+  box-shadow: inset 0 0 10px darkgreen !important;
+}
+
+.loser-stat {
+  box-shadow: inset 0 0 10px darkred !important;
 }
 
 @keyframes sweep {

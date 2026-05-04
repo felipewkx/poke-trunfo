@@ -6,14 +6,37 @@ let currentRound = 0;
 const TOTAL_ROUNDS = 10;
 let selectedGen = { min: 1, max: 151 };
 
+function resetGame() {
+  playerDeck = [];
+  cpuDeck = [];
+  scores = { player: 0, cpu: 0 };
+  currentRound = 0;
+  document.getElementById("player-score").innerText = "0";
+  document.getElementById("cpu-score").innerText = "0";
+  document.getElementById("status-bubble").innerText = "READY?";
+  document.getElementById("log-display").innerText = "";
+  document.getElementById("start-btn").style.display = "block";
+  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("menu-btn").style.display = "none";
+  document.getElementById("player-card-slot").innerHTML = "";
+  document.getElementById("cpu-card-slot").innerHTML = "";
+  document.getElementById("player-card-slot").style.pointerEvents = "auto";
+}
+
+function showMenu() {
+  document.querySelector(".game-container").style.display = "none";
+  document.getElementById("generation-selection").style.display = "flex";
+}
+
 async function fetchPokemon(id) {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
   const data = await response.json();
   return {
+    id: id,
     name: data.name.toUpperCase(),
     image: data.sprites.other["official-artwork"].front_default,
     type: data.types[0].type.name,
-    isRare: data.name === "mew" || data.name === "mewtwo",
+    isRare: [249, 250, 251, 384, 385, 386].includes(id),
     stats: {
       HP: data.stats[0].base_stat,
       ATTACK: data.stats[1].base_stat + data.stats[3].base_stat,
@@ -31,6 +54,7 @@ async function startGame() {
   document.getElementById("log-display").innerText = "";
   document.getElementById("start-btn").style.display = "none";
   document.getElementById("next-btn").style.display = "none";
+  document.getElementById("menu-btn").style.display = "block";
 
   document.getElementById("status-bubble").innerText = "LOADING DECK...";
 
@@ -81,12 +105,13 @@ function renderCard(pokemon, containerId, isFaceDown) {
 
   const rareClass = pokemon.isRare ? "rare-card" : "";
   const rareBadge = pokemon.isRare ? '<div class="rare-badge">RARE</div>' : "";
+  const nameColor = pokemon.isRare ? 'style="color: hotpink;"' : 'style="color: var(--neon-blue);"';
 
   // Criamos o HTML da carta
   container.innerHTML = `
         <div class="pokemon-card ${rareClass}">
             ${rareBadge}
-            <h2 style="margin:0; color: var(--neon-blue); font-family: 'Orbitron'">${pokemon.name}</h2>
+            <h2 style="margin:0; font-family: 'Orbitron'" ${nameColor}>${pokemon.name}</h2>
             <img src="${pokemon.image}" alt="${pokemon.name}">
             <div class="stats-container" id="stats-${containerId}">
                 <div class="stat-row" data-stat="HP"><span>HP</span> <span>${pokemon.stats.HP}</span></div>
@@ -120,23 +145,83 @@ function playTurn(stat) {
   let cValue = cCard.stats[stat];
 
   let winner = "";
-  // Regra Super Trunfo: Mew/Mewtwo (Rare) vencem cartas comuns
-  if (pCard.isRare && !cCard.isRare) winner = "player";
+  // Regra Super Trunfo: Rare vencem cartas comuns, mas se ambos rare ou empate, é empate
+  if (pCard.isRare && cCard.isRare) winner = "tie";
+  else if (pCard.isRare && !cCard.isRare) winner = "player";
   else if (cCard.isRare && !pCard.isRare) winner = "cpu";
-  else winner = pValue >= cValue ? "player" : "cpu";
+  else if (pValue > cValue) winner = "player";
+  else if (cValue > pValue) winner = "cpu";
+  else winner = "tie";
 
-  // Exibe o Log da Batalha com valores originais
-  const logMsg = `${pCard.name} (${pValue}) vs ${cCard.name} (${cValue}) em ${stat}`;
-  document.getElementById("log-display").innerHTML = logMsg;
+  // Exibe o Log da Batalha
+  let logMsg;
+
+if (winner === "player") {
+  if (pCard.isRare) {
+    logMsg = `${pCard.name} won because <br> it's a Super Trump card!`;
+  } else {
+    logMsg = `${pCard.name} won because ${stat} (${pValue}) <br> defeated ${cCard.name}'s ${stat} (${cValue})`;
+  }
+} else if (winner === "cpu") {
+  if (cCard.isRare) {
+    logMsg = `${cCard.name} won because <br> it's a Super Trump card!`;
+  } else {
+    logMsg = `${cCard.name} won because ${stat} (${cValue}) <br> defeated ${pCard.name}'s ${stat} (${pValue})`;
+  }
+} else if (winner === "tie") {
+  if (pCard.isRare && cCard.isRare) {
+    logMsg = `It's a tie! <br> Both ${pCard.name} and ${cCard.name} are Super Trump cards.`;
+  } else {
+    logMsg = `It's a tie! <br> Both have ${stat} ${pValue}`;
+  }
+}
+
+document.getElementById("log-display").innerHTML = logMsg;
+
+
+  // Add outlines to cards
+  const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
+  const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
 
   if (winner === "player") {
+    if (!pCard.isRare) playerCardEl.classList.add("winner-outline");
+    if (!cCard.isRare) cpuCardEl.classList.add("loser-outline");
     scores.player++;
     document.getElementById("status-bubble").innerText = "YOU WIN!";
     document.getElementById("player-score").innerText = scores.player;
-  } else {
+
+    // Highlight the stat
+    const winningCardEl = playerCardEl;
+    const losingCardEl = cpuCardEl;
+    const winningPokemon = pCard;
+    const losingPokemon = cCard;
+
+    const winningStatRow = winningCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+    const losingStatRow = losingCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+
+    if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
+    if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
+  } else if (winner === "cpu") {
+    if (!pCard.isRare) playerCardEl.classList.add("loser-outline");
+    if (!cCard.isRare) cpuCardEl.classList.add("winner-outline");
     scores.cpu++;
     document.getElementById("status-bubble").innerText = "CPU WINS!";
     document.getElementById("cpu-score").innerText = scores.cpu;
+
+    // Highlight the stat
+    const winningCardEl = cpuCardEl;
+    const losingCardEl = playerCardEl;
+    const winningPokemon = cCard;
+    const losingPokemon = pCard;
+
+    const winningStatRow = winningCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+    const losingStatRow = losingCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+
+    if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
+    if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
+  } else if (winner === "tie") {
+    // No outlines for tie
+    document.getElementById("status-bubble").innerText = "IT'S A TIE!";
   }
 
   document.getElementById("next-btn").style.display = "block";
@@ -147,6 +232,18 @@ function nextRound() {
   playerDeck.shift();
   cpuDeck.shift();
   currentRound++;
+
+  // Remove previous round's classes
+  const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
+  const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
+  if (playerCardEl) {
+    playerCardEl.classList.remove("winner-outline", "loser-outline");
+    playerCardEl.querySelectorAll(".stat-row").forEach(row => row.classList.remove("winner-stat", "loser-stat"));
+  }
+  if (cpuCardEl) {
+    cpuCardEl.classList.remove("winner-outline", "loser-outline");
+    cpuCardEl.querySelectorAll(".stat-row").forEach(row => row.classList.remove("winner-stat", "loser-stat"));
+  }
 
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("player-card-slot").style.pointerEvents = "auto";
@@ -162,24 +259,33 @@ function nextRound() {
 }
 
 function finishGame() {
-  let finalMsg =
-    scores.player > scores.cpu
-      ? "CONGRATULATIONS! YOU ARE THE CHAMPION!"
-      : "SORRY, YOU LOST! TRY AGAIN!";
+  let finalMsg;
+  if (scores.player > scores.cpu) {
+    finalMsg = "CONGRATULATIONS! YOU ARE THE CHAMPION!";
+  } else if (scores.cpu > scores.player) {
+    finalMsg = "SORRY, YOU LOST! TRY AGAIN!";
+  } else {
+    finalMsg = "TIE!";
+  }
 
   document.getElementById("status-bubble").innerText = "GAME OVER";
   alert(finalMsg);
-  // Hide game and show generation selection for new game
-  document.querySelector(".game-container").style.display = "none";
-  document.getElementById("generation-selection").style.display = "flex";
+  resetGame();
+  showMenu();
 }
 
 document.getElementById("next-btn").addEventListener("click", nextRound);
 
 document.getElementById("start-btn").addEventListener("click", startGame);
 
+document.getElementById("menu-btn").addEventListener("click", () => {
+  resetGame();
+  showMenu();
+});
+
 function selectGeneration(min, max) {
   selectedGen = { min, max };
+  resetGame();
   document.getElementById("generation-selection").style.display = "none";
   document.querySelector(".game-container").style.display = "flex";
 }
