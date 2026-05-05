@@ -36,7 +36,7 @@ async function fetchPokemon(id) {
     name: data.name.toUpperCase(),
     image: data.sprites.other["official-artwork"].front_default,
     type: data.types[0].type.name,
-    isRare: [249, 250, 251, 384, 385, 386].includes(id),
+    isRare: [150, 151, 249, 250, 251, 384, 385, 386].includes(id),
     stats: {
       HP: data.stats[0].base_stat,
       ATTACK: data.stats[1].base_stat + data.stats[3].base_stat,
@@ -156,27 +156,27 @@ function playTurn(stat) {
   // Exibe o Log da Batalha
   let logMsg;
 
-if (winner === "player") {
-  if (pCard.isRare) {
-    logMsg = `${pCard.name} won because <br> it's a Super Trump card!`;
-  } else {
-    logMsg = `${pCard.name} won because ${stat} (${pValue}) <br> defeated ${cCard.name}'s ${stat} (${cValue})`;
+  if (winner === "player") {
+    if (pCard.isRare) {
+      logMsg = `${pCard.name} won because <br> it's a Super Trump card!`;
+    } else {
+      logMsg = `${pCard.name} won because ${stat} (${pValue}) <br> defeated ${cCard.name}'s ${stat} (${cValue})`;
+    }
+  } else if (winner === "cpu") {
+    if (cCard.isRare) {
+      logMsg = `${cCard.name} won because <br> it's a Super Trump card!`;
+    } else {
+      logMsg = `${cCard.name} won because ${stat} (${cValue}) <br> defeated ${pCard.name}'s ${stat} (${pValue})`;
+    }
+  } else if (winner === "tie") {
+    if (pCard.isRare && cCard.isRare) {
+      logMsg = `It's a tie! <br> Both ${pCard.name} and ${cCard.name} are Super Trump cards.`;
+    } else {
+      logMsg = `It's a tie! <br> Both have ${stat} ${pValue}`;
+    }
   }
-} else if (winner === "cpu") {
-  if (cCard.isRare) {
-    logMsg = `${cCard.name} won because <br> it's a Super Trump card!`;
-  } else {
-    logMsg = `${cCard.name} won because ${stat} (${cValue}) <br> defeated ${pCard.name}'s ${stat} (${pValue})`;
-  }
-} else if (winner === "tie") {
-  if (pCard.isRare && cCard.isRare) {
-    logMsg = `It's a tie! <br> Both ${pCard.name} and ${cCard.name} are Super Trump cards.`;
-  } else {
-    logMsg = `It's a tie! <br> Both have ${stat} ${pValue}`;
-  }
-}
 
-document.getElementById("log-display").innerHTML = logMsg;
+  document.getElementById("log-display").innerHTML = logMsg;
 
 
   // Add outlines to cards
@@ -184,8 +184,8 @@ document.getElementById("log-display").innerHTML = logMsg;
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
 
   if (winner === "player") {
-    if (!pCard.isRare) playerCardEl.classList.add("winner-outline");
-    if (!cCard.isRare) cpuCardEl.classList.add("loser-outline");
+    playerCardEl.classList.add("winner-card");
+    cpuCardEl.classList.add("loser-card");
     scores.player++;
     document.getElementById("status-bubble").innerText = "YOU WIN!";
     document.getElementById("player-score").innerText = scores.player;
@@ -202,8 +202,8 @@ document.getElementById("log-display").innerHTML = logMsg;
     if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
     if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
   } else if (winner === "cpu") {
-    if (!pCard.isRare) playerCardEl.classList.add("loser-outline");
-    if (!cCard.isRare) cpuCardEl.classList.add("winner-outline");
+    playerCardEl.classList.add("loser-card");
+    cpuCardEl.classList.add("winner-card");
     scores.cpu++;
     document.getElementById("status-bubble").innerText = "CPU WINS!";
     document.getElementById("cpu-score").innerText = scores.cpu;
@@ -237,11 +237,11 @@ function nextRound() {
   const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
   if (playerCardEl) {
-    playerCardEl.classList.remove("winner-outline", "loser-outline");
+    playerCardEl.classList.remove("winner-card", "loser-card", "winner-outline", "loser-outline");
     playerCardEl.querySelectorAll(".stat-row").forEach(row => row.classList.remove("winner-stat", "loser-stat"));
   }
   if (cpuCardEl) {
-    cpuCardEl.classList.remove("winner-outline", "loser-outline");
+    cpuCardEl.classList.remove("winner-card", "loser-card", "winner-outline", "loser-outline");
     cpuCardEl.querySelectorAll(".stat-row").forEach(row => row.classList.remove("winner-stat", "loser-stat"));
   }
 
