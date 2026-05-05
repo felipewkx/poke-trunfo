@@ -283,6 +283,14 @@ document.getElementById("menu-btn").addEventListener("click", () => {
   showMenu();
 });
 
+document.getElementById("open-pokedex-btn").addEventListener("click", () => {
+  document.getElementById("pokedex-panel").classList.remove("hidden");
+});
+
+document.getElementById("close-pokedex-btn").addEventListener("click", () => {
+  document.getElementById("pokedex-panel").classList.add("hidden");
+});
+
 function selectGeneration(min, max) {
   selectedGen = { min, max };
   resetGame();
