@@ -1,5 +1,5 @@
 :root {
-  --neon-blue: #00d4ff;
+  --neon-blue: #ffdd00;
   --neon-gold: #ffd700;
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.15);
@@ -257,14 +257,14 @@ body {
       transparent);
 }
 
-.winner-card {
+.winner-card:not(.rare-card) {
   background: #7CFC00 !important;
   color: #000 !important;
   border-color: #32CD32 !important;
   box-shadow: 0 0 25px #7CFC00 !important;
 }
 
-.loser-card {
+.loser-card:not(.rare-card) {
   background: #FF4D4D !important;
   color: #000 !important;
   border-color: #FF6347 !important;
