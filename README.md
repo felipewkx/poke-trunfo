@@ -1,6 +1,6 @@
 # 🃏 PokéTrumps
 
-A professional, responsive digital card game inspired by the classic Brazilian **Super Trunfo (Grow)** + Pokémon. Built with high-fidelity visuals using Glassmorphism, CSS animations, and real-time data from the PokéAPI.
+A professional, responsive digital Pokémon card game inspired by the classic Brazilian **Super Trunfo (Grow)** + Pokédex. Built with high-fidelity visuals using Glassmorphism, CSS animations, and real-time data from the PokéAPI.
 
 LIVE DEMO: https://felipewkx.github.io/poke-trunfo/
 
@@ -12,9 +12,12 @@ LIVE DEMO: https://felipewkx.github.io/poke-trunfo/
     - **Custom Stats:** Attributes calculated via logic (Average Attack/Defense).
     - **Rare Card Logic:** Mew and Mewtwo act as "Super Trumps", winning automatically against common cards.
     - **Holographic Effects:** CSS-animated "Shiny" effect for Rare cards.
-- **Responsive Design:** - 🖥️ **Desktop:** Side-by-side horizontal battle arena.
-    - 📱 **Mobile:** Stacked vertical layout optimized for touch.
+- **Responsive Design:**
+- - 🖥️ **Desktop:** Side-by-side horizontal battle arena.
+  - 📱 **Mobile:** Stacked vertical layout optimized for touch.
 - **VS Computer Mode:** Play 10 rounds against an automated AI.
+  
+- **Pokedex:** Created step-by-step by watching Manual do Dev's video.
 
 ## 🛠️ Technologies
 
@@ -30,7 +33,7 @@ LIVE DEMO: https://felipewkx.github.io/poke-trunfo/
 3. **Compare:** The CPU card will reveal itself. The higher number wins the round.
 4. **Super Trunfo:** If you have **Mew** or **Mewtwo**, you win the round automatically unless the opponent also has a Rare card.
 5. **Next:** Check the battle log and click "Next Round".
-6. **Victory:** After 10 rounds, the player with the most points is crowned the Pokémon Master!
+6. **Victory:** After 10 rounds, the player with the most points is crowned the Pokemon Master!
 
 
 Technical Highlights
