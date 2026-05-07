@@ -62,11 +62,15 @@ async function startGame() {
     // Gera IDs aleatórios entre min e max da geração selecionada
     const pIds = Array.from(
       { length: TOTAL_ROUNDS },
-      () => Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) + selectedGen.min,
+      () =>
+        Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) +
+        selectedGen.min,
     );
     const cIds = Array.from(
       { length: TOTAL_ROUNDS },
-      () => Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) + selectedGen.min,
+      () =>
+        Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) +
+        selectedGen.min,
     );
 
     // Baixa todos os Pokémon simultaneamente (Muito mais rápido)
@@ -97,15 +101,17 @@ function renderCard(pokemon, containerId, isFaceDown) {
 
   if (isFaceDown) {
     container.innerHTML = `
-            <div class="pokemon-card" style="background: #004a99; display:flex; align-items:center; justify-content:center;">
-                <div style="font-family: 'Orbitron'; opacity: 0.2; transform: rotate(-45deg); font-size: 2rem;">POKÉMON</div>
+            <div class="pokemon-card card-back">
+                <div class="card-back__label">POKÉMON</div>
             </div>`;
     return;
   }
 
   const rareClass = pokemon.isRare ? "rare-card" : "";
   const rareBadge = pokemon.isRare ? '<div class="rare-badge">RARE</div>' : "";
-  const nameColor = pokemon.isRare ? 'style="color: hotpink;"' : 'style="color: var(--neon-blue);"';
+  const nameColor = pokemon.isRare
+    ? 'style="color: hotpink;"'
+    : 'style="color: var(--poke-yellow);"';
 
   // Criamos o HTML da carta
   container.innerHTML = `
@@ -166,7 +172,7 @@ function playTurn(stat) {
     if (cCard.isRare) {
       logMsg = `${cCard.name} won because <br> it's a Super Trump card!`;
     } else {
-      logMsg = `${cCard.name} won because ${stat} (${cValue}) <br> defeated ${pCard.name}'s ${stat} (${pValue})`;
+      logMsg = `${cCard.name} won because <br> ${stat} (${cValue}) <br> defeated ${pCard.name}'s ${stat} (${pValue})`;
     }
   } else if (winner === "tie") {
     if (pCard.isRare && cCard.isRare) {
@@ -178,9 +184,10 @@ function playTurn(stat) {
 
   document.getElementById("log-display").innerHTML = logMsg;
 
-
   // Add outlines to cards
-  const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
+  const playerCardEl = document.querySelector(
+    "#player-card-slot .pokemon-card",
+  );
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
 
   if (winner === "player") {
@@ -196,8 +203,12 @@ function playTurn(stat) {
     const winningPokemon = pCard;
     const losingPokemon = cCard;
 
-    const winningStatRow = winningCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
-    const losingStatRow = losingCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+    const winningStatRow = winningCardEl.querySelector(
+      `.stat-row[data-stat="${stat}"]`,
+    );
+    const losingStatRow = losingCardEl.querySelector(
+      `.stat-row[data-stat="${stat}"]`,
+    );
 
     if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
     if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
@@ -214,8 +225,12 @@ function playTurn(stat) {
     const winningPokemon = cCard;
     const losingPokemon = pCard;
 
-    const winningStatRow = winningCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
-    const losingStatRow = losingCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+    const winningStatRow = winningCardEl.querySelector(
+      `.stat-row[data-stat="${stat}"]`,
+    );
+    const losingStatRow = losingCardEl.querySelector(
+      `.stat-row[data-stat="${stat}"]`,
+    );
 
     if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
     if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
@@ -234,15 +249,31 @@ function nextRound() {
   currentRound++;
 
   // Remove previous round's classes
-  const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
+  const playerCardEl = document.querySelector(
+    "#player-card-slot .pokemon-card",
+  );
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
   if (playerCardEl) {
-    playerCardEl.classList.remove("winner-card", "loser-card", "winner-outline", "loser-outline");
-    playerCardEl.querySelectorAll(".stat-row").forEach(row => row.classList.remove("winner-stat", "loser-stat"));
+    playerCardEl.classList.remove(
+      "winner-card",
+      "loser-card",
+      "winner-outline",
+      "loser-outline",
+    );
+    playerCardEl
+      .querySelectorAll(".stat-row")
+      .forEach((row) => row.classList.remove("winner-stat", "loser-stat"));
   }
   if (cpuCardEl) {
-    cpuCardEl.classList.remove("winner-card", "loser-card", "winner-outline", "loser-outline");
-    cpuCardEl.querySelectorAll(".stat-row").forEach(row => row.classList.remove("winner-stat", "loser-stat"));
+    cpuCardEl.classList.remove(
+      "winner-card",
+      "loser-card",
+      "winner-outline",
+      "loser-outline",
+    );
+    cpuCardEl
+      .querySelectorAll(".stat-row")
+      .forEach((row) => row.classList.remove("winner-stat", "loser-stat"));
   }
 
   document.getElementById("next-btn").style.display = "none";
@@ -261,7 +292,7 @@ function nextRound() {
 function finishGame() {
   let finalMsg;
   if (scores.player > scores.cpu) {
-    finalMsg = "CONGRATULATIONS! YOU ARE THE CHAMPION!";
+    finalMsg = "CONGRATULATIONS! YOU ARE THE POKE-MASTER!";
   } else if (scores.cpu > scores.player) {
     finalMsg = "SORRY, YOU LOST! TRY AGAIN!";
   } else {
@@ -283,12 +314,39 @@ document.getElementById("menu-btn").addEventListener("click", () => {
   showMenu();
 });
 
+function setPokedexOpen(open) {
+  const panel = document.getElementById("pokedex-panel");
+  const backdrop = document.getElementById("pokedex-backdrop");
+  if (open) {
+    panel.classList.remove("hidden");
+    backdrop.classList.remove("hidden");
+    backdrop.setAttribute("aria-hidden", "false");
+    document.body.classList.add("pokedex-open");
+  } else {
+    panel.classList.add("hidden");
+    backdrop.classList.add("hidden");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("pokedex-open");
+  }
+}
+
 document.getElementById("open-pokedex-btn").addEventListener("click", () => {
-  document.getElementById("pokedex-panel").classList.remove("hidden");
+  setPokedexOpen(true);
 });
 
 document.getElementById("close-pokedex-btn").addEventListener("click", () => {
-  document.getElementById("pokedex-panel").classList.add("hidden");
+  setPokedexOpen(false);
+});
+
+document.getElementById("pokedex-backdrop").addEventListener("click", () => {
+  setPokedexOpen(false);
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (!document.getElementById("pokedex-panel").classList.contains("hidden")) {
+    setPokedexOpen(false);
+  }
 });
 
 function selectGeneration(min, max) {
@@ -298,7 +356,15 @@ function selectGeneration(min, max) {
   document.querySelector(".game-container").style.display = "flex";
 }
 
-document.getElementById("gen1-btn").addEventListener("click", () => selectGeneration(1, 151));
-document.getElementById("gen2-btn").addEventListener("click", () => selectGeneration(152, 251));
-document.getElementById("gen3-btn").addEventListener("click", () => selectGeneration(252, 386));
-document.getElementById("all-btn").addEventListener("click", () => selectGeneration(1, 386));
+document
+  .getElementById("gen1-btn")
+  .addEventListener("click", () => selectGeneration(1, 151));
+document
+  .getElementById("gen2-btn")
+  .addEventListener("click", () => selectGeneration(152, 251));
+document
+  .getElementById("gen3-btn")
+  .addEventListener("click", () => selectGeneration(252, 386));
+document
+  .getElementById("all-btn")
+  .addEventListener("click", () => selectGeneration(1, 386));

@@ -34,30 +34,33 @@
 
       <div class="game-center">
         <div id="status-bubble" class="status-bubble">READY?</div>
-        <div id="log-display" style="
-              font-size: 0.75rem;
-              margin: 10px 0;
-              min-height: 40px;
-              color: #aaa;
-              text-align: center;
-            "></div>
+        <div id="log-display"></div>
         <button id="start-btn" class="btn-neon">START GAME</button>
         <button id="next-btn" class="btn-neon" style="display: none; margin-top: 10px">
           NEXT ROUND
-        </button>
-        <button id="menu-btn" class="btn-neon" style="display: none;">
-          RETURN TO MENU
         </button>
       </div>
 
       <div id="cpu-card-slot" class="card-slot"></div>
     </main>
+
+    <footer class="game-footer">
+      <button id="menu-btn" class="btn-neon btn-menu-foot" style="display: none">
+        RETURN TO MENU
+      </button>
+    </footer>
   </div>
 
-  <button id="open-pokedex-btn" class="btn-neon">Open Pokedex</button>
-  <div id="pokedex-panel" class="pokedex-panel hidden">
-    <button id="close-pokedex-btn" class="close-pokedex-btn">×</button>
-    <iframe id="pokedex-iframe" src="pokedex/index.html" title="Pokedex"></iframe>
+  <div id="pokedex-backdrop" class="pokedex-backdrop hidden" aria-hidden="true"></div>
+  <button type="button" id="open-pokedex-btn" class="btn-neon btn-pokedex-fab">
+    Pokédex
+  </button>
+  <div id="pokedex-panel" class="pokedex-panel hidden" role="dialog" aria-modal="true" aria-labelledby="pokedex-dialog-title">
+    <div class="pokedex-panel__bar">
+      <span id="pokedex-dialog-title" class="pokedex-panel__title">Pokédex</span>
+      <button type="button" id="close-pokedex-btn" class="close-pokedex-btn" aria-label="Close Pokédex">×</button>
+    </div>
+    <iframe id="pokedex-iframe" src="pokedex/index.html" title="Pokédex"></iframe>
   </div>
 
   <script src="script.js"></script>

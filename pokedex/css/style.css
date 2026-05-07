@@ -1,16 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Oxanium', cursive;
+  font-family: "Oxanium", cursive;
 }
 
 body {
   text-align: center;
   background: linear-gradient(to bottom, #6ab7f5, #fff);
   min-height: 100vh;
+}
+
+html.embedded-pokedex,
+html.embedded-pokedex body {
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html.embedded-pokedex body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html.embedded-pokedex main {
+  margin-top: 0;
+  padding: clamp(4px, 1.6dvh, 10px);
+  transform-origin: top center;
+  transform: scale(0.82);
+}
+
+html.embedded-pokedex .pokedex {
+  max-width: min(320px, 90vw);
 }
 
 main {
@@ -36,14 +60,14 @@ main {
 .pokemon__data {
   position: absolute;
   font-weight: 600;
-  color: #aaa;
+  color: #323131;
   top: 54.5%;
   right: 27%;
   font-size: clamp(8px, 5vw, 25px);
 }
 
 .pokemon__name {
-  color: #3a444d;
+  color: #363636;
   text-transform: capitalize;
 }
 
@@ -52,6 +76,26 @@ main {
   width: 65%;
   top: 65%;
   left: 13.5%;
+}
+
+.form__row {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(4px, 1.8vw, 8px);
+  width: 100%;
+}
+
+.form__row .input__search {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+
+.form__row .btn-ok {
+  width: auto;
+  min-width: 2.75em;
+  flex-shrink: 0;
+  align-self: stretch;
 }
 
 .input__search {
@@ -63,7 +107,14 @@ main {
   font-weight: 600;
   color: #3a444d;
   font-size: clamp(8px, 5vw, 1rem);
-  box-shadow: -3px 4px 0 #888, -5px 7px 0 #333
+  box-shadow:
+    -3px 4px 0 #888,
+    -5px 7px 0 #333;
+}
+
+.btn-ok {
+  padding: 4% clamp(10px, 3vw, 16px);
+  cursor: pointer;
 }
 
 .buttons {
@@ -85,10 +136,29 @@ main {
   font-weight: 600;
   color: white;
   background-color: #444;
-  box-shadow: -2px 3px 0 #222, -4px 6px 0 #000;
+  box-shadow:
+    -2px 3px 0 #222,
+    -4px 6px 0 #000;
 }
 
 .button:active {
   box-shadow: inset -4px 4px 0 #222;
   font-size: 0.9rem;
+}
+
+.form__row .button.btn-ok {
+  width: auto;
+  background-color: #2e7d32;
+  box-shadow:
+    -2px 3px 0 #1e5f22,
+    -4px 6px 0 #0f3312;
+}
+
+.form__row .button.btn-ok:hover {
+  background-color: #1b5e20;
+}
+
+.form__row .button.btn-ok:active {
+  box-shadow: inset -4px 4px 0 #143d18;
+  font-size: clamp(8px, 5vw, 1rem);
 }

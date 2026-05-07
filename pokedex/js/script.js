@@ -1,3 +1,7 @@
+if (window.parent !== window) {
+  document.documentElement.classList.add("embedded-pokedex");
+}
+
 const pokemonName = document.querySelector('.pokemon__name');
 const pokemonNumber = document.querySelector('.pokemon__number');
 const pokemonImage = document.querySelector('.pokemon__image');
