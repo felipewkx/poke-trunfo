@@ -1,49 +1,162 @@
-# 🃏 PokéTrumps
+# PokéTrumps
 
-A professional, responsive digital Pokémon card game inspired by the classic Brazilian **Super Trunfo (Grow)** + Pokédex. Built with high-fidelity visuals using Glassmorphism, CSS animations, and real-time data from the PokéAPI.
+PokéTrumps is a browser-based Pokémon card game inspired by the classic Brazilian *Super Trunfo* format, combined with Pokédex-style mechanics and real-time Pokémon data integration. The project focuses on delivering a polished gameplay experience through responsive design, animated interfaces, and dynamic content consumption from the PokéAPI.
 
-LIVE DEMO: https://felipewkx.github.io/poke-trunfo/
+Live Demo: https://felipewkx.github.io/poke-trunfo/
 
-## 🚀 Features
+---
 
-- **Dynamic Data:** Fetches stats, types, and high-resolution artworks directly from [PokéAPI](https://pokeapi.co/).
-- **Glassmorphism UI:** Modern interface with blur effects, neon borders, and professional shadows.
-- **Retro Mechanics:**
-    - **Custom Stats:** Attributes calculated via logic (Average Attack/Defense).
-    - **Rare Card Logic:** Mew and Mewtwo act as "Super Trumps", winning automatically against common cards.
-    - **Holographic Effects:** CSS-animated "Shiny" effect for Rare cards.
-- **Responsive Design:**
-- - 🖥️ **Desktop:** Side-by-side horizontal battle arena.
-  - 📱 **Mobile:** Stacked vertical layout optimized for touch.
-- **VS Computer Mode:** Play 10 rounds against an automated AI.
-  
-- **Pokedex:** Created step-by-step by watching Manual do Dev's video.
+# Overview
 
-## 🛠️ Technologies
+The application simulates a competitive card battle system where players compare Pokémon attributes against an AI-controlled opponent across multiple rounds. All Pokémon data, including images, stats, and types, are retrieved dynamically from the PokéAPI, eliminating the need for static datasets.
 
-- **HTML5:** Semantic structure.
-- **CSS3:** Advanced animations, Flexbox/Grid, and Glassmorphism.
-- **JavaScript (ES6+):** - Asynchronous programming (`fetch`, `Promise.all`) for fast deck loading.
-    - DOM Manipulation and game state logic.
+The interface was designed with a modern visual approach based on Glassmorphism concepts, layered gradients, animated effects, and adaptive layouts optimized for both desktop and mobile devices.
 
-## 🎮 How to Play
+---
 
-1. **Start:** Click the "Start Game" button to fetch two random 10-card decks.
-2. **Choose:** On your turn, analyze your Pokémon and click on the stat you think is the strongest (**HP, Attack, Defense, or Agi**).
-3. **Compare:** The CPU card will reveal itself. The higher number wins the round.
-4. **Super Trunfo:** If you have **Mew** or **Mewtwo**, you win the round automatically unless the opponent also has a Rare card.
-5. **Next:** Check the battle log and click "Next Round".
-6. **Victory:** After 10 rounds, the player with the most points is crowned the Pokemon Master!
+# Features
 
+## Real-Time Pokémon Data
 
-Technical Highlights
--------
+* Dynamic consumption of Pokémon data through the PokéAPI
+* Automatic retrieval of:
 
-Performance: Used Promise.all to fetch 20 Pokémon cards simultaneously, reducing load time from 10s to <2s.
+  * Base stats
+  * Pokémon types
+  * Official artwork assets
+* Asynchronous deck generation using concurrent API requests
 
-Game Logic: Implemented a "Lock" system to prevent multiple clicks during animations, ensuring UI stability.
+## Gameplay System
 
-Responsive UI: Used Media Queries to transform the experience from horizontal (PC) to vertical (Mobile) seamlessly.
+* 10-round match system against a computer-controlled opponent
+* Attribute-based battle mechanics
+* Turn-based comparison logic using:
+
+  * HP
+  * Attack
+  * Defense
+  * Speed
+* Automatic score tracking and battle progression
+
+## Rare Card Mechanics
+
+Special handling was implemented for rare Pokémon cards
+
+## User Interface
+
+### Glassmorphism Design
+
+* Blur-based layered panels
+* Transparent surfaces with gradient overlays
+* Custom shadows and neon-inspired borders
+* Animated holographic card effects for rare Pokémon
+
+### Responsive Layout
+
+The interface adapts to different screen sizes through responsive breakpoints:
+
+* Desktop:
+
+  * Horizontal battle arena
+  * Side-by-side card presentation
+
+* Mobile:
+
+  * Vertical stacked layout
+  * Touch-friendly interaction flow
+
+## ## Pokédex Module
+
+The Pokédex section was developed as part of the learning process inspired by content from Manual do Dev, serving as an additional exploration feature inside the project.
+
+To integrate both experiences into a single application flow, the project uses an `iframe` structure to embed and unify the Pokédex interface directly within the Super Trunfo game environment, allowing seamless navigation between gameplay and Pokémon browsing without requiring separate pages or applications.
+
+---
+
+# Technical Implementation
+
+## Frontend Stack
+
+* HTML5
+* CSS3
+* JavaScript (ES6+)
+
+## Core Concepts Used
+
+### Asynchronous Data Handling
+
+The application uses `fetch` and `Promise.all()` to load multiple Pokémon cards simultaneously, significantly improving deck generation performance.
+
+### State Management Logic
+
+Custom game state control was implemented to manage:
+
+* Round progression
+* Player interactions
+* Score calculation
+* Card locking during animations
+
+### Responsive Engineering
+
+Media Queries and flexible layout systems were used to ensure consistent behavior across desktop and mobile environments.
+
+---
+
+# Performance Considerations
+
+## Optimized Deck Loading
+
+Deck generation uses concurrent API requests instead of sequential loading.
+
+Result:
+
+* Simultaneous loading of 20 Pokémon cards
+* Reduced loading time from approximately 10 seconds to under 2 seconds under normal conditions
+
+## Interaction Lock System
+
+A click-lock mechanism prevents duplicated actions during animations and state transitions, helping maintain interface consistency and gameplay stability.
+
+---
+
+# How to Play
+
+1. Start a new match by clicking **Start Game**
+2. Two random 10-card decks are generated
+3. Analyze your current Pokémon card
+4. Select one attribute:
+
+   * HP
+   * Attack
+   * Defense
+   * Agility
+5. The opponent card is revealed automatically
+6. The highest attribute value wins the round
+7. Continue until all 10 rounds are completed
+8. The player with the highest score wins the match
+
+---
+
+# API Reference
+
+Pokémon data is provided by:
+
+PokéAPI
+
+---
+
+# Development Notes
+
+This project was developed with emphasis on:
+
+* Frontend architecture practice
+* API consumption
+* Responsive interface design
+* Animation systems in CSS
+* DOM manipulation and state handling with vanilla JavaScript
+* `iframe` structure
+---
+
+# Author
 
 Developed by Felipe Walker
-----
