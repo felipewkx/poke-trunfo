@@ -24,6 +24,21 @@ html.embedded-pokedex body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden; /* Corta qualquer transbordamento lateral */
+}
+
+/* Aplique isso ao container principal da sua Pokédex */
+.pokedex-container {
+  max-width: 100%; /* Nunca deixa passar da largura da tela */
+  width: auto; /* Permite que ele se ajuste */
+  box-sizing: border-box;
+}
+
+/* Garante que imagens (como sprites) não estiquem o layout */
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 html.embedded-pokedex main {
@@ -60,14 +75,14 @@ main {
 .pokemon__data {
   position: absolute;
   font-weight: 600;
-  color: #323131;
+  color: #000000;
   top: 54.5%;
   right: 27%;
   font-size: clamp(8px, 5vw, 25px);
 }
 
 .pokemon__name {
-  color: #363636;
+  color: #000000;
   text-transform: capitalize;
 }
 

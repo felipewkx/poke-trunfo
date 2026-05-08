@@ -159,31 +159,6 @@ function playTurn(stat) {
   else if (cValue > pValue) winner = "cpu";
   else winner = "tie";
 
-  // Exibe o Log da Batalha
-  let logMsg;
-
-  if (winner === "player") {
-    if (pCard.isRare) {
-      logMsg = `${pCard.name} won because <br> it's a Super Trump card!`;
-    } else {
-      logMsg = `${pCard.name} won because ${stat} (${pValue}) <br> defeated ${cCard.name}'s ${stat} (${cValue})`;
-    }
-  } else if (winner === "cpu") {
-    if (cCard.isRare) {
-      logMsg = `${cCard.name} won because <br> it's a Super Trump card!`;
-    } else {
-      logMsg = `${cCard.name} won because <br> ${stat} (${cValue}) <br> defeated ${pCard.name}'s ${stat} (${pValue})`;
-    }
-  } else if (winner === "tie") {
-    if (pCard.isRare && cCard.isRare) {
-      logMsg = `It's a tie! <br> Both ${pCard.name} and ${cCard.name} are Super Trump cards.`;
-    } else {
-      logMsg = `It's a tie! <br> Both have ${stat} ${pValue}`;
-    }
-  }
-
-  document.getElementById("log-display").innerHTML = logMsg;
-
   // Add outlines to cards
   const playerCardEl = document.querySelector(
     "#player-card-slot .pokemon-card",
