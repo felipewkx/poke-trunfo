@@ -166,6 +166,7 @@ function playTurn(stat) {
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
 
   if (winner === "player") {
+    showBattleExplanation(winner, pCard, cCard, stat, pValue, cValue);
     playerCardEl.classList.add("winner-card");
     cpuCardEl.classList.add("loser-card");
     scores.player++;
@@ -188,6 +189,7 @@ function playTurn(stat) {
     if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
     if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
   } else if (winner === "cpu") {
+    showBattleExplanation(winner, cCard, pCard, stat, cValue, pValue);
     playerCardEl.classList.add("loser-card");
     cpuCardEl.classList.add("winner-card");
     scores.cpu++;
@@ -210,6 +212,7 @@ function playTurn(stat) {
     if (!winningPokemon.isRare) winningStatRow.classList.add("winner-stat");
     if (!losingPokemon.isRare) losingStatRow.classList.add("loser-stat");
   } else if (winner === "tie") {
+    showBattleExplanation(winner, pCard, cCard, stat, pValue, cValue);
     // No outlines for tie
     document.getElementById("status-bubble").innerText = "IT'S A TIE!";
   }
@@ -218,10 +221,72 @@ function playTurn(stat) {
   document.getElementById("player-card-slot").style.pointerEvents = "none";
 }
 
+function showBattleExplanation(
+  winner,
+  winnerCard,
+  loserCard,
+  stat,
+  winnerValue,
+  loserValue,
+) {
+  let explanation = document.getElementById("battle-explanation");
+
+  // Creates the element only once
+  if (!explanation) {
+    explanation = document.createElement("div");
+    explanation.id = "battle-explanation";
+
+    const statusBubble = document.getElementById("status-bubble");
+    statusBubble.insertAdjacentElement("afterend", explanation);
+  }
+
+  // Tie
+  if (winner === "tie") {
+    explanation.innerHTML = `
+  🤝 ${winnerCard.name} and ${loserCard.name} tied because:<br>
+  <span class="battle-stat">${stat}</span>
+  (${winnerValue})
+  equals
+  <span class="battle-stat">${stat}</span>
+  (${loserValue})
+`;
+    return;
+  }
+
+  // SUPER TRUNFO rare card rule
+  if (winnerCard.isRare && !loserCard.isRare) {
+    explanation.innerHTML = `
+  🌟 <span class="battle-winner">${winnerCard.name}</span>
+  won because:<br>
+  it is a
+  <span class="rare-text">SUPER TRUNFO RARE CARD</span>
+`;
+    return;
+  }
+
+  // Normal stat victory
+  explanation.innerHTML = `
+  🏆 <span class="battle-winner">${winnerCard.name}</span>
+  won because:<br>
+  <span class="battle-stat">${stat}</span>
+  (${winnerValue})
+  is higher than
+  <span class="battle-stat">${stat}</span>
+  (${loserValue})
+`;
+}
+
 function nextRound() {
   playerDeck.shift();
   cpuDeck.shift();
   currentRound++;
+
+  document.getElementById("log-display").innerText = "";
+
+  const explanation = document.getElementById("battle-explanation");
+  if (explanation) {
+    explanation.remove();
+  }
 
   // Remove previous round's classes
   const playerCardEl = document.querySelector(
