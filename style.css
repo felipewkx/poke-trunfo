@@ -7,7 +7,7 @@
   --poke-blue: #2e6bcf;
   --poke-blue-deep: #1e457f;
   --poke-sky: #7ec8fc;
-  --poke-cream: #fff9f2;
+  --poke-cream: #ffffff;
   --poke-night: #0f1729;
   --poke-shadow: rgba(15, 23, 41, 0.55);
 
@@ -134,26 +134,31 @@ body.pokedex-open {
 }
 
 header {
-  text-align: center;
+  display: flex !important;
+  flex-direction: column !important; /* Empilha logo e placar */
+  align-items: center !important; /* Centraliza horizontalmente */
+  justify-content: center !important;
+  width: 100% !important; /* Ocupa a largura total da tela */
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
 .logo {
-  font-family: "Orbitron", sans-serif;
-  font-size: clamp(1.05rem, 4.2vw, 1.75rem);
-  margin: 0 0 0.35rem;
-  letter-spacing: 0.12em;
-  color: var(--poke-cream);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
-}
-
-.logo span {
-  display: inline-block;
-  margin-left: 0.35em;
-  color: var(--poke-yellow);
+  /* Garante que a logo não tenha margens laterais que a empurrem */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
 }
 
 .scoreboard-glass {
-  transform: none;
+  /* RESET TOTAL de posicionamentos antigos */
+  position: relative !important;
+  float: none !important;
+  top: 0 !important;
+  right: 0 !important;
+  margin: 0 auto !important; /* Força o centro */
+
+  /* Estilo visual que você já curtiu */
   display: inline-flex;
   align-items: center;
   gap: clamp(10px, 3vw, 18px);
@@ -161,9 +166,11 @@ header {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+
+  /* Impede que ele estique em telas 16:9 */
+  width: max-content;
+  min-width: 200px; /* Ajuste conforme seu conteúdo */
 }
 
 .score-item {
@@ -716,7 +723,9 @@ to {
 
 /* Desktop tweaks */
 @media (min-width: 900px) {
+  /* A arena muda para linha (Cards lado a lado) */
   .battle-arena {
+    display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
@@ -744,9 +753,5 @@ to {
 
   .pokemon-card img {
     height: clamp(100px, 12vw, 120px);
-  }
-
-  .scoreboard-glass {
-    transform: translate(-80px, 10px);
   }
 }

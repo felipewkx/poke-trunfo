@@ -87,9 +87,16 @@ async function startGame() {
 }
 
 function updateUI() {
+  const pCard = playerDeck[0];
   document.getElementById("player-card-slot").style.pointerEvents = "auto";
-  renderCard(playerDeck[0], "player-card-slot", false);
+  renderCard(pCard, "player-card-slot", false);
   renderCard(cpuDeck[0], "cpu-card-slot", true);
+
+  if (pCard && pCard.isRare) {
+    setTimeout(() => {
+      alert("⭐ SUPER TRUNFO! ⭐");
+    }, 100);
+  }
 }
 
 function renderCard(pokemon, containerId, isFaceDown) {
@@ -108,7 +115,9 @@ function renderCard(pokemon, containerId, isFaceDown) {
   }
 
   const rareClass = pokemon.isRare ? "rare-card" : "";
-  const rareBadge = pokemon.isRare ? '<div class="rare-badge">RARE</div>' : "";
+  const rareBadge = pokemon.isRare
+    ? '<div class="rare-badge">RARE</div><div class="super-trunfo-badge" style="font-size: 1.2rem; font-weight: bold; color: gold; text-shadow: 2px 2px black;">SUPER TRUNFO</div>'
+    : "";
   const nameColor = pokemon.isRare
     ? 'style="color: hotpink;"'
     : 'style="color: var(--poke-yellow);"';
@@ -146,6 +155,9 @@ function playTurn(stat) {
   const cCard = cpuDeck[0];
   renderCard(cCard, "cpu-card-slot", false);
 
+  if (cCard.isRare) {
+    setTimeout(() => alert("⭐ CPU TEM UM SUPER TRUNFO! ⭐"), 100);
+  }
   // Valores puros das cartas, sem multiplicadores
   let pValue = pCard.stats[stat];
   let cValue = cCard.stats[stat];
@@ -242,14 +254,11 @@ function showBattleExplanation(
 
   // Tie
   if (winner === "tie") {
-    explanation.innerHTML = `
-  🤝 ${winnerCard.name} and ${loserCard.name} tied because:<br>
-  <span class="battle-stat">${stat}</span>
-  (${winnerValue})
-  equals
-  <span class="battle-stat">${stat}</span>
-  (${loserValue})
-`;
+    const isDoubleRare = winnerCard.isRare && loserCard.isRare;
+    explanation.innerHTML = isDoubleRare
+      ? `🤝 TIE because both are<br><span class="rare-text">SUPER TRUNFO CARDS</span>`
+      : `🤝 ${winnerCard.name} and ${loserCard.name} TIED because:<br>
+         <span class="battle-stat">${stat}</span> (${winnerValue}) equals <span class="battle-stat">${stat}</span> (${loserValue})`;
     return;
   }
 
@@ -257,7 +266,7 @@ function showBattleExplanation(
   if (winnerCard.isRare && !loserCard.isRare) {
     explanation.innerHTML = `
   🌟 <span class="battle-winner">${winnerCard.name}</span>
-  won because:<br>
+  WON because:<br>
   it is a
   <span class="rare-text">SUPER TRUNFO RARE CARD</span>
 `;
@@ -267,11 +276,11 @@ function showBattleExplanation(
   // Normal stat victory
   explanation.innerHTML = `
   🏆 <span class="battle-winner">${winnerCard.name}</span>
-  won because:<br>
+  WON because:<br>
   <span class="battle-stat">${stat}</span>
   (${winnerValue})
-  is higher than
-  <span class="battle-stat">${stat}</span>
+  is higher<br>
+  than  <span class="battle-stat">${stat}</span>
   (${loserValue})
 `;
 }
@@ -332,11 +341,11 @@ function nextRound() {
 function finishGame() {
   let finalMsg;
   if (scores.player > scores.cpu) {
-    finalMsg = "CONGRATULATIONS! YOU ARE THE POKE-MASTER!";
+    finalMsg = "CONGRATULATIONS! YOU ARE A POKÉ-MASTER!";
   } else if (scores.cpu > scores.player) {
-    finalMsg = "SORRY, YOU LOST! TRY AGAIN!";
+    finalMsg = "OOPS, YOU LOST! TRY AGAIN!";
   } else {
-    finalMsg = "TIE!";
+    finalMsg = "IT'S A TIE!";
   }
 
   document.getElementById("status-bubble").innerText = "GAME OVER";
