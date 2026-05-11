@@ -126,13 +126,13 @@ function renderCard(pokemon, containerId, isFaceDown) {
   container.innerHTML = `
         <div class="pokemon-card ${rareClass}">
             ${rareBadge}
-            <h2 style="margin:0; font-family: 'Orbitron'" ${nameColor}>${pokemon.name}</h2>
+            <h2 style="margin:0; font-family: 'Orbitron'" ${nameColor}><img src="assets/logo.png" alt="Pokeball" class="pokeball-icon">${pokemon.name}</h2>
             <img src="${pokemon.image}" alt="${pokemon.name}">
             <div class="stats-container" id="stats-${containerId}">
-                <div class="stat-row" data-stat="HP"><span>HP</span> <span>${pokemon.stats.HP}</span></div>
-                <div class="stat-row" data-stat="ATTACK"><span>ATTACK</span> <span>${pokemon.stats.ATTACK}</span></div>
-                <div class="stat-row" data-stat="DEFENSE"><span>DEFENSE</span> <span>${pokemon.stats.DEFENSE}</span></div>
-                <div class="stat-row" data-stat="SPEED"><span>SPEED</span> <span>${pokemon.stats.SPEED}</span></div>
+                <div class="stat-row" data-stat="HP"><img src="assets/logo.png" alt="Pokeball" class="pokeball-icon"><span>HP</span> <span>${pokemon.stats.HP}</span></div>
+                <div class="stat-row" data-stat="ATTACK"><img src="assets/logo.png" alt="Pokeball" class="pokeball-icon"><span>ATTACK</span> <span>${pokemon.stats.ATTACK}</span></div>
+                <div class="stat-row" data-stat="DEFENSE"><img src="assets/logo.png" alt="Pokeball" class="pokeball-icon"><span>DEFENSE</span> <span>${pokemon.stats.DEFENSE}</span></div>
+                <div class="stat-row" data-stat="SPEED"><img src="assets/logo.png" alt="Pokeball" class="pokeball-icon"><span>SPEED</span> <span>${pokemon.stats.SPEED}</span></div>
             </div>
             <div style="margin-top:10px; font-size:0.7rem; color: #888; letter-spacing: 2px">TYPE: ${pokemon.type.toUpperCase()}</div>
         </div>

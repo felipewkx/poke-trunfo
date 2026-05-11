@@ -37,27 +37,19 @@ body {
   overflow-x: hidden;
   background-color: var(--poke-night);
   background-image:
-    radial-gradient(
-      ellipse 120% 80% at 50% -30%,
+    radial-gradient(ellipse 120% 80% at 50% -30%,
       rgba(126, 200, 252, 0.35),
-      transparent
-    ),
-    radial-gradient(
-      ellipse 80% 55% at 100% 100%,
+      transparent),
+    radial-gradient(ellipse 80% 55% at 100% 100%,
       rgba(229, 57, 53, 0.18),
-      transparent
-    ),
-    radial-gradient(
-      ellipse 60% 45% at 0% 80%,
+      transparent),
+    radial-gradient(ellipse 60% 45% at 0% 80%,
       rgba(255, 203, 5, 0.12),
-      transparent
-    ),
-    linear-gradient(
-      165deg,
+      transparent),
+    linear-gradient(165deg,
       var(--poke-blue-deep) 0%,
       var(--poke-night) 42%,
-      #0a0e18 100%
-    );
+      #0a0e18 100%);
   background-attachment: fixed;
 }
 
@@ -71,16 +63,12 @@ body.pokedex-open {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(
-      circle at 20% 20%,
+    radial-gradient(circle at 20% 20%,
       rgba(255, 203, 5, 0.04),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 85% 10%,
+      transparent 40%),
+    radial-gradient(circle at 85% 10%,
       rgba(46, 107, 207, 0.12),
-      transparent 35%
-    );
+      transparent 35%);
 }
 
 #generation-selection {
@@ -93,11 +81,9 @@ body.pokedex-open {
   padding: clamp(1.25rem, 4vw, 2.75rem);
   margin: auto;
   width: min(440px, 92vw);
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(46, 107, 207, 0.08)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(46, 107, 207, 0.08));
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -135,16 +121,25 @@ body.pokedex-open {
 
 header {
   display: flex !important;
-  flex-direction: column !important; /* Empilha logo e placar */
-  align-items: center !important; /* Centraliza horizontalmente */
+  flex-direction: column !important;
+  /* Empilha logo e placar */
+  align-items: center !important;
+  /* Centraliza horizontalmente */
   justify-content: center !important;
-  width: 100% !important; /* Ocupa a largura total da tela */
+  width: 100% !important;
+  /* Ocupa a largura total da tela */
   margin: 0 auto !important;
   text-align: center !important;
 }
 
-.logo {
-  /* Garante que a logo não tenha margens laterais que a empurrem */
+.logo-img {
+  /* Basic styling for the image logo */
+  max-width: 50%;
+  /* Ensures the image is responsive */
+  height: auto;
+  /* Maintains aspect ratio */
+  margin-bottom: 1rem;
+  /* Adds some space below the logo */
   margin-left: auto !important;
   margin-right: auto !important;
   display: block !important;
@@ -156,10 +151,13 @@ header {
   float: none !important;
   top: 0 !important;
   right: 0 !important;
-  margin: 0 auto !important; /* Força o centro */
 
-  /* Estilo visual que você já curtiu */
+  /* Centralização com flexbox no pai, ou mantendo aqui se o pai tiver text-align:center */
+  margin: 0 auto !important;
+
+  /* Estilo visual */
   display: inline-flex;
+  /* Mantém como inline-flex para abraçar o conteúdo */
   align-items: center;
   gap: clamp(10px, 3vw, 18px);
   padding: clamp(8px, 2vw, 12px) clamp(18px, 5vw, 32px);
@@ -168,10 +166,15 @@ header {
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 
-  /* Impede que ele estique em telas 16:9 */
+  /* MUDANÇAS AQUI */
   width: max-content;
-  min-width: 200px; /* Ajuste conforme seu conteúdo */
+  /* Faz o elemento ter a largura do conteúdo */
+  min-width: 0;
+  /* REMOVIDO: retira o mínimo de 200px */
+  max-width: 100%;
+  /* Garante que não estoure em telas muito pequenas */
 }
+
 
 .score-item {
   font-weight: 800;
@@ -235,20 +238,16 @@ header {
 .game-center button {
   width: 100%;
   max-width: 260px;
-  background: linear-gradient(
-    145deg,
-    rgba(0, 119, 255, 0.5) 0%,
-    rgba(1, 245, 225, 0.541) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(0, 119, 255, 0.5) 0%,
+      rgba(1, 245, 225, 0.541) 100%);
 }
 
 .status-bubble {
   margin: 0 auto;
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.384) 0%,
-    rgba(255, 255, 255, 0.363) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.384) 0%,
+      rgba(255, 255, 255, 0.363) 100%);
   color: var(--accent-text);
   padding: clamp(10px, 2.5vw, 16px) clamp(20px, 5vw, 32px);
   border-radius: 999px;
@@ -276,11 +275,9 @@ header {
   overflow: hidden;
   margin: 0;
   position: relative;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.13),
-    rgba(46, 107, 207, 0.07)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(46, 107, 207, 0.07));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -292,11 +289,9 @@ header {
 }
 
 .card-back {
-  background: linear-gradient(
-    145deg,
-    var(--poke-blue-deep),
-    #243a74
-  ) !important;
+  background: linear-gradient(145deg,
+      var(--poke-blue-deep),
+      #243a74) !important;
   border: 1px solid rgba(126, 200, 252, 0.35);
   align-items: center;
   justify-content: center;
@@ -326,7 +321,55 @@ header {
 .pokemon-card h2 {
   font-size: clamp(0.72rem, 3.8vw, 1.05rem);
   line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Space between icon and text */
 }
+
+.pokemon-card h2 .pokeball-icon {
+  width: 18px;
+  /* Smaller icon for pokemon name */
+  height: 18px;
+}
+
+.pokeball-icon {
+  width: 24px;
+  /* Adjust size as needed */
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4));
+}
+
+.stat-row {
+  background: rgba(15, 23, 41, 0.45);
+  margin: clamp(6px, 1.5vw, 10px) 0;
+  padding: clamp(8px, 2vw, 12px);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35em;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+  position: relative;
+  z-index: 10;
+  font-size: clamp(1.1rem, 3.5vw, 1.25rem);
+}
+
+.stat-row .pokeball-icon {
+  width: 18px;
+  /* Smaller icon for stats */
+  height: 18px;
+  margin-right: 5px;
+  /* Space between icon and stat name */
+  filter: brightness(1.2) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
 
 .pokemon-card img {
   width: 100%;
@@ -383,11 +426,9 @@ header {
 /* Buttons (site chrome, not embedded Pokédex) */
 .btn-neon {
   appearance: none;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 203, 5, 0.12)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 203, 5, 0.12));
   border: 1px solid rgba(255, 203, 5, 0.55);
   color: var(--poke-yellow-soft);
   padding: clamp(8px, 2.2vw, 12px) clamp(14px, 4vw, 26px);
@@ -408,11 +449,9 @@ header {
 }
 
 .btn-neon:hover {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 203, 5, 0.35),
-    rgba(255, 236, 160, 0.2)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 203, 5, 0.35),
+      rgba(255, 236, 160, 0.2));
   color: var(--accent-text);
   border-color: var(--poke-yellow);
   transform: translateY(-1px);
@@ -442,7 +481,8 @@ header {
   border-color: rgba(255, 255, 255, 0.28);
   color: rgba(255, 249, 242, 0.92);
   background: rgba(255, 255, 255, 0.06);
-  width: 100%; /* Ocupa a largura total do contêiner */
+  width: 100%;
+  /* Ocupa a largura total do contêiner */
   max-width: 120px;
   text-align: center;
 }
@@ -494,12 +534,10 @@ header {
   flex-direction: column;
   padding: 0;
   overflow: hidden;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(30, 69, 127, 0.55) 45%,
-    rgba(14, 20, 35, 0.97) 100%
-  );
+  background: linear-gradient(160deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(30, 69, 127, 0.55) 45%,
+      rgba(14, 20, 35, 0.97) 100%);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: clamp(14px, 3vw, 22px);
   box-shadow:
@@ -511,6 +549,7 @@ header {
 from {
   opacity: 0;
 }
+
 to {
   opacity: 1;
 }
@@ -520,6 +559,7 @@ to {
     opacity: 0;
     transform: translate(-50%, -48%) scale(0.93);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
@@ -547,7 +587,8 @@ to {
 #pokedex-panel iframe {
   flex: 1;
   width: 100%;
-  height: 100%; /* Garante que ocupe toda a altura do painel */
+  height: 100%;
+  /* Garante que ocupe toda a altura do painel */
   border: none;
   background: #eef7ff;
 
@@ -589,12 +630,10 @@ to {
 /* Rare super-trumps */
 .rare-card {
   border-color: rgba(255, 215, 0, 0.75);
-  background: linear-gradient(
-    145deg,
-    rgba(230, 230, 236, 0.35),
-    rgba(255, 215, 0, 0.22),
-    rgba(200, 200, 210, 0.18)
-  );
+  background: linear-gradient(145deg,
+      rgba(230, 230, 236, 0.35),
+      rgba(255, 215, 0, 0.22),
+      rgba(200, 200, 210, 0.18));
   overflow: hidden;
 }
 
@@ -603,20 +642,16 @@ to {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 215, 0, 0.12),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 215, 0, 0.12),
+      transparent);
 }
 
 .winner-card:not(.rare-card) {
-  background: linear-gradient(
-    155deg,
-    rgba(139, 220, 120, 0.45),
-    rgba(46, 107, 207, 0.12)
-  ) !important;
+  background: linear-gradient(155deg,
+      rgba(139, 220, 120, 0.45),
+      rgba(46, 107, 207, 0.12)) !important;
   color: var(--accent-text) !important;
   border-color: rgba(109, 200, 90, 0.85) !important;
   box-shadow:
@@ -625,11 +660,9 @@ to {
 }
 
 .loser-card:not(.rare-card) {
-  background: linear-gradient(
-    155deg,
-    rgba(229, 57, 53, 0.35),
-    rgba(46, 107, 207, 0.08)
-  ) !important;
+  background: linear-gradient(155deg,
+      rgba(229, 57, 53, 0.35),
+      rgba(46, 107, 207, 0.08)) !important;
   color: var(--poke-cream) !important;
   border-color: rgba(229, 57, 53, 0.55) !important;
   box-shadow:
@@ -658,6 +691,7 @@ to {
   0% {
     transform: translate(-100%, -100%) rotate(45deg);
   }
+
   100% {
     transform: translate(100%, 100%) rotate(45deg);
   }
@@ -723,6 +757,7 @@ to {
 
 /* Desktop tweaks */
 @media (min-width: 900px) {
+
   /* A arena muda para linha (Cards lado a lado) */
   .battle-arena {
     display: flex;
