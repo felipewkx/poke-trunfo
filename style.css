@@ -375,6 +375,7 @@ header {
   position: relative;
   z-index: 10;
   font-size: clamp(1.1rem, 3.5vw, 1.25rem);
+  opacity: 1;
 }
 
 .stat-row .pokeball-icon {
@@ -391,6 +392,8 @@ header {
   height: clamp(200px, 18vw, 130px);
   object-fit: contain;
   margin: clamp(2px, 1.2vw, 6px) 0;
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 .rare-badge {
@@ -406,26 +409,6 @@ header {
   color: var(--accent-text);
   letter-spacing: 0.06em;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.stat-row {
-  background: rgba(15, 23, 41, 0.45);
-  margin: clamp(6px, 1.5vw, 10px) 0;
-  padding: clamp(8px, 2vw, 12px);
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.35em;
-  cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease;
-  position: relative;
-  z-index: 10;
-  font-size: clamp(1.1rem, 3.5vw, 1.25rem);
 }
 
 .stat-row:hover {
@@ -1033,4 +1016,63 @@ to {
     opacity: 0.22;
     filter: blur(4px);
   }
+}
+/* =========================
+   REMOVE 3D SYSTEM ON MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .card-3d-stage {
+    perspective: none;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .cards-viewport {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    transform: none !important;
+  }
+
+  .card-slot {
+    position: relative;
+    inset: auto;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .pokemon-card {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .pokemon-card::before {
+    display: none;
+  }
+
+  .swap-arrow {
+    display: none !important;
+  }
+
+  .slot-back,
+  .slot-front {
+    transform: none !important;
+  }
+}
+
+/* CPU card smaller WITHOUT breaking 3D transforms */
+#cpu-card-slot .pokemon-card {
+  scale: 0.6;
+  transform-origin: center;
 }

@@ -283,7 +283,7 @@ function showBattleExplanation(
     return;
   }
 
- // Normal stat victory
+  // Normal stat victory
   explanation.innerHTML = `
   🏆 <span class="battle-winner">${winnerCard.name}</span>
   WON because:<br>
@@ -352,7 +352,7 @@ function nextRound() {
 function finishGame() {
   let finalMsg;
   if (scores.player > scores.cpu) {
-    finalMsg = "CONGRATULATIONS! YOU ARE A POKÉ-MASTER!";
+    finalMsg = "CONGRATULATIONS! YOU ARE THE POKÉ-MASTER!";
   } else if (scores.cpu > scores.player) {
     finalMsg = "OOPS, YOU LOST! TRY AGAIN!";
   } else {
@@ -462,7 +462,7 @@ function swapCards3D() {
     showingPlayerFront = !showingPlayerFront;
 
     isSwapping = false;
-  }, 900);
+  }, 200);
 }
 
 /* BUTTONS */
@@ -519,34 +519,3 @@ renderCard = function (...args) {
     setupCardParallax();
   }, 50);
 };
-
-/* =========================
-   MOBILE TOUCH SWIPE
-========================= */
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-const stage3D = document.querySelector(".card-3d-stage");
-
-stage3D.addEventListener(
-  "touchstart",
-  (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  },
-  { passive: true },
-);
-
-stage3D.addEventListener(
-  "touchend",
-  (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-
-    const distance = touchEndX - touchStartX;
-
-    if (Math.abs(distance) > 60) {
-      swapCards3D();
-    }
-  },
-  { passive: true },
-);
