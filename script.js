@@ -15,12 +15,18 @@ function resetGame() {
   document.getElementById("cpu-score").innerText = "0";
   document.getElementById("status-bubble").innerText = "READY?";
   document.getElementById("log-display").innerText = "";
+  const explanation = document.getElementById("battle-explanation");
+  explanation && explanation.remove();
   document.getElementById("start-btn").style.display = "block";
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("menu-btn").style.display = "none";
   document.getElementById("player-card-slot").innerHTML = "";
   document.getElementById("cpu-card-slot").innerHTML = "";
-  document.getElementById("player-card-slot").style.pointerEvents = "auto";
+  ((document.getElementById("player-card-slot").style.pointerEvents = "auto"),
+    document.querySelectorAll(".swap-arrow").forEach((btn) => {
+      btn.style.opacity = "0";
+      btn.style.pointerEvents = "none";
+    }));
 }
 
 function showMenu() {
@@ -57,6 +63,10 @@ async function startGame() {
   document.getElementById("menu-btn").style.display = "block";
 
   document.getElementById("status-bubble").innerText = "LOADING DECK...";
+  document.querySelectorAll(".swap-arrow").forEach((btn) => {
+    btn.style.opacity = "1";
+    btn.style.pointerEvents = "auto";
+  });
 
   try {
     // Gera IDs aleatórios entre min e max da geração selecionada
@@ -273,15 +283,16 @@ function showBattleExplanation(
     return;
   }
 
-  // Normal stat victory
+ // Normal stat victory
   explanation.innerHTML = `
   🏆 <span class="battle-winner">${winnerCard.name}</span>
   WON because:<br>
   <span class="battle-stat">${stat}</span>
   (${winnerValue})
   is higher<br>
-  than  <span class="battle-stat">${stat}</span>
-  (${loserValue})
+  than <span class="battle-stat">${stat}</span>
+  (${loserValue}).<br> 
+  <span style="color: red;">${loserCard.name}</span> lost the battle.
 `;
 }
 
@@ -497,26 +508,6 @@ function setupCardParallax() {
   });
 }
 
-/* MOBILE GYRO */
-
-window.addEventListener("deviceorientation", (e) => {
-  const x = e.beta || 0;
-  const y = e.gamma || 0;
-
-  document.querySelectorAll(".pokemon-card").forEach((card) => {
-    const rx = Math.max(-12, Math.min(12, x / 6));
-    const ry = Math.max(-12, Math.min(12, y / 4));
-
-    card.style.transform = `
-            rotateX(${rx}deg)
-            rotateY(${ry}deg)
-        `;
-
-    card.style.setProperty("--shine-x", `${-ry * 2}px`);
-    card.style.setProperty("--shine-y", `${-rx * 2}px`);
-  });
-});
-
 /* AUTO RE-INIT */
 
 const oldRenderCard = renderCard;
@@ -528,3 +519,34 @@ renderCard = function (...args) {
     setupCardParallax();
   }, 50);
 };
+
+/* =========================
+   MOBILE TOUCH SWIPE
+========================= */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+const stage3D = document.querySelector(".card-3d-stage");
+
+stage3D.addEventListener(
+  "touchstart",
+  (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  },
+  { passive: true },
+);
+
+stage3D.addEventListener(
+  "touchend",
+  (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+
+    const distance = touchEndX - touchStartX;
+
+    if (Math.abs(distance) > 60) {
+      swapCards3D();
+    }
+  },
+  { passive: true },
+);

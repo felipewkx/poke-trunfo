@@ -947,6 +947,8 @@ to {
     z-index: 20;
     backdrop-filter: blur(10px);
     transition: 0.2s;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .swap-arrow:hover {
@@ -981,5 +983,54 @@ to {
     .slot-back {
       transform: translateZ(-120px) scale(0.78) rotateY(-15deg);
     }
+  }
+}
+
+/* CENTER GAME UI */
+
+.game-center {
+  width: 100%;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.status-bubble {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#start-btn,
+#next-btn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* BETTER MOBILE TOUCH */
+
+.card-3d-stage {
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.swap-arrow {
+  touch-action: manipulation;
+}
+
+/* STRONGER MOBILE DEPTH */
+
+@media (max-width: 768px) {
+  .slot-front {
+    opacity: 1;
+    filter: none;
+  }
+
+  .slot-back {
+    opacity: 0.22;
+    filter: blur(4px);
   }
 }
