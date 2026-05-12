@@ -37,27 +37,19 @@ body {
   overflow-x: hidden;
   background-color: var(--poke-night);
   background-image:
-    radial-gradient(
-      ellipse 120% 80% at 50% -30%,
+    radial-gradient(ellipse 120% 80% at 50% -30%,
       rgba(126, 200, 252, 0.35),
-      transparent
-    ),
-    radial-gradient(
-      ellipse 80% 55% at 100% 100%,
+      transparent),
+    radial-gradient(ellipse 80% 55% at 100% 100%,
       rgba(229, 57, 53, 0.18),
-      transparent
-    ),
-    radial-gradient(
-      ellipse 60% 45% at 0% 80%,
+      transparent),
+    radial-gradient(ellipse 60% 45% at 0% 80%,
       rgba(255, 203, 5, 0.12),
-      transparent
-    ),
-    linear-gradient(
-      165deg,
+      transparent),
+    linear-gradient(165deg,
       var(--poke-blue-deep) 0%,
       var(--poke-night) 42%,
-      #0a0e18 100%
-    );
+      #0a0e18 100%);
   background-attachment: fixed;
 }
 
@@ -71,16 +63,12 @@ body.pokedex-open {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(
-      circle at 20% 20%,
+    radial-gradient(circle at 20% 20%,
       rgba(255, 203, 5, 0.04),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 85% 10%,
+      transparent 40%),
+    radial-gradient(circle at 85% 10%,
       rgba(46, 107, 207, 0.12),
-      transparent 35%
-    );
+      transparent 35%);
 }
 
 #generation-selection {
@@ -93,11 +81,9 @@ body.pokedex-open {
   padding: clamp(1.25rem, 4vw, 2.75rem);
   margin: auto;
   width: min(440px, 92vw);
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(46, 107, 207, 0.08)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(46, 107, 207, 0.08));
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -246,20 +232,16 @@ header {
 .game-center button {
   width: 100%;
   max-width: 260px;
-  background: linear-gradient(
-    145deg,
-    rgba(0, 119, 255, 0.5) 0%,
-    rgba(1, 245, 225, 0.541) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(0, 119, 255, 0.5) 0%,
+      rgba(1, 245, 225, 0.541) 100%);
 }
 
 .status-bubble {
   margin: 0 auto;
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.384) 0%,
-    rgba(255, 255, 255, 0.363) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.384) 0%,
+      rgba(255, 255, 255, 0.363) 100%);
   color: var(--accent-text);
   padding: clamp(10px, 2.5vw, 16px) clamp(20px, 5vw, 32px);
   border-radius: 999px;
@@ -287,11 +269,9 @@ header {
   overflow: hidden;
   margin: 0;
   position: relative;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.13),
-    rgba(46, 107, 207, 0.07)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(46, 107, 207, 0.07));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -303,11 +283,9 @@ header {
 }
 
 .card-back {
-  background: linear-gradient(
-    145deg,
-    var(--poke-blue-deep),
-    #243a74
-  ) !important;
+  background: linear-gradient(145deg,
+      var(--poke-blue-deep),
+      #243a74) !important;
   border: 1px solid rgba(126, 200, 252, 0.35);
   align-items: center;
   justify-content: center;
@@ -424,11 +402,9 @@ header {
 /* Buttons (site chrome, not embedded Pokédex) */
 .btn-neon {
   appearance: none;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 203, 5, 0.12)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 203, 5, 0.12));
   border: 1px solid rgba(255, 203, 5, 0.55);
   color: var(--poke-yellow-soft);
   padding: clamp(8px, 2.2vw, 12px) clamp(14px, 4vw, 26px);
@@ -449,11 +425,9 @@ header {
 }
 
 .btn-neon:hover {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 203, 5, 0.35),
-    rgba(255, 236, 160, 0.2)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 203, 5, 0.35),
+      rgba(255, 236, 160, 0.2));
   color: var(--accent-text);
   border-color: var(--poke-yellow);
   transform: translateY(-1px);
@@ -536,12 +510,10 @@ header {
   flex-direction: column;
   padding: 0;
   overflow: hidden;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(30, 69, 127, 0.55) 45%,
-    rgba(14, 20, 35, 0.97) 100%
-  );
+  background: linear-gradient(160deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(30, 69, 127, 0.55) 45%,
+      rgba(14, 20, 35, 0.97) 100%);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: clamp(14px, 3vw, 22px);
   box-shadow:
@@ -634,12 +606,10 @@ to {
 /* Rare super-trumps */
 .rare-card {
   border-color: rgba(255, 215, 0, 0.75);
-  background: linear-gradient(
-    145deg,
-    rgba(230, 230, 236, 0.35),
-    rgba(255, 215, 0, 0.22),
-    rgba(200, 200, 210, 0.18)
-  );
+  background: linear-gradient(145deg,
+      rgba(230, 230, 236, 0.35),
+      rgba(255, 215, 0, 0.22),
+      rgba(200, 200, 210, 0.18));
   overflow: hidden;
 }
 
@@ -648,20 +618,16 @@ to {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 215, 0, 0.12),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 215, 0, 0.12),
+      transparent);
 }
 
 .winner-card:not(.rare-card) {
-  background: linear-gradient(
-    155deg,
-    rgba(139, 220, 120, 0.45),
-    rgba(46, 107, 207, 0.12)
-  ) !important;
+  background: linear-gradient(155deg,
+      rgba(139, 220, 120, 0.45),
+      rgba(46, 107, 207, 0.12)) !important;
   color: var(--accent-text) !important;
   border-color: rgba(109, 200, 90, 0.85) !important;
   box-shadow:
@@ -670,11 +636,9 @@ to {
 }
 
 .loser-card:not(.rare-card) {
-  background: linear-gradient(
-    155deg,
-    rgba(229, 57, 53, 0.35),
-    rgba(46, 107, 207, 0.08)
-  ) !important;
+  background: linear-gradient(155deg,
+      rgba(229, 57, 53, 0.35),
+      rgba(46, 107, 207, 0.08)) !important;
   color: var(--poke-cream) !important;
   border-color: rgba(229, 57, 53, 0.55) !important;
   box-shadow:
@@ -769,6 +733,7 @@ to {
 
 /* Desktop tweaks */
 @media (min-width: 900px) {
+
   /* A arena muda para linha (Cards lado a lado) */
   .battle-arena {
     display: flex;
@@ -868,50 +833,33 @@ to {
   }
 
   /* CARD EFFECTS */
-
   .pokemon-card {
     position: relative;
     transform-style: preserve-3d;
-    transition:
-      transform 0.18s ease-out,
-      box-shadow 0.25s ease;
-    animation: floatCard 5s ease-in-out infinite;
+    transition: transform 0.18s ease-out, box-shadow 0.25s ease;
+    /* Adiciona a animação com um pequeno atraso para o efeito de "arrasto" */
+    animation: floatCardStack 5s ease-in-out infinite;
     overflow: hidden;
   }
 
-  /* SHINE */
-
-  .pokemon-card::before {
-    content: "";
-    position: absolute;
-    inset: -30%;
-    background: linear-gradient(
-      115deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.24) 48%,
-      rgba(255, 255, 255, 0.08) 52%,
-      transparent 70%
-    );
-    transform: translateX(var(--shine-x, 0px)) translateY(var(--shine-y, 0px))
-      rotate(8deg);
-    pointer-events: none;
-    mix-blend-mode: screen;
-    transition: transform 0.12s linear;
-  }
-
-  /* FLOAT */
-
-  @keyframes floatCard {
+  /* FLOAT E DESLOCAMENTO PARA A DIREITA */
+  @keyframes floatCardStack {
     0% {
-      transform: translateY(0px);
+      /* Posição inicial: Centralizada (ou posição original) */
+      transform: translateY(0px) translateX(0px);
     }
+
     50% {
-      transform: translateY(-8px);
+      /* Posição no alto: Sobe e vai um pouco para a direita */
+      transform: translateY(-8px) translateX(6px);
     }
+
     100% {
-      transform: translateY(0px);
+      /* Posição final: Volta ao centro */
+      transform: translateY(0px) translateX(0px);
     }
   }
+
 
   /* ARROWS */
 
@@ -1017,6 +965,7 @@ to {
     filter: blur(4px);
   }
 }
+
 /* =========================
    REMOVE 3D SYSTEM ON MOBILE
 ========================= */
@@ -1072,7 +1021,21 @@ to {
 }
 
 /* CPU card smaller WITHOUT breaking 3D transforms */
+
 #cpu-card-slot .pokemon-card {
-  scale: 0.6;
-  transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+/* 2. Aplica o scale APENAS no verso (.back) */
+#cpu-card-slot .pokemon-card.card-back {
+  /* O scale isolado funciona JUNTO com o transform inline sem resetar o rotate */
+  scale: 0.3 !important;
+
+  /* Garante que ela diminua em direção ao centro */
+  transform-origin: center !important;
+}
+
+/* Garante que a frente (quando não tiver a classe card-back) volte ao normal */
+#cpu-card-slot .pokemon-card:not(.card-back) {
+  scale: 1 !important;
 }

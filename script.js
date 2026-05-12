@@ -292,7 +292,7 @@ function showBattleExplanation(
   is higher<br>
   than <span class="battle-stat">${stat}</span>
   (${loserValue}).<br> 
-  <span style="color: red;">${loserCard.name}</span> lost the battle.
+  <span style="color: yellow;">${loserCard.name}</span> lost the battle.
 `;
 }
 
