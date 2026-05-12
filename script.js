@@ -417,3 +417,114 @@ document
 document
   .getElementById("all-btn")
   .addEventListener("click", () => selectGeneration(1, 386));
+
+/* =========================
+   3D CARD SYSTEM
+========================= */
+
+const viewport3D = document.querySelector(".cards-viewport");
+
+let showingPlayerFront = true;
+let isSwapping = false;
+
+/* SWAP */
+
+function swapCards3D() {
+  if (isSwapping) return;
+
+  isSwapping = true;
+
+  viewport3D.classList.add("swapping");
+
+  setTimeout(() => {
+    const playerSlot = document.getElementById("player-card-slot");
+    const cpuSlot = document.getElementById("cpu-card-slot");
+
+    playerSlot.classList.toggle("slot-front");
+    playerSlot.classList.toggle("slot-back");
+
+    cpuSlot.classList.toggle("slot-front");
+    cpuSlot.classList.toggle("slot-back");
+
+    viewport3D.classList.remove("swapping");
+
+    showingPlayerFront = !showingPlayerFront;
+
+    isSwapping = false;
+  }, 900);
+}
+
+/* BUTTONS */
+
+document.getElementById("swap-left").addEventListener("click", swapCards3D);
+
+document.getElementById("swap-right").addEventListener("click", swapCards3D);
+
+/* PARALLAX */
+
+function setupCardParallax() {
+  document.querySelectorAll(".pokemon-card").forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const rotateY = (x / rect.width - 0.5) * 18;
+      const rotateX = (y / rect.height - 0.5) * -18;
+
+      card.style.transform = `
+                rotateX(${rotateX}deg)
+                rotateY(${rotateY}deg)
+                translateZ(10px)
+            `;
+
+      card.style.setProperty("--shine-x", `${-rotateY * 2}px`);
+
+      card.style.setProperty("--shine-y", `${-rotateX * 2}px`);
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = `
+                rotateX(0deg)
+                rotateY(0deg)
+                translateZ(0px)
+            `;
+
+      card.style.setProperty("--shine-x", "0px");
+      card.style.setProperty("--shine-y", "0px");
+    });
+  });
+}
+
+/* MOBILE GYRO */
+
+window.addEventListener("deviceorientation", (e) => {
+  const x = e.beta || 0;
+  const y = e.gamma || 0;
+
+  document.querySelectorAll(".pokemon-card").forEach((card) => {
+    const rx = Math.max(-12, Math.min(12, x / 6));
+    const ry = Math.max(-12, Math.min(12, y / 4));
+
+    card.style.transform = `
+            rotateX(${rx}deg)
+            rotateY(${ry}deg)
+        `;
+
+    card.style.setProperty("--shine-x", `${-ry * 2}px`);
+    card.style.setProperty("--shine-y", `${-rx * 2}px`);
+  });
+});
+
+/* AUTO RE-INIT */
+
+const oldRenderCard = renderCard;
+
+renderCard = function (...args) {
+  oldRenderCard(...args);
+
+  setTimeout(() => {
+    setupCardParallax();
+  }, 50);
+};

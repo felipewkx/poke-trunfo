@@ -1,74 +1,120 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>PokeTrumps</title>
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>PokeTrumps</title>
-  <link rel="icon" type="image/png" href="assets/logo.png" />
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
-    rel="stylesheet" />
-</head>
+  <body>
+    <div class="glass-overlay"></div>
+    <div id="generation-selection" class="generation-selection">
+      <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img" />
+      <h2>Select Generation</h2>
+      <button id="gen1-btn" class="btn-neon">GEN 1</button>
+      <button id="gen2-btn" class="btn-neon">GEN 2</button>
+      <button id="gen3-btn" class="btn-neon">GEN 3</button>
+      <button id="all-btn" class="btn-neon">GEN 1 + 2 + 3</button>
+    </div>
+    <div class="game-container" style="display: none">
+      <header>
+        <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img" />
+        <div class="scoreboard-glass">
+          <div class="score-item">PLAYER <span id="player-score">0</span></div>
+          <div class="score-sep"></div>
+          <div class="score-item">CPU <span id="cpu-score">0</span></div>
+        </div>
+      </header>
 
-<body>
-  <div class="glass-overlay"></div>
-  <div id="generation-selection" class="generation-selection">
-    <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img">
-    <h2>Select Generation</h2>
-    <button id="gen1-btn" class="btn-neon">GEN 1</button>
-    <button id="gen2-btn" class="btn-neon">GEN 2</button>
-    <button id="gen3-btn" class="btn-neon">GEN 3</button>
-    <button id="all-btn" class="btn-neon">GEN 1 + 2 + 3</button>
-  </div>
-  <div class="game-container" style="display: none">
-    <header>
-      <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img">
-      <div class="scoreboard-glass">
-        <div class="score-item">PLAYER <span id="player-score">0</span></div>
-        <div class="score-sep"></div>
-        <div class="score-item">CPU <span id="cpu-score">0</span></div>
-      </div>
-    </header>
+      <main class="battle-arena">
+        <div class="card-3d-stage">
+          <button class="swap-arrow swap-left" id="swap-left">‹</button>
 
-    <main class="battle-arena">
-      <div id="player-card-slot" class="card-slot"></div>
+          <div class="cards-viewport">
+            <div id="cpu-card-slot" class="card-slot slot-back"></div>
 
-      <div class="game-center">
-        <div id="status-bubble" class="status-bubble">READY?</div>
-        <div id="log-display"></div>
-        <button id="start-btn" class="btn-neon">START GAME</button>
-        <button id="next-btn" class="btn-neon" style="display: none; margin-top: 10px">
-          NEXT ROUND
+            <div id="player-card-slot" class="card-slot slot-front"></div>
+          </div>
+
+          <button class="swap-arrow swap-right" id="swap-right">›</button>
+        </div>
+
+        <div class="game-center">
+          <div id="status-bubble" class="status-bubble">READY?</div>
+
+          <div id="log-display"></div>
+
+          <button id="start-btn" class="btn-neon">START GAME</button>
+
+          <button
+            id="next-btn"
+            class="btn-neon"
+            style="display: none; margin-top: 10px"
+          >
+            NEXT ROUND
+          </button>
+        </div>
+      </main>
+
+      <footer class="game-footer">
+        <button
+          id="menu-btn"
+          class="btn-neon btn-menu-foot"
+          style="display: none"
+        >
+          RETURN TO MENU
+        </button>
+      </footer>
+    </div>
+
+    <div
+      id="pokedex-backdrop"
+      class="pokedex-backdrop hidden"
+      aria-hidden="true"
+    ></div>
+    <button
+      type="button"
+      id="open-pokedex-btn"
+      class="btn-neon btn-pokedex-fab"
+    >
+      Pokédex
+    </button>
+    <div
+      id="pokedex-panel"
+      class="pokedex-panel hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pokedex-dialog-title"
+    >
+      <div class="pokedex-panel__bar">
+        <span id="pokedex-dialog-title" class="pokedex-panel__title"
+          >Pokédex</span
+        >
+        <button
+          type="button"
+          id="close-pokedex-btn"
+          class="close-pokedex-btn"
+          aria-label="Close Pokédex"
+        >
+          ×
         </button>
       </div>
-
-      <div id="cpu-card-slot" class="card-slot"></div>
-    </main>
-
-    <footer class="game-footer">
-      <button id="menu-btn" class="btn-neon btn-menu-foot" style="display: none">
-        RETURN TO MENU
-      </button>
-    </footer>
-  </div>
-
-  <div id="pokedex-backdrop" class="pokedex-backdrop hidden" aria-hidden="true"></div>
-  <button type="button" id="open-pokedex-btn" class="btn-neon btn-pokedex-fab">
-    Pokédex
-  </button>
-  <div id="pokedex-panel" class="pokedex-panel hidden" role="dialog" aria-modal="true"
-    aria-labelledby="pokedex-dialog-title">
-    <div class="pokedex-panel__bar">
-      <span id="pokedex-dialog-title" class="pokedex-panel__title">Pokédex</span>
-      <button type="button" id="close-pokedex-btn" class="close-pokedex-btn" aria-label="Close Pokédex">
-        ×
-      </button>
+      <iframe
+        id="pokedex-iframe"
+        src="pokedex/index.html"
+        title="Pokédex"
+      ></iframe>
     </div>
-    <iframe id="pokedex-iframe" src="pokedex/index.html" title="Pokédex"></iframe>
-  </div>
 
-  <script src="script.js"></script>
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>
