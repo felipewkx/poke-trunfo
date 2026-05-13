@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5"
     />
     <title>PokeTrumps</title>
     <link rel="icon" type="image/png" href="assets/logo.png" />
@@ -24,6 +24,7 @@
       <button id="gen2-btn" class="btn-neon">GEN 2</button>
       <button id="gen3-btn" class="btn-neon">GEN 3</button>
       <button id="all-btn" class="btn-neon">GEN 1 + 2 + 3</button>
+      <p class="screen-signature" aria-hidden="true">Felipe Walker</p>
     </div>
     <div class="game-container" style="display: none">
       <header>
@@ -37,7 +38,14 @@
 
       <main class="battle-arena">
         <div class="card-3d-stage">
-          <button class="swap-arrow swap-left" id="swap-left">‹</button>
+          <button
+            type="button"
+            class="swap-arrow swap-left"
+            id="swap-left"
+            aria-label="Swap card depth: bring back card forward"
+          >
+            ‹
+          </button>
 
           <div class="cards-viewport">
             <div id="cpu-card-slot" class="card-slot slot-back"></div>
@@ -45,7 +53,14 @@
             <div id="player-card-slot" class="card-slot slot-front"></div>
           </div>
 
-          <button class="swap-arrow swap-right" id="swap-right">›</button>
+          <button
+            type="button"
+            class="swap-arrow swap-right"
+            id="swap-right"
+            aria-label="Swap card depth: bring back card forward"
+          >
+            ›
+          </button>
         </div>
 
         <div class="game-center">
