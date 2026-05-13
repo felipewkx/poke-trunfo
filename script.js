@@ -65,7 +65,8 @@ async function fetchPokemon(id) {
   if (!response.ok) throw new Error(`Pokémon ${id} fetch failed`);
   const data = await response.json();
   const primaryType = data.types[0].type.name;
-  const superEffectiveAgainst = await fetchTypeSuperEffectiveTargets(primaryType);
+  const superEffectiveAgainst =
+    await fetchTypeSuperEffectiveTargets(primaryType);
 
   return {
     id,
@@ -100,9 +101,8 @@ async function startGame() {
 
   try {
     const randId = () =>
-      Math.floor(
-        Math.random() * (selectedGen.max - selectedGen.min + 1),
-      ) + selectedGen.min;
+      Math.floor(Math.random() * (selectedGen.max - selectedGen.min + 1)) +
+      selectedGen.min;
 
     const pIds = Array.from({ length: TOTAL_ROUNDS }, randId);
     const cIds = Array.from({ length: TOTAL_ROUNDS }, randId);
@@ -246,8 +246,7 @@ function playTurn(stat) {
 
   renderCard(cCard, "cpu-card-slot", false, {
     ownerLabel: "CPU",
-    bonusStat:
-      winner === "cpu" && cpuHadAdvantage && statsMatter ? stat : null,
+    bonusStat: winner === "cpu" && cpuHadAdvantage && statsMatter ? stat : null,
   });
   renderCard(pCard, "player-card-slot", false, {
     ownerLabel: "Player",
@@ -259,7 +258,9 @@ function playTurn(stat) {
     setTimeout(() => alert("⭐ CPU TEM UM SUPER TRUNFO! ⭐"), 100);
   }
 
-  const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
+  const playerCardEl = document.querySelector(
+    "#player-card-slot .pokemon-card",
+  );
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
 
   const logParts = [
@@ -374,27 +375,43 @@ function showBattleExplanationTie(pCard, cCard, stat, totals) {
 function showBattleExplanation(winnerCard, loserCard, stat, totals) {
   const explanation = getOrCreateBattleExplanationEl();
 
+  // 1. Tratamento de Empate (Evita undefined se winnerCard ou loserCard forem nulos)
+  if (!winnerCard || !loserCard) {
+    const score = totals
+      ? `(${totals.winnerTotal} vs ${totals.loserTotal})`
+      : "";
+    explanation.innerHTML = `🤝 <span>It's a TIE</span> on <span class="battle-stat">${stat}</span> ${score}!<br>No cards were won or lost.`;
+    return;
+  }
+
+  // 2. Lógica do Super Trunfo
   if (winnerCard.isRare && !loserCard.isRare) {
     explanation.innerHTML = `🌟 <span class="battle-winner">${winnerCard.name}</span> wins — <span class="rare-text">SUPER TRUNFO</span>`;
     return;
   }
 
+  // 3. Lógica de Bônus de Tipo
   const { winnerTotal, loserTotal, winnerBonus, loserBonus } = totals;
   let bonusLine = "";
+
   if (winnerBonus || loserBonus) {
     const parts = [];
-    if (winnerBonus) {
+    if (winnerBonus && winnerCard.type && loserCard.type) {
       parts.push(
         `+${TYPE_ADVANTAGE_BONUS} for ${winnerCard.name} (${winnerCard.type.toUpperCase()} super-effective vs ${loserCard.type.toUpperCase()})`,
       );
     }
-    if (loserBonus) {
+    if (loserBonus && loserCard.type && winnerCard.type) {
       parts.push(
         `+${TYPE_ADVANTAGE_BONUS} for ${loserCard.name} (${loserCard.type.toUpperCase()} super-effective vs ${winnerCard.type.toUpperCase()})`,
       );
     }
-    bonusLine = `<br>Type bonus (PokéAPI): ${parts.join("; ")}.`;
+    if (parts.length > 0) {
+      bonusLine = `<br>Type bonus (PokéAPI): ${parts.join("; ")}.`;
+    }
   }
+
+  // 4. Resultado Normal de Vitória
   explanation.innerHTML = `🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span> (${winnerTotal} vs ${loserTotal}).${bonusLine}<br><span style="color: yellow;">${loserCard.name}</span> lost the battle.`;
 }
 
@@ -545,8 +562,7 @@ function setupCardParallax() {
     });
 
     card.addEventListener("mouseleave", () => {
-      card.style.transform =
-        "rotateX(0deg) rotateY(0deg) translateZ(0px)";
+      card.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0px)";
       card.style.setProperty("--shine-x", "0px");
       card.style.setProperty("--shine-y", "0px");
     });
