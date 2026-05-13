@@ -150,7 +150,7 @@ PokéAPI
 
 ---
 
-# Development Notes
+# Development
 
 This project was developed with emphasis on:
 
@@ -165,6 +165,12 @@ This project was developed with emphasis on:
 # Author
 
 Developed by Felipe Walker
+
+----
+
+# Note
+
+This project is part of my portfolio and demonstrates the development of interactive web applications using external API integration, frontend state management, local data persistence, and the construction of responsive themed games.
 
 </details>
 
@@ -318,7 +324,7 @@ PokéAPI
 
 ---
 
-# Notas de Desenvolvimento
+# Desenvolvimento
 
 Este projeto foi desenvolvido com ênfase em:
 
@@ -333,5 +339,11 @@ Este projeto foi desenvolvido com ênfase em:
 # Autor
 
 Desenvolvido por Felipe Walker
+
+----
+
+# Observações
+
+Este projeto faz parte do meu portfólio e demonstra o desenvolvimento de aplicações web interativas utilizando integração de APIs externas, gerenciamento de estado no frontend, persistência de dados local e a construção de jogos temáticos responsivos.
 
 </details>
