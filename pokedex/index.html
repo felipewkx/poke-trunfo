@@ -1,48 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Links -->
-  <link rel="icon" href="./favicons/favicon-16x16.png">
-  <link rel="stylesheet" href="./css/style.css">
+    <!-- Links -->
+    <link rel="icon" href="./favicons/favicon-16x16.png" />
+    <link rel="stylesheet" href="./css/style.css" />
 
-  <!-- Main JS -->
-  <script defer src="./js/script.js"></script>
+    <!-- Main JS -->
+    <script defer src="./js/script.js"></script>
 
-  <title>Pokédex</title>
-</head>
-<body>
-  
-  <main>
-    <img src="#" alt="pokemon" class="pokemon__image">
+    <title>Pokédex</title>
+  </head>
+  <body>
+    <main>
+      <img src="#" alt="pokemon" class="pokemon__image" />
 
-    <h1 class="pokemon__data">
-      <span class="pokemon__number"></span> -
-      <span class="pokemon__name"></span>
-    </h1>
+      <h1 class="pokemon__data">
+        <span class="pokemon__number"></span> -
+        <span class="pokemon__name"></span>
+      </h1>
 
-    <form class="form">
-      <div class="form__row">
-        <input
-          type="search"
-          class="input__search"
-          placeholder="Name or Number"
-          required
-          aria-label="Pokémon name or number"
-        />
-        <button type="submit" class="button btn-ok">OK</button>
+      <form class="form">
+        <div class="form__row">
+          <input
+            type="search"
+            class="input__search"
+            placeholder="Name or ID"
+            required
+            aria-label="Pokémon name or number"
+          />
+          <button type="submit" class="button btn-ok">OK</button>
+        </div>
+      </form>
+
+      <div class="buttons">
+        <button class="button btn-prev">Prev &lt;</button>
+        <button class="button btn-next">Next &gt;</button>
       </div>
-    </form>
 
-    <div class="buttons">
-      <button class="button btn-prev">Prev &lt;</button>
-      <button class="button btn-next">Next &gt;</button>
-    </div>
-
-    <img src="./images/pokedex.png" alt="pokedex" class="pokedex">
-  </main>
-
-</body>
+      <img src="./images/pokedex.png" alt="pokedex" class="pokedex" />
+    </main>
+  </body>
 </html>

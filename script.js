@@ -414,7 +414,7 @@ function showBattleExplanation(winnerCard, loserCard, stat, totals) {
     }
   }
   // Esta linha fecha corretamente a função showBattleExplanation
-  explanation.innerHTML = `🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br> (${winnerTotal} vs ${loserTotal})${bonusLine}<br><span style="color: yellow;">${loserCard.name}</span> lost the battle.`;
+  explanation.innerHTML = `🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br> (${winnerTotal} vs ${loserTotal})${bonusLine}<br><span style="color: lightcoral;">${loserCard.name} lost the battle.</span>`;
 }
 
 // Função para avançar de rodada corrigida
