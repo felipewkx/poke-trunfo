@@ -16,12 +16,6 @@ function setSwapArrowsInteractive(active) {
   });
 }
 
-function appendBattleLog(line) {
-  const el = document.getElementById("log-display");
-  const prev = el.textContent.trim();
-  el.textContent = prev ? `${prev}\n\n${line}` : line;
-}
-
 async function fetchTypeSuperEffectiveTargets(typeName) {
   const key = typeName.toLowerCase();
   if (typeMatchupCache.has(key)) return typeMatchupCache.get(key);
@@ -43,7 +37,6 @@ function resetGame() {
   document.getElementById("player-score").innerText = "0";
   document.getElementById("cpu-score").innerText = "0";
   document.getElementById("status-bubble").innerText = "READY?";
-  document.getElementById("log-display").innerText = "";
   const explanation = document.getElementById("battle-explanation");
   if (explanation) explanation.remove();
   document.getElementById("start-btn").style.display = "block";
@@ -72,9 +65,10 @@ async function fetchPokemon(id) {
     id,
     name: data.name.toUpperCase(),
     image:
-      data.sprites.other["official-artwork"].front_default ||
+      data.sprites.other?.["official-artwork"]?.front_default ||
       data.sprites.other?.home?.front_default ||
-      data.sprites.front_default,
+      data.sprites.front_default ||
+      "",
     type: primaryType,
     superEffectiveAgainst,
     isRare: [150, 151, 249, 250, 251, 384, 385, 386].includes(id),
@@ -89,10 +83,10 @@ async function fetchPokemon(id) {
 
 async function startGame() {
   scores = { player: 0, cpu: 0 };
-  currentRound = 0;
+  currentRound = 1; // Começa na rodada 1
+
   document.getElementById("player-score").innerText = "0";
   document.getElementById("cpu-score").innerText = "0";
-  document.getElementById("log-display").innerText = "";
   document.getElementById("start-btn").style.display = "none";
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("menu-btn").style.display = "block";
@@ -107,17 +101,29 @@ async function startGame() {
     const pIds = Array.from({ length: TOTAL_ROUNDS }, randId);
     const cIds = Array.from({ length: TOTAL_ROUNDS }, randId);
 
+    // Baixa o baralho inteiro apenas aqui no início
     playerDeck = await Promise.all(pIds.map((id) => fetchPokemon(id)));
     cpuDeck = await Promise.all(cIds.map((id) => fetchPokemon(id)));
 
-    updateUI();
-    document.getElementById("status-bubble").innerText = "ROUND 1";
+    // Inicia a primeira rodada sem resetar os dados
+    renderRound();
   } catch (error) {
     console.error(error);
     document.getElementById("status-bubble").innerText = "CONNECTION ERROR";
     document.getElementById("start-btn").style.display = "block";
     setSwapArrowsInteractive(false);
   }
+}
+
+// 2. CRIE ESTA NOVA FUNÇÃO
+function renderRound() {
+  if (currentRound > TOTAL_ROUNDS || playerDeck.length === 0) {
+    finishGame();
+    return;
+  }
+
+  updateUI();
+  document.getElementById("status-bubble").innerText = `ROUND ${currentRound}`;
 }
 
 function updateUI() {
@@ -211,10 +217,16 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
 }
 
 function computeTypeBonuses(pCard, cCard) {
+  // Garante que os cards existem e possuem a propriedade 'type'
+  const pType = pCard?.type?.toLowerCase();
+  const cType = cCard?.type?.toLowerCase();
+
+  // Verifica as vantagens apenas se os tipos forem válidos
   const pAdv =
-    pCard.superEffectiveAgainst?.has(cCard.type.toLowerCase()) ?? false;
+    pType && cType ? (pCard.superEffectiveAgainst?.has(cType) ?? false) : false;
   const cAdv =
-    cCard.superEffectiveAgainst?.has(pCard.type.toLowerCase()) ?? false;
+    pType && cType ? (cCard.superEffectiveAgainst?.has(pType) ?? false) : false;
+
   return {
     playerBonus: pAdv ? TYPE_ADVANTAGE_BONUS : 0,
     cpuBonus: cAdv ? TYPE_ADVANTAGE_BONUS : 0,
@@ -226,6 +238,8 @@ function computeTypeBonuses(pCard, cCard) {
 function playTurn(stat) {
   const pCard = playerDeck[0];
   const cCard = cpuDeck[0];
+  if (!pCard || !cCard || !stat) return;
+
   const { playerBonus, cpuBonus, playerHadAdvantage, cpuHadAdvantage } =
     computeTypeBonuses(pCard, cCard);
 
@@ -264,7 +278,7 @@ function playTurn(stat) {
   const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
 
   const logParts = [
-    `Round ${currentRound + 1}: ${stat}`,
+    `Round ${currentRound}: ${stat}`,
     `${pCard.name} (${pCard.type.toUpperCase()}) ${pBase}${playerBonus ? ` + ${playerBonus} type` : ""} = ${pTotal}`,
     `${cCard.name} (${cCard.type.toUpperCase()}) ${cBase}${cpuBonus ? ` + ${cpuBonus} type` : ""} = ${cTotal}`,
   ];
@@ -285,7 +299,7 @@ function playTurn(stat) {
       );
     }
   }
-  appendBattleLog(logParts.join("\n"));
+  console.debug(logParts.join(" | "));
 
   if (winner === "player") {
     showBattleExplanation(pCard, cCard, stat, {
@@ -332,7 +346,7 @@ function playTurn(stat) {
         ?.classList.add("loser-stat");
     }
   } else {
-    showBattleExplanation("tie", pCard, cCard, stat, {
+    showBattleExplanationTie(pCard, cCard, stat, {
       pTotal,
       cTotal,
       playerBonus,
@@ -375,22 +389,11 @@ function showBattleExplanationTie(pCard, cCard, stat, totals) {
 function showBattleExplanation(winnerCard, loserCard, stat, totals) {
   const explanation = getOrCreateBattleExplanationEl();
 
-  // 1. Tratamento de Empate (Evita undefined se winnerCard ou loserCard forem nulos)
-  if (!winnerCard || !loserCard) {
-    const score = totals
-      ? `(${totals.winnerTotal} vs ${totals.loserTotal})`
-      : "";
-    explanation.innerHTML = `🤝 <span>It's a TIE</span> on <span class="battle-stat">${stat}</span> ${score}!<br>No cards were won or lost.`;
-    return;
-  }
-
-  // 2. Lógica do Super Trunfo
   if (winnerCard.isRare && !loserCard.isRare) {
     explanation.innerHTML = `🌟 <span class="battle-winner">${winnerCard.name}</span> wins — <span class="rare-text">SUPER TRUNFO</span>`;
     return;
   }
 
-  // 3. Lógica de Bônus de Tipo
   const { winnerTotal, loserTotal, winnerBonus, loserBonus } = totals;
   let bonusLine = "";
 
@@ -398,50 +401,42 @@ function showBattleExplanation(winnerCard, loserCard, stat, totals) {
     const parts = [];
     if (winnerBonus && winnerCard.type && loserCard.type) {
       parts.push(
-        `+${TYPE_ADVANTAGE_BONUS} for ${winnerCard.name} (${winnerCard.type.toUpperCase()} super-effective vs ${loserCard.type.toUpperCase()})`,
+        `+${TYPE_ADVANTAGE_BONUS} <br> (${winnerCard.type.toUpperCase()} is super-effective vs ${loserCard.type.toUpperCase()})`,
       );
     }
     if (loserBonus && loserCard.type && winnerCard.type) {
       parts.push(
-        `+${TYPE_ADVANTAGE_BONUS} for ${loserCard.name} (${loserCard.type.toUpperCase()} super-effective vs ${winnerCard.type.toUpperCase()})`,
+        `+${TYPE_ADVANTAGE_BONUS} for <br> (${loserCard.type.toUpperCase()} is super-effective vs ${winnerCard.type.toUpperCase()})`,
       );
     }
     if (parts.length > 0) {
-      bonusLine = `<br>Type bonus (PokéAPI): ${parts.join("; ")}.`;
+      bonusLine = `<br>Type bonus: ${parts.join("; ")}.`;
     }
   }
-
-  // 4. Resultado Normal de Vitória
-  explanation.innerHTML = `🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span> (${winnerTotal} vs ${loserTotal}).${bonusLine}<br><span style="color: yellow;">${loserCard.name}</span> lost the battle.`;
+  // Esta linha fecha corretamente a função showBattleExplanation
+  explanation.innerHTML = `🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br> (${winnerTotal} vs ${loserTotal})${bonusLine}<br><span style="color: yellow;">${loserCard.name}</span> lost the battle.`;
 }
 
+// Função para avançar de rodada corrigida
 function nextRound() {
-  playerDeck.shift();
-  cpuDeck.shift();
-  currentRound++;
+  if (playerDeck.length > 0) playerDeck.shift();
+  if (cpuDeck.length > 0) cpuDeck.shift();
+
+  currentRound++; // Agora o incremento vai funcionar corretamente
 
   const explanation = document.getElementById("battle-explanation");
-  if (explanation) explanation.remove();
+  if (explanation) explanation.innerHTML = "";
 
-  ["#player-card-slot", "#cpu-card-slot"].forEach((sel) => {
-    const el = document.querySelector(`${sel} .pokemon-card`);
-    if (!el) return;
-    el.classList.remove("winner-card", "loser-card");
-    el.querySelectorAll(".stat-row").forEach((row) => {
-      row.classList.remove("winner-stat", "loser-stat");
-    });
-  });
+  const nextBtn = document.getElementById("next-btn");
+  if (nextBtn) nextBtn.style.display = "none";
 
-  document.getElementById("next-btn").style.display = "none";
-  document.getElementById("player-card-slot").style.pointerEvents = "auto";
+  const playerSlot = document.getElementById("player-card-slot");
+  if (playerSlot) playerSlot.style.pointerEvents = "auto";
 
-  if (currentRound < TOTAL_ROUNDS) {
-    updateUI();
-    document.getElementById("status-bubble").innerText =
-      `ROUND ${currentRound + 1}`;
-  } else {
-    finishGame();
-  }
+  const statusBubble = document.getElementById("status-bubble");
+  if (statusBubble) statusBubble.innerText = "CHOOSE A STAT";
+
+  renderRound();
 }
 
 function finishGame() {
@@ -454,18 +449,19 @@ function finishGame() {
     finalMsg = "IT'S A TIE!";
   }
 
-  document.getElementById("status-bubble").innerText = "GAME OVER";
+  // 1. Alerta unificado (removida a duplicata)
   alert(finalMsg);
+
+  // 2. Verifica se o elemento existe antes de alterar o texto
+  const statusBubble = document.getElementById("status-bubble");
+  if (statusBubble) {
+    statusBubble.innerText = "GAME OVER";
+  }
+
+  // 3. Reseta os estados e telas do jogo
   resetGame();
   showMenu();
 }
-
-document.getElementById("next-btn").addEventListener("click", nextRound);
-document.getElementById("start-btn").addEventListener("click", startGame);
-document.getElementById("menu-btn").addEventListener("click", () => {
-  resetGame();
-  showMenu();
-});
 
 function setPokedexOpen(open) {
   const panel = document.getElementById("pokedex-panel");
@@ -520,11 +516,18 @@ document
   .getElementById("all-btn")
   .addEventListener("click", () => selectGeneration(1, 386));
 
+document.getElementById("start-btn").addEventListener("click", startGame);
+document.getElementById("next-btn").addEventListener("click", nextRound);
+document.getElementById("menu-btn").addEventListener("click", () => {
+  resetGame();
+  showMenu();
+});
+
 const viewport3D = document.querySelector(".cards-viewport");
 let isSwapping = false;
 
 function swapCards3D() {
-  if (isSwapping) return;
+  if (isSwapping || !viewport3D) return;
   isSwapping = true;
   viewport3D.classList.add("swapping");
   setTimeout(() => {
