@@ -40,6 +40,7 @@ function resetGame() {
   const explanation = document.getElementById("battle-explanation");
   if (explanation) explanation.remove();
   document.getElementById("start-btn").style.display = "block";
+  document.getElementById("start-btn").classList.add("start-btn-pregame"); // Ensure pre-game positioning
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("menu-btn").style.display = "none";
   document.getElementById("player-card-slot").innerHTML = "";
@@ -88,6 +89,7 @@ async function startGame() {
   document.getElementById("player-score").innerText = "0";
   document.getElementById("cpu-score").innerText = "0";
   document.getElementById("start-btn").style.display = "none";
+  document.getElementById("start-btn").classList.remove("start-btn-pregame"); // Reverte para a posição padrão
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("menu-btn").style.display = "block";
   document.getElementById("status-bubble").innerText = "LOADING DECK...";
@@ -111,6 +113,7 @@ async function startGame() {
     console.error(error);
     document.getElementById("status-bubble").innerText = "CONNECTION ERROR";
     document.getElementById("start-btn").style.display = "block";
+    document.getElementById("start-btn").classList.add("start-btn-pregame"); // Restore pre-game positioning on error
     setSwapArrowsInteractive(false);
   }
 }
@@ -139,11 +142,14 @@ function updateUI() {
     setTimeout(() => alert("⭐ SUPER TRUNFO! ⭐"), 100);
   }
 }
+function eraseEffectiveness(stat) {
+  return `<span class="type-bonus">+${TYPE_ADVANTAGE_BONUS}</span>`;
+}
 
 function statRowHtml(pokemon, statKey, bonusStat) {
   const bonus =
     bonusStat === statKey
-      ? '<span class="type-advantage-badge" aria-label="Type advantage">+25</span>'
+      ? eraseEffectiveness(statKey)
       : "";
   return `
     <div class="stat-row" data-stat="${statKey}">
@@ -285,8 +291,8 @@ function playTurn(stat) {
   if (playerHadAdvantage || cpuHadAdvantage) {
     logParts.push(
       "Type chart (PokéAPI): super-effective matchups grant +" +
-        TYPE_ADVANTAGE_BONUS +
-        " to the chosen stat.",
+      TYPE_ADVANTAGE_BONUS +
+      " to the chosen stat.",
     );
     if (playerHadAdvantage) {
       logParts.push(
@@ -406,7 +412,7 @@ function showBattleExplanation(winnerCard, loserCard, stat, totals) {
     }
     if (loserBonus && loserCard.type && winnerCard.type) {
       parts.push(
-        `+${TYPE_ADVANTAGE_BONUS} for <br> (${loserCard.type.toUpperCase()} is super-effective vs ${winnerCard.type.toUpperCase()})`,
+        `+${TYPE_ADVANTAGE_BONUS} <br> (${loserCard.type.toUpperCase()} is super-effective vs ${winnerCard.type.toUpperCase()})`,
       );
     }
     if (parts.length > 0) {
