@@ -446,9 +446,9 @@ function finishGame() {
   let finalMsg;
 
   if (scores.player === 10) {
-    finalMsg = "WOW";
+    finalMsg = "WOW, FLAWLESS VICTORY!";
   } else if (scores.player > scores.cpu) {
-    finalMsg = "CONGRATULATIONS! YOU ARE THE POKÉ-MASTER!";
+    finalMsg = "Congratz! YOU ARE THE MASTER!";
   } else if (scores.cpu > scores.player) {
     finalMsg = "OOPS, YOU LOST! TRY AGAIN!";
   } else {
