@@ -147,10 +147,7 @@ function eraseEffectiveness(stat) {
 }
 
 function statRowHtml(pokemon, statKey, bonusStat) {
-  const bonus =
-    bonusStat === statKey
-      ? eraseEffectiveness(statKey)
-      : "";
+  const bonus = bonusStat === statKey ? eraseEffectiveness(statKey) : "";
   return `
     <div class="stat-row" data-stat="${statKey}">
       <span class="stat-row__left">
@@ -291,8 +288,8 @@ function playTurn(stat) {
   if (playerHadAdvantage || cpuHadAdvantage) {
     logParts.push(
       "Type chart (PokéAPI): super-effective matchups grant +" +
-      TYPE_ADVANTAGE_BONUS +
-      " to the chosen stat.",
+        TYPE_ADVANTAGE_BONUS +
+        " to the chosen stat.",
     );
     if (playerHadAdvantage) {
       logParts.push(
@@ -447,7 +444,10 @@ function nextRound() {
 
 function finishGame() {
   let finalMsg;
-  if (scores.player > scores.cpu) {
+
+  if (scores.player === 10) {
+    finalMsg = "WOW";
+  } else if (scores.player > scores.cpu) {
     finalMsg = "CONGRATULATIONS! YOU ARE THE POKÉ-MASTER!";
   } else if (scores.cpu > scores.player) {
     finalMsg = "OOPS, YOU LOST! TRY AGAIN!";
