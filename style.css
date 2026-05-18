@@ -43,27 +43,19 @@ body {
   overflow-x: hidden;
   background-color: var(--poke-night);
   background-image:
-    radial-gradient(
-      ellipse 120% 80% at 50% -30%,
+    radial-gradient(ellipse 120% 80% at 50% -30%,
       rgba(126, 200, 252, 0.35),
-      transparent
-    ),
-    radial-gradient(
-      ellipse 80% 55% at 100% 100%,
+      transparent),
+    radial-gradient(ellipse 80% 55% at 100% 100%,
       rgba(229, 57, 53, 0.18),
-      transparent
-    ),
-    radial-gradient(
-      ellipse 60% 45% at 0% 80%,
+      transparent),
+    radial-gradient(ellipse 60% 45% at 0% 80%,
       rgba(255, 203, 5, 0.12),
-      transparent
-    ),
-    linear-gradient(
-      165deg,
+      transparent),
+    linear-gradient(165deg,
       var(--poke-blue-deep) 0%,
       var(--poke-night) 42%,
-      #0a0e18 100%
-    );
+      #0a0e18 100%);
   background-attachment: fixed;
 }
 
@@ -77,21 +69,17 @@ body.pokedex-open {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(
-      circle at 20% 20%,
+    radial-gradient(circle at 20% 20%,
       rgba(255, 203, 5, 0.04),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 85% 10%,
+      transparent 40%),
+    radial-gradient(circle at 85% 10%,
       rgba(46, 107, 207, 0.12),
-      transparent 35%
-    );
+      transparent 35%);
 }
 
 #generation-selection {
   flex: 1;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -99,11 +87,9 @@ body.pokedex-open {
   padding: clamp(1.25rem, 4vw, 2.75rem);
   margin: auto;
   width: min(440px, 92vw);
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(46, 107, 207, 0.08)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(46, 107, 207, 0.08));
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -112,7 +98,31 @@ body.pokedex-open {
     0 16px 48px var(--poke-shadow),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   position: relative;
-  z-index: 1;
+  z-index: 5;
+}
+
+#generation-selection.screen--active {
+  display: flex;
+}
+
+.game-container.screen--active {
+  display: flex !important;
+}
+
+#boot-error {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  max-width: min(92vw, 520px);
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(229, 57, 53, 0.92);
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .screen-signature {
@@ -278,20 +288,16 @@ header {
 .game-center button {
   width: 100%;
   max-width: 260px;
-  background: linear-gradient(
-    145deg,
-    rgba(0, 119, 255, 0.5) 0%,
-    rgba(1, 245, 225, 0.541) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(0, 119, 255, 0.5) 0%,
+      rgba(1, 245, 225, 0.541) 100%);
 }
 
 .status-bubble {
   margin: 0 auto;
-  background: linear-gradient(
-    145deg,
-    rgba(192, 255, 2, 0.051) 0%,
-    rgba(140, 255, 0, 0.044) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(192, 255, 2, 0.051) 0%,
+      rgba(140, 255, 0, 0.044) 100%);
   color: #ffea00;
   padding: clamp(10px, 2.5vw, 16px) clamp(20px, 5vw, 32px);
   border-radius: 999px;
@@ -311,30 +317,26 @@ header {
   min-height: 420px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
   position: relative;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.158),
-    rgba(255, 255, 255, 0.189)
-  );
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: clamp(14px, 3.5vw, 20px);
   padding: clamp(10px, 1.2vw, 10px);
   box-shadow:
     0 12px 40px var(--poke-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .card-back {
-  background: linear-gradient(
-    145deg,
-    var(--poke-blue-deep),
-    #0080ff1a
-  ) !important;
+  background: linear-gradient(145deg,
+      var(--poke-blue-deep),
+      #0080ff1a) !important;
   border: 1px solid rgba(126, 200, 252, 0.35);
   align-items: center;
   justify-content: center;
@@ -395,7 +397,9 @@ header {
 }
 
 .stat-row {
-  background: rgba(15, 23, 41, 0.45);
+  background: rgba(15, 23, 41, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   margin: clamp(6px, 1.5vw, 10px) 0;
   padding: clamp(8px, 2vw, 12px);
   border-radius: 8px;
@@ -404,7 +408,7 @@ header {
   align-items: center;
   gap: 0.35em;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition:
     transform 0.18s ease,
     border-color 0.18s ease,
@@ -414,6 +418,27 @@ header {
   font-size: clamp(1.12rem, 3.6vw, 1.35rem);
   font-weight: 700;
   opacity: 1;
+}
+
+/* Unique colors for each stat button with translucent theme */
+.stat-row[data-stat="HP"] {
+  background: rgba(255, 82, 82, 0.25);
+  border-color: rgba(255, 82, 82, 0.4);
+}
+
+.stat-row[data-stat="ATTACK"] {
+  background: rgba(255, 165, 0, 0.25);
+  border-color: rgba(255, 165, 0, 0.4);
+}
+
+.stat-row[data-stat="DEFENSE"] {
+  background: rgba(100, 149, 237, 0.25);
+  border-color: rgba(100, 149, 237, 0.4);
+}
+
+.stat-row[data-stat="SPEED"] {
+  background: rgba(50, 205, 50, 0.25);
+  border-color: rgba(50, 205, 50, 0.4);
 }
 
 .stat-row__left {
@@ -443,38 +468,31 @@ header {
   filter: brightness(1.2) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
 }
 
-/* 1. MIRA APENAS NA IMAGEM DO POKÉMON (Mobile) */
-/* Filtra imagens que ocupam o bloco principal ou que NÃO tenham 'icon' ou 'logo' no nome */
-.pokemon-card img:not([src*="icon"]):not([src*="logo"]):not([src*="title"]) {
-  width: 100% !important;
-  height: clamp(200px, 45vw, 350px) !important;
-  object-fit: cover !important;
-  margin: clamp(2px, 1.2vw, 6px) 0 !important;
-  opacity: 1 !important;
-  filter: none !important;
+.pokemon-card .pokemon-sprite {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(200px, 45vw, 280px);
+  object-fit: contain;
+  object-position: center;
+  margin: clamp(4px, 1.5vw, 8px) auto;
+  padding: 6px;
+  flex-shrink: 0;
 }
 
-/* 2. AJUSTE EXCLUSIVO PARA O POKÉMON NO PC */
 @media (min-width: 1024px) {
-  .pokemon-card img:not([src*="icon"]):not([src*="logo"]):not([src*="title"]) {
-    width: 100% !important;
-    height: 260px !important;
-    /* Altura ideal que você aprovou */
-    object-fit: contain !important;
-    /* Mostra o Pokémon inteiro sem cortar no PC */
+  .pokemon-card .pokemon-sprite {
+    height: 240px;
+    padding: 8px;
   }
 }
 
-/* 3. PROTEÇÃO CRÍTICA PARA OS ÍCONES E POKÉBOLAS */
-/* Força qualquer outra imagem pequena/ícone da carta a ignorar o gigantismo */
-.pokemon-card img[src*="icon"],
-.pokemon-card img[src*="logo"],
-.pokemon-card .poke-icon,
-.pokemon-card .pokemon-icon {
-  width: 24px !important;
-  height: 24px !important;
+.pokemon-card .pokeball-icon {
+  width: 18px !important;
+  height: 18px !important;
   object-fit: contain !important;
   margin: 0 !important;
+  flex-shrink: 0;
 }
 
 .rare-badge {
@@ -492,10 +510,37 @@ header {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.stat-row:hover {
-  background: rgba(126, 200, 252, 0.18);
-  border-color: rgba(126, 200, 252, 0.45);
+.stat-row[data-stat="HP"]:hover {
+  background: rgba(255, 82, 82, 0.38);
+  border-color: rgba(255, 82, 82, 0.55);
   transform: translateX(3px);
+}
+
+.stat-row[data-stat="ATTACK"]:hover {
+  background: rgba(255, 165, 0, 0.38);
+  border-color: rgba(255, 165, 0, 0.55);
+  transform: translateX(3px);
+}
+
+.stat-row[data-stat="DEFENSE"]:hover {
+  background: rgba(100, 149, 237, 0.38);
+  border-color: rgba(100, 149, 237, 0.55);
+  transform: translateX(3px);
+}
+
+.stat-row[data-stat="SPEED"]:hover {
+  background: rgba(50, 205, 50, 0.38);
+  border-color: rgba(50, 205, 50, 0.55);
+  transform: translateX(3px);
+}
+
+.type-bonus {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.82em;
+  font-weight: 800;
+  color: #7dffb3;
+  text-shadow: 0 0 6px rgba(125, 255, 179, 0.65);
+  white-space: nowrap;
 }
 
 .stat-row:active {
@@ -505,11 +550,9 @@ header {
 /* Buttons (site chrome, not embedded Pokédex) */
 .btn-neon {
   appearance: none;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 203, 5, 0.12)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 203, 5, 0.12));
   border: 1px solid rgba(255, 203, 5, 0.55);
   color: var(--poke-yellow-soft);
   padding: clamp(8px, 2.2vw, 12px) clamp(14px, 4vw, 26px);
@@ -530,11 +573,9 @@ header {
 }
 
 .btn-neon:hover {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 203, 5, 0.35),
-    rgba(255, 236, 160, 0.2)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 203, 5, 0.35),
+      rgba(255, 236, 160, 0.2));
   color: var(--accent-text);
   border-color: var(--poke-yellow);
   transform: translateY(-1px);
@@ -617,12 +658,10 @@ header {
   flex-direction: column;
   padding: 0;
   overflow: hidden;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(30, 69, 127, 0.55) 45%,
-    rgba(14, 20, 35, 0.97) 100%
-  );
+  background: linear-gradient(160deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(30, 69, 127, 0.55) 45%,
+      rgba(14, 20, 35, 0.97) 100%);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: clamp(14px, 3vw, 22px);
   box-shadow:
@@ -717,13 +756,11 @@ header {
 /* Rare super-trumps */
 .rare-card {
   border-color: rgba(255, 215, 0, 0.75);
-  background: linear-gradient(
-    145deg,
-    rgba(230, 230, 236, 0.35),
-    rgba(255, 215, 0, 0.22),
-    rgba(200, 200, 210, 0.18)
-  );
-  overflow: hidden;
+  background: linear-gradient(145deg,
+      rgba(230, 230, 236, 0.35),
+      rgba(255, 215, 0, 0.22),
+      rgba(200, 200, 210, 0.18));
+  overflow: visible;
 }
 
 .rare-card::after {
@@ -731,20 +768,16 @@ header {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 215, 0, 0.12),
-    transparent
-  );
+  background: linear-gradient(45deg,
+      transparent,
+      rgba(255, 215, 0, 0.12),
+      transparent);
 }
 
 .winner-card:not(.rare-card) {
-  background: linear-gradient(
-    155deg,
-    rgba(139, 220, 120, 0.45),
-    rgba(46, 107, 207, 0.12)
-  ) !important;
+  background: linear-gradient(155deg,
+      rgba(139, 220, 120, 0.45),
+      rgba(46, 107, 207, 0.12)) !important;
   color: var(--accent-text) !important;
   border-color: rgba(109, 200, 90, 0.85) !important;
   box-shadow:
@@ -753,11 +786,9 @@ header {
 }
 
 .loser-card:not(.rare-card) {
-  background: linear-gradient(
-    155deg,
-    rgba(229, 57, 53, 0.35),
-    rgba(46, 107, 207, 0.08)
-  ) !important;
+  background: linear-gradient(155deg,
+      rgba(229, 57, 53, 0.35),
+      rgba(46, 107, 207, 0.08)) !important;
   color: var(--poke-cream) !important;
   border-color: rgba(229, 57, 53, 0.55) !important;
   box-shadow:
@@ -800,28 +831,45 @@ header {
 #battle-explanation {
   margin: 8px auto 0;
   padding: 10px 14px;
-
   display: inline-block;
-  max-width: min(92vw, 360px);
-
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: min(92vw, 420px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
-
   color: #f5f5f5;
   font-size: clamp(0.82rem, 2.6vw, 0.95rem);
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.45;
   text-align: center;
   letter-spacing: 0.02em;
-
-  backdrop-filter: blur(8px);
-
-  opacity: 0;
-  transform: translateY(4px);
-  animation: battleFade 0.25s ease forwards;
-
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 1;
+  transform: translateY(0);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  min-height: 1.5em;
+}
+
+#battle-explanation.battle-explanation--visible {
+  animation: battleFade 0.25s ease forwards;
+}
+
+.battle-totals {
+  display: inline-block;
+  margin-top: 0.35rem;
+  color: var(--poke-yellow-soft);
+  font-weight: 800;
+}
+
+.battle-type-note {
+  font-size: 0.88em;
+  color: #7dffb3;
+  font-weight: 600;
+}
+
+.battle-loser-note {
+  color: lightcoral;
+  font-size: 0.92em;
 }
 
 .battle-winner {
@@ -871,7 +919,9 @@ header {
 }
 
 .card-type-name {
-  color: rgba(253, 227, 0, 0.95);
+  color: #ff69b4;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.75);
 }
 
 .type-advantage-badge {
@@ -885,7 +935,8 @@ header {
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000,
-    /* Contorno preto base */ 0 0 8px rgba(0, 0, 0, 1),
+    /* Contorno preto base */
+    0 0 8px rgba(0, 0, 0, 1),
     0 0 15px rgba(30, 30, 30, 0.9),
     0 0 25px rgba(0, 0, 0, 0.8);
   /* Brilho neon preto/escuro */
@@ -996,15 +1047,13 @@ header {
 }
 
 .cards-viewport.swapping .slot-front {
-  transform: translateX(-56px) translateZ(-120px) rotateY(34deg)
-    scale(var(--slot-back-scale));
+  transform: translateX(-56px) translateZ(-120px) rotateY(34deg) scale(var(--slot-back-scale));
   opacity: 0.48;
   filter: blur(3px);
 }
 
 .cards-viewport.swapping .slot-back {
-  transform: translateX(56px) translateZ(64px) rotateY(0deg)
-    scale(var(--slot-front-scale));
+  transform: translateX(56px) translateZ(64px) rotateY(0deg) scale(var(--slot-front-scale));
   opacity: 1;
   filter: blur(0);
 }
@@ -1026,11 +1075,9 @@ header {
   height: 44px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.28);
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.22),
-    rgba(255, 255, 255, 0.06)
-  );
+  background: linear-gradient(155deg,
+      rgba(255, 255, 255, 0.22),
+      rgba(255, 255, 255, 0.06));
   color: rgba(255, 255, 255, 0.95);
   font-size: 1.65rem;
   line-height: 1;
@@ -1116,13 +1163,11 @@ header {
   }
 
   .cards-viewport.swapping .slot-front {
-    transform: translateX(-118px) translateZ(-168px) rotateY(36deg)
-      scale(var(--slot-back-scale));
+    transform: translateX(-118px) translateZ(-168px) rotateY(36deg) scale(var(--slot-back-scale));
   }
 
   .cards-viewport.swapping .slot-back {
-    transform: translateX(118px) translateZ(112px) rotateY(0deg)
-      scale(var(--slot-front-scale));
+    transform: translateX(118px) translateZ(112px) rotateY(0deg) scale(var(--slot-front-scale));
   }
 
   .game-center {
@@ -1142,7 +1187,7 @@ header {
     max-width: 280px;
   }
 
-  .pokemon-card img {
-    height: clamp(100px, 12vw, 120px);
+  .pokemon-card .pokemon-sprite {
+    height: 240px;
   }
 }
