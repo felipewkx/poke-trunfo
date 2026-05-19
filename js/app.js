@@ -84,38 +84,43 @@ function playTurn(stat) {
         cTotal,
     };
 
-    renderCard(cCard, "cpu-card-slot", false, {
-        ownerLabel: "CPU",
-        bonusStat: cpuHadAdvantage && statsMatter ? stat : null,
-    });
+    try {
+        renderCard(cCard, "cpu-card-slot", false, {
+            ownerLabel: "CPU",
+            bonusStat: cpuHadAdvantage && statsMatter ? stat : null,
+        });
 
-    renderCard(pCard, "player-card-slot", false, {
-        ownerLabel: "Player",
-        bonusStat: playerHadAdvantage && statsMatter ? stat : null,
-    });
+        renderCard(pCard, "player-card-slot", false, {
+            ownerLabel: "Player",
+            bonusStat: playerHadAdvantage && statsMatter ? stat : null,
+        });
 
-    if (cCard.isRare) {
-        setTimeout(() => alert("⭐ CPU TEM UM SUPER TRUNFO! ⭐"), 100);
+        if (cCard.isRare) {
+            setTimeout(() => alert("⭐ CPU TEM UM SUPER TRUNFO! ⭐"), 100);
+        }
+
+        if (winner === "player") {
+            showBattleExplanation("player", comparison);
+            game.incrementPlayerScore();
+            updateStatusBubble("YOU WIN!");
+            updateScoreDisplay(game.scores.player, game.scores.cpu);
+        } else if (winner === "cpu") {
+            showBattleExplanation("cpu", comparison);
+            game.incrementCpuScore();
+            updateStatusBubble("CPU WINS!");
+            updateScoreDisplay(game.scores.player, game.scores.cpu);
+        } else {
+            showBattleExplanationTie(comparison);
+            updateStatusBubble("IT'S A TIE!");
+        }
+
+        applyCardStyling(winner, stat, pCard.isRare, cCard.isRare);
+    } catch (err) {
+        console.error("Error during UI updates:", err);
+    } finally {
+        showNextButton();
+        disablePlayerCardInteraction();
     }
-
-    if (winner === "player") {
-        showBattleExplanation("player", comparison);
-        game.incrementPlayerScore();
-        updateStatusBubble("YOU WIN!");
-        updateScoreDisplay(game.scores.player, game.scores.cpu);
-    } else if (winner === "cpu") {
-        showBattleExplanation("cpu", comparison);
-        game.incrementCpuScore();
-        updateStatusBubble("CPU WINS!");
-        updateScoreDisplay(game.scores.player, game.scores.cpu);
-    } else {
-        showBattleExplanationTie(comparison);
-        updateStatusBubble("IT'S A TIE!");
-    }
-
-    applyCardStyling(winner, stat, pCard.isRare, cCard.isRare);
-    showNextButton();
-    disablePlayerCardInteraction();
 }
 
 function nextRound() {

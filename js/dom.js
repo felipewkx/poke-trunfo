@@ -354,29 +354,25 @@ function applyCardStyling(winner, stat, pCardIsRare, cCardIsRare) {
         playerCardEl.classList.add("winner-card");
         cpuCardEl.classList.add("loser-card");
 
-        if (!pCardIsRare) {
-            playerCardEl
-                .querySelector(`.stat-row[data-stat="${stat}"]`)
-                ?.classList.add("winner-stat");
+        if (!pCardIsRare && stat) {
+            const row = playerCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+            if (row) row.classList.add("winner-stat");
         }
-        if (!cCardIsRare) {
-            cpuCardEl
-                .querySelector(`.stat-row[data-stat="${stat}"]`)
-                ?.classList.add("loser-stat");
+        if (!cCardIsRare && stat) {
+            const row = cpuCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+            if (row) row.classList.add("loser-stat");
         }
     } else if (winner === "cpu") {
         playerCardEl.classList.add("loser-card");
         cpuCardEl.classList.add("winner-card");
 
-        if (!cCardIsRare) {
-            cpuCardEl
-                .querySelector(`.stat-row[data-stat="${stat}"]`)
-                ?.classList.add("winner-stat");
+        if (!cCardIsRare && stat) {
+            const row = cpuCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+            if (row) row.classList.add("winner-stat");
         }
-        if (!pCardIsRare) {
-            playerCardEl
-                .querySelector(`.stat-row[data-stat="${stat}"]`)
-                ?.classList.add("loser-stat");
+        if (!pCardIsRare && stat) {
+            const row = playerCardEl.querySelector(`.stat-row[data-stat="${stat}"]`);
+            if (row) row.classList.add("loser-stat");
         }
     }
 }
