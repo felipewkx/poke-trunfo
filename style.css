@@ -808,7 +808,7 @@ header {
 }
 
 .pokemon-card:not(.rare-card) .loser-stat {
-  background: rgba(110, 110, 118, 0.4);
+  background: rgba(166, 166, 175, 0.586);
   border-color: rgba(88, 88, 94, 0.45);
   color: rgba(255, 255, 255, 0.88);
 }
