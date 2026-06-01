@@ -6,15 +6,11 @@ PokéTrumps is a browser-based Pokémon card game inspired by the classic Brazil
 
 Live Demo: https://felipewkx.github.io/poke-trunfo/
 
----
-
 # Overview
 
 The application simulates a competitive card battle system where players compare Pokémon attributes against an AI-controlled opponent across multiple rounds. All Pokémon data, including images, stats, and types, are retrieved dynamically from the PokéAPI, eliminating the need for static datasets.
 
 The interface was designed with a modern visual approach based on Glassmorphism concepts, layered gradients, animated effects, and adaptive layouts optimized for both desktop and mobile devices.
-
----
 
 # Features
 
@@ -73,8 +69,6 @@ The Pokédex section was developed as part of the learning process inspired by c
 
 To integrate both experiences into a single application flow, the project uses an `iframe` structure to embed and unify the Pokédex interface directly within the Super Trunfo game environment, allowing seamless navigation between gameplay and Pokémon browsing without requiring separate pages or applications.
 
----
-
 # Technical Implementation
 
 ## Frontend Stack
@@ -102,8 +96,6 @@ Custom game state control was implemented to manage:
 
 Media Queries and flexible layout systems were used to ensure consistent behavior across desktop and mobile environments.
 
----
-
 # Performance Considerations
 
 ## Optimized Deck Loading
@@ -118,8 +110,6 @@ Result:
 ## Interaction Lock System
 
 A click-lock mechanism prevents duplicated actions during animations and state transitions, helping maintain interface consistency and gameplay stability.
-
----
 
 # How to Play
 
@@ -137,15 +127,11 @@ A click-lock mechanism prevents duplicated actions during animations and state t
 7. Continue until all 10 rounds are completed
 8. The player with the highest score wins the match
 
----
-
 # API Reference
 
 Pokémon data is provided by:
 
 PokéAPI
-
----
 
 # Development
 
@@ -157,7 +143,6 @@ This project was developed with emphasis on:
 * Animation systems in CSS
 * DOM manipulation and state handling with vanilla JavaScript
 * `iframe` structure
----
 
 # Author
 
