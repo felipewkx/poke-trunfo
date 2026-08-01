@@ -45,8 +45,11 @@ function renderRound() {
         return;
     }
 
+    game.beginRound();
     updateUI();
-    updateStatusBubble(`ROUND ${game.currentRound}`);
+    clearBattleExplanation();
+    hideNextButton();
+    updateStatusBubble(`ROUND ${game.currentRound} - CHOOSE A STAT`);
 }
 
 function updateUI() {
@@ -56,8 +59,15 @@ function updateUI() {
     renderCard(pCard, "player-card-slot", false, {
         ownerLabel: "Player",
         bonusStat: null,
+        revealStats: false,
+        interactive: true,
     });
-    renderCard(game.getCpuCard(), "cpu-card-slot", true);
+    renderCard(game.getCpuCard(), "cpu-card-slot", false, {
+        ownerLabel: "CPU",
+        bonusStat: null,
+        revealStats: false,
+        interactive: false,
+    });
 
     if (pCard?.isRare) {
         setTimeout(() => alert("⭐ SUPER TRUNFO! ⭐"), 100);
@@ -65,10 +75,14 @@ function updateUI() {
 }
 
 function playTurn(stat) {
+    if (!game.canPlayTurn()) return;
+
     const pCard = game.getPlayerCard();
     const cCard = game.getCpuCard();
 
     if (!pCard || !cCard || !stat) return;
+
+    game.completeRound();
 
     const { playerBonus, cpuBonus, playerHadAdvantage, cpuHadAdvantage } =
         computeTypeBonuses(pCard, cCard);
@@ -93,11 +107,15 @@ function playTurn(stat) {
         renderCard(cCard, "cpu-card-slot", false, {
             ownerLabel: "CPU",
             bonusStat: cpuHadAdvantage && statsMatter ? stat : null,
+            revealStats: true,
+            interactive: false,
         });
 
         renderCard(pCard, "player-card-slot", false, {
             ownerLabel: "Player",
             bonusStat: playerHadAdvantage && statsMatter ? stat : null,
+            revealStats: true,
+            interactive: false,
         });
 
         if (cCard.isRare) {
@@ -129,6 +147,8 @@ function playTurn(stat) {
 }
 
 function nextRound() {
+    if (!game.roundResolved) return;
+
     game.removeTopCards();
     game.incrementRound();
 

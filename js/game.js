@@ -12,6 +12,7 @@ class GameState {
         this.scores = { player: 0, cpu: 0 };
         this.currentRound = 0;
         this.selectedGen = { min: 1, max: 151 };
+        this.roundResolved = false;
     }
 
     reset() {
@@ -19,6 +20,7 @@ class GameState {
         this.cpuDeck = [];
         this.scores = { player: 0, cpu: 0 };
         this.currentRound = 0;
+        this.roundResolved = false;
     }
 
     setGeneration(min, max) {
@@ -27,6 +29,18 @@ class GameState {
 
     incrementRound() {
         this.currentRound++;
+    }
+
+    beginRound() {
+        this.roundResolved = false;
+    }
+
+    completeRound() {
+        this.roundResolved = true;
+    }
+
+    canPlayTurn() {
+        return !this.roundResolved && this.currentRound > 0 && !!this.getPlayerCard() && !!this.getCpuCard();
     }
 
     removeTopCards() {

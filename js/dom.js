@@ -138,9 +138,12 @@ function showErrorState() {
  * @param {Object} pokemon - Pokémon data
  * @param {string} statKey - Stat name (HP, ATTACK, etc.)
  * @param {string|null} bonusStat - The stat that has a type advantage bonus
+ * @param {boolean} revealStats - Whether to show the numeric value or a blind placeholder
  * @returns {string} HTML string
  */
-function statRowHtml(pokemon, statKey, bonusStat) {
+function statRowHtml(pokemon, statKey, bonusStat, revealStats) {
+    const value = revealStats ? pokemon.stats[statKey] : "?";
+    const hiddenClass = revealStats ? "" : " stat-val--hidden";
     const bonus = bonusStat === statKey ? `<span class="type-bonus">+${TYPE_ADVANTAGE_BONUS}</span>` : "";
     return `
     <div class="stat-row" data-stat="${statKey}">
@@ -149,7 +152,7 @@ function statRowHtml(pokemon, statKey, bonusStat) {
         <span>${statKey}</span>
       </span>
       <span class="stat-row__right">
-        <span class="stat-val">${pokemon.stats[statKey]}</span>
+                <span class="stat-val${hiddenClass}">${value}</span>
         ${bonus}
       </span>
     </div>`;
@@ -160,11 +163,11 @@ function statRowHtml(pokemon, statKey, bonusStat) {
  * @param {Object} pokemon - Pokémon data
  * @param {string} containerId - ID of the container element
  * @param {boolean} isFaceDown - Whether to show card back
- * @param {Object} options - Additional options (ownerLabel, bonusStat)
+ * @param {Object} options - Additional options (ownerLabel, bonusStat, revealStats)
  */
 function renderCard(pokemon, containerId, isFaceDown, options = {}) {
     const container = document.getElementById(containerId);
-    const { ownerLabel = "", bonusStat = null } = options;
+    const { ownerLabel = "", bonusStat = null, revealStats = true, interactive = false } = options;
 
     if (!container) return;
 
@@ -183,6 +186,8 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
     }
 
     const rareClass = pokemon.isRare ? "rare-card" : "";
+    const statStateClass = revealStats ? "" : "card--stats-hidden";
+    const interactiveClass = interactive ? "card--interactive" : "";
     const rareBadge = pokemon.isRare
         ? '<div class="rare-badge">RARE</div><div class="super-trunfo-badge">SUPER TRUNFO</div>'
         : "";
@@ -194,8 +199,8 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
         ? `<div class="card-type-line"><span class="type-owner-badge">${ownerLabel}</span><span class="card-type-name" aria-label="Element">${pokemon.type.toUpperCase()}</span></div>`
         : `<div class="card-type-line"><span class="card-type-name">${pokemon.type.toUpperCase()}</span></div>`;
 
-    container.innerHTML = `
-    <div class="pokemon-card ${rareClass}">
+        container.innerHTML = `
+                <div class="pokemon-card ${rareClass} ${statStateClass} ${interactiveClass}">
       ${rareBadge}
       <h2 ${nameColor}>
         <img src="assets/logo.png" alt="" class="pokeball-icon" width="18" height="18" />
@@ -203,10 +208,10 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
       </h2>
       <img class="pokemon-sprite" src="${pokemon.image}" alt="${pokemon.name}" />
       <div class="stats-container" id="stats-${containerId}">
-        ${statRowHtml(pokemon, "HP", bonusStat)}
-        ${statRowHtml(pokemon, "ATTACK", bonusStat)}
-        ${statRowHtml(pokemon, "DEFENSE", bonusStat)}
-        ${statRowHtml(pokemon, "SPEED", bonusStat)}
+                ${statRowHtml(pokemon, "HP", bonusStat, revealStats)}
+                ${statRowHtml(pokemon, "ATTACK", bonusStat, revealStats)}
+                ${statRowHtml(pokemon, "DEFENSE", bonusStat, revealStats)}
+                ${statRowHtml(pokemon, "SPEED", bonusStat, revealStats)}
       </div>
       ${ownerHtml}
     </div>`;

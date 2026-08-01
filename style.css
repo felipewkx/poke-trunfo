@@ -459,6 +459,26 @@ header {
   font-variant-numeric: tabular-nums;
 }
 
+.stat-val--hidden {
+  color: rgba(255, 243, 176, 0.95);
+  text-shadow:
+    0 0 10px rgba(255, 203, 5, 0.2),
+    0 0 18px rgba(126, 200, 252, 0.14);
+  letter-spacing: 0.08em;
+}
+
+.pokemon-card.card--stats-hidden:not(.card--interactive) .stat-row {
+  cursor: default;
+}
+
+.pokemon-card.card--interactive.card--stats-hidden .stat-row {
+  cursor: pointer;
+}
+
+.pokemon-card.card--stats-hidden .type-bonus {
+  display: none;
+}
+
 .stat-row .pokeball-icon {
   width: 18px;
   /* Smaller icon for stats */
