@@ -1568,7 +1568,7 @@ header {
 }
 
 .pokemon-card.card--interactive:hover {
-  transform: translateY(-4px) scale(1.01);
+  transform: none;
 }
 
 .rare-card {

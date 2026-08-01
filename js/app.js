@@ -2,19 +2,21 @@
  * app.js - Main entry point (classic scripts; works on file:// and HTTP)
  */
 
+const ui = window;
+
 const game = new GameState();
 
 function resetGame() {
   game.reset();
-  resetUI();
+  ui.resetUI();
 }
 
 async function startGame() {
   game.scores = { player: 0, cpu: 0 };
   game.currentRound = 1;
 
-  updateScoreDisplay(0, 0);
-  showStartGameUI();
+  ui.updateScoreDisplay(0, 0);
+  ui.showStartGameUI();
 
   try {
     const pIds = Array.from({ length: TOTAL_ROUNDS }, () =>
@@ -35,7 +37,7 @@ async function startGame() {
     renderRound();
   } catch (error) {
     console.error(error);
-    showErrorState();
+    ui.showErrorState();
   }
 }
 
@@ -47,22 +49,22 @@ function renderRound() {
 
   game.beginRound();
   updateUI();
-  clearBattleExplanation();
-  hideNextButton();
-  updateStatusBubble(`ROUND ${game.currentRound} - CHOOSE A STAT`);
+  ui.clearBattleExplanation();
+  ui.hideNextButton();
+  ui.updateStatusBubble(`ROUND ${game.currentRound} - CHOOSE A STAT`);
 }
 
 function updateUI() {
   const pCard = game.getPlayerCard();
 
-  enablePlayerCardInteraction();
-  renderCard(pCard, "player-card-slot", false, {
+  ui.enablePlayerCardInteraction();
+  ui.renderCard(pCard, "player-card-slot", false, {
     ownerLabel: "YOU",
     bonusStat: null,
     revealStats: false,
     interactive: true,
   });
-  renderCard(game.getCpuCard(), "cpu-card-slot", false, {
+  ui.renderCard(game.getCpuCard(), "cpu-card-slot", false, {
     ownerLabel: "CPU",
     bonusStat: null,
     revealStats: false,
@@ -104,14 +106,14 @@ function playTurn(stat) {
   };
 
   try {
-    renderCard(cCard, "cpu-card-slot", false, {
+    ui.renderCard(cCard, "cpu-card-slot", false, {
       ownerLabel: "CPU",
       bonusStat: cpuHadAdvantage && statsMatter ? stat : null,
       revealStats: true,
       interactive: false,
     });
 
-    renderCard(pCard, "player-card-slot", false, {
+    ui.renderCard(pCard, "player-card-slot", false, {
       ownerLabel: "YOU",
       bonusStat: playerHadAdvantage && statsMatter ? stat : null,
       revealStats: true,
@@ -123,26 +125,26 @@ function playTurn(stat) {
     }
 
     if (winner === "player") {
-      showBattleExplanation("player", comparison);
+      ui.showBattleExplanation("player", comparison);
       game.incrementPlayerScore();
-      updateStatusBubble("YOU WIN!");
-      updateScoreDisplay(game.scores.player, game.scores.cpu);
+      ui.updateStatusBubble("YOU WIN!");
+      ui.updateScoreDisplay(game.scores.player, game.scores.cpu);
     } else if (winner === "cpu") {
-      showBattleExplanation("cpu", comparison);
+      ui.showBattleExplanation("cpu", comparison);
       game.incrementCpuScore();
-      updateStatusBubble("CPU WINS!");
-      updateScoreDisplay(game.scores.player, game.scores.cpu);
+      ui.updateStatusBubble("CPU WINS!");
+      ui.updateScoreDisplay(game.scores.player, game.scores.cpu);
     } else {
-      showBattleExplanationTie(comparison);
-      updateStatusBubble("IT'S A TIE!");
+      ui.showBattleExplanationTie(comparison);
+      ui.updateStatusBubble("IT'S A TIE!");
     }
 
-    applyCardStyling(winner, stat, pCard.isRare, cCard.isRare);
+    ui.applyCardStyling(winner, stat, pCard.isRare, cCard.isRare);
   } catch (err) {
     console.error("Error during UI updates:", err);
   } finally {
-    showNextButton();
-    disablePlayerCardInteraction();
+    ui.showNextButton();
+    ui.disablePlayerCardInteraction();
   }
 }
 
@@ -152,10 +154,10 @@ function nextRound() {
   game.removeTopCards();
   game.incrementRound();
 
-  clearBattleExplanation();
-  hideNextButton();
-  enablePlayerCardInteraction();
-  updateStatusBubble("CHOOSE A STAT");
+  ui.clearBattleExplanation();
+  ui.hideNextButton();
+  ui.enablePlayerCardInteraction();
+  ui.updateStatusBubble("CHOOSE A STAT");
 
   renderRound();
 }
@@ -174,15 +176,15 @@ function finishGame() {
   }
 
   alert(finalMsg);
-  updateStatusBubble("GAME OVER");
+  ui.updateStatusBubble("GAME OVER");
   resetGame();
-  showMenu();
+  ui.showMenu();
 }
 
 function selectGeneration(min, max) {
   game.setGeneration(min, max);
   resetGame();
-  showGameContainer();
+  ui.showGameContainer();
 }
 
 function setupControls() {
@@ -211,7 +213,7 @@ function setupControls() {
     }
     if (action === "menu") {
       resetGame();
-      showMenu();
+      ui.showMenu();
       return;
     }
 
@@ -245,8 +247,8 @@ function init() {
     menu.classList.add("screen--active");
 
     setupControls();
-    setupCardSwapping();
-    setupPokedexControls();
+    window.setupCardSwapping?.();
+    window.setupPokedexControls?.();
 
     window.__pokeTrunfoReady = true;
   } catch (error) {
