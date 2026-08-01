@@ -1,95 +1,179 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5"
+    />
+    <title>PokeTrumps</title>
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
-  <title>PokeTrumps</title>
-  <link rel="icon" type="image/png" href="assets/logo.png" />
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
-    rel="stylesheet" />
-</head>
-
-<body>
-  <div class="glass-overlay"></div>
-  <div id="generation-selection" class="generation-selection">
-    <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img" />
-    <h2>Select Generation</h2>
-    <button type="button" id="gen1-btn" class="btn-neon" data-gen-min="1" data-gen-max="151">GEN 1</button>
-    <button type="button" id="gen2-btn" class="btn-neon" data-gen-min="152" data-gen-max="251">GEN 2</button>
-    <button type="button" id="gen3-btn" class="btn-neon" data-gen-min="252" data-gen-max="386">GEN 3</button>
-    <button type="button" id="all-btn" class="btn-neon" data-gen-min="1" data-gen-max="386">GEN 1 + 2 + 3</button>
-    <p class="screen-signature" aria-hidden="true">Felipe Walker</p>
-  </div>
-  <div class="game-container">
-    <header>
+  <body>
+    <div class="glass-overlay"></div>
+    <div id="generation-selection" class="generation-selection">
       <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img" />
-      <div class="scoreboard-glass">
-        <div class="score-item">PLAYER <span id="player-score">0</span></div>
-        <div class="score-sep"></div>
-        <div class="score-item">CPU <span id="cpu-score">0</span></div>
-      </div>
-    </header>
+      <h2>Select Generation</h2>
+      <button
+        type="button"
+        id="gen1-btn"
+        class="btn-neon"
+        data-gen-min="1"
+        data-gen-max="151"
+      >
+        GEN 1
+      </button>
+      <button
+        type="button"
+        id="gen2-btn"
+        class="btn-neon"
+        data-gen-min="152"
+        data-gen-max="251"
+      >
+        GEN 2
+      </button>
+      <button
+        type="button"
+        id="gen3-btn"
+        class="btn-neon"
+        data-gen-min="252"
+        data-gen-max="386"
+      >
+        GEN 3
+      </button>
+      <button
+        type="button"
+        id="all-btn"
+        class="btn-neon"
+        data-gen-min="1"
+        data-gen-max="386"
+      >
+        GEN 1 + 2 + 3
+      </button>
+      <p class="screen-signature" aria-hidden="true">Felipe Walker</p>
+    </div>
+    <div class="game-container">
+      <header>
+        <img src="assets/title.png" alt="PokeTrunfo Logo" class="logo-img" />
+        <div class="scoreboard-glass">
+          <div class="score-item">PLAYER <span id="player-score">0</span></div>
+          <div class="score-sep"></div>
+          <div class="score-item">CPU <span id="cpu-score">0</span></div>
+        </div>
+      </header>
 
-    <main class="battle-arena">
-      <div class="card-3d-stage">
-        <button type="button" class="swap-arrow swap-left" id="swap-left"
-          aria-label="Swap card depth: bring back card forward">
-          ‹
-        </button>
+      <main class="battle-arena">
+        <div class="card-3d-stage">
+          <button
+            type="button"
+            class="swap-arrow swap-left"
+            id="swap-left"
+            aria-label="Swap card depth: bring back card forward"
+          >
+            ‹
+          </button>
 
-        <div class="cards-viewport">
-          <div id="cpu-card-slot" class="card-slot slot-back"></div>
+          <div class="cards-viewport">
+            <div id="cpu-card-slot" class="card-slot slot-back"></div>
 
-          <div id="player-card-slot" class="card-slot slot-front"></div>
+            <div id="player-card-slot" class="card-slot slot-front"></div>
+          </div>
+
+          <button
+            type="button"
+            class="swap-arrow swap-right"
+            id="swap-right"
+            aria-label="Swap card depth: bring back card forward"
+          >
+            ›
+          </button>
         </div>
 
-        <button type="button" class="swap-arrow swap-right" id="swap-right"
-          aria-label="Swap card depth: bring back card forward">
-          ›
+        <div class="game-center">
+          <div id="status-bubble" class="status-bubble">READY?</div>
+
+          <button
+            type="button"
+            id="start-btn"
+            class="btn-neon start-btn-pregame"
+            data-action="start"
+          >
+            START GAME
+          </button>
+
+          <button
+            type="button"
+            id="next-btn"
+            class="btn-neon"
+            style="display: none; margin-top: 10px"
+            data-action="next"
+          >
+            NEXT ROUND
+          </button>
+        </div>
+      </main>
+
+      <footer class="game-footer">
+        <button
+          type="button"
+          id="menu-btn"
+          class="btn-neon btn-menu-foot"
+          style="display: none"
+          data-action="menu"
+        >
+          RETURN TO MENU
         </button>
-      </div>
-
-      <div class="game-center">
-        <div id="status-bubble" class="status-bubble">READY?</div>
-
-        <button type="button" id="start-btn" class="btn-neon start-btn-pregame" data-action="start">
-          START GAME
+        <button
+          type="button"
+          id="open-pokedex-btn"
+          class="btn-neon btn-pokedex-fab"
+        >
+          Pokédex
         </button>
-
-        <button type="button" id="next-btn" class="btn-neon" style="display: none; margin-top: 10px" data-action="next">
-          NEXT ROUND
-        </button>
-      </div>
-    </main>
-
-    <footer class="game-footer">
-      <button type="button" id="menu-btn" class="btn-neon btn-menu-foot" style="display: none" data-action="menu">
-        RETURN TO MENU
-      </button>
-    </footer>
-  </div>
-
-  <div id="pokedex-backdrop" class="pokedex-backdrop hidden" aria-hidden="true"></div>
-  <button type="button" id="open-pokedex-btn" class="btn-neon btn-pokedex-fab">
-    Pokédex
-  </button>
-  <div id="pokedex-panel" class="pokedex-panel hidden" role="dialog" aria-modal="true"
-    aria-labelledby="pokedex-dialog-title">
-    <div class="pokedex-panel__bar">
-      <span id="pokedex-dialog-title" class="pokedex-panel__title">Pokédex</span>
-      <button type="button" id="close-pokedex-btn" class="close-pokedex-btn" aria-label="Close Pokédex">
-        ×
-      </button>
+      </footer>
     </div>
-    <iframe id="pokedex-iframe" src="pokedex/index.html" title="Pokédex"></iframe>
-  </div>
 
-  <script defer src="js/api.js"></script>
-  <script defer src="js/game.js"></script>
-  <script defer src="js/dom.js"></script>
-  <script defer src="js/app.js"></script>
-</body>
+    <div
+      id="pokedex-backdrop"
+      class="pokedex-backdrop hidden"
+      aria-hidden="true"
+    ></div>
+    <div
+      id="pokedex-panel"
+      class="pokedex-panel hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="pokedex-dialog-title"
+    >
+      <div class="pokedex-panel__bar">
+        <span id="pokedex-dialog-title" class="pokedex-panel__title"
+          >Pokédex</span
+        >
+        <button
+          type="button"
+          id="close-pokedex-btn"
+          class="close-pokedex-btn"
+          aria-label="Close Pokédex"
+        >
+          ×
+        </button>
+      </div>
+      <iframe
+        id="pokedex-iframe"
+        src="pokedex/index.html"
+        title="Pokédex"
+      ></iframe>
+    </div>
 
+    <script defer src="js/api.js"></script>
+    <script defer src="js/game.js"></script>
+    <script defer src="js/dom.js"></script>
+    <script defer src="js/app.js"></script>
+  </body>
 </html>
