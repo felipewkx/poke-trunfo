@@ -24,8 +24,13 @@ async function startGame() {
             getRandomPokemonId(game.selectedGen)
         );
 
-        game.playerDeck = await Promise.all(pIds.map((id) => fetchPokemon(id)));
-        game.cpuDeck = await Promise.all(cIds.map((id) => fetchPokemon(id)));
+        const [playerDeck, cpuDeck] = await Promise.all([
+            Promise.all(pIds.map((id) => fetchPokemon(id))),
+            Promise.all(cIds.map((id) => fetchPokemon(id))),
+        ]);
+
+        game.playerDeck = playerDeck;
+        game.cpuDeck = cpuDeck;
 
         renderRound();
     } catch (error) {

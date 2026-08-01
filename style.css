@@ -1191,3 +1191,60 @@ header {
     height: 240px;
   }
 }
+
+@media (min-width: 768px) {
+  .card-3d-stage {
+    width: 100%;
+    max-width: min(780px, 100%);
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    perspective: none;
+    perspective-origin: center;
+  }
+
+  .cards-viewport {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 26px);
+    transform-style: flat;
+  }
+
+  .card-3d-stage .card-slot {
+    position: static;
+    inset: auto;
+    width: 100%;
+    max-width: none;
+    transform: none !important;
+    opacity: 1;
+    filter: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .slot-front,
+  .slot-back,
+  .cards-viewport.swapping .slot-front,
+  .cards-viewport.swapping .slot-back {
+    transform: none !important;
+    opacity: 1;
+    filter: none;
+  }
+
+  .card-3d-stage .pokemon-card {
+    width: 100%;
+    max-width: none;
+    min-height: 430px;
+    animation: none;
+  }
+
+  .swap-arrow {
+    display: none;
+  }
+}

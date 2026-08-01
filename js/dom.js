@@ -2,6 +2,28 @@
  * dom.js - All HTML/CSS DOM manipulation and UI rendering
  */
 
+const menuEl = document.getElementById("generation-selection");
+const gameEl = document.querySelector(".game-container");
+const playerScoreEl = document.getElementById("player-score");
+const cpuScoreEl = document.getElementById("cpu-score");
+const statusBubbleEl = document.getElementById("status-bubble");
+const startBtnEl = document.getElementById("start-btn");
+const nextBtnEl = document.getElementById("next-btn");
+const menuBtnEl = document.getElementById("menu-btn");
+const playerSlotEl = document.getElementById("player-card-slot");
+const cpuSlotEl = document.getElementById("cpu-card-slot");
+const cardsViewportEl = document.querySelector(".cards-viewport");
+const swapLeftEl = document.getElementById("swap-left");
+const swapRightEl = document.getElementById("swap-right");
+const openPokedexBtnEl = document.getElementById("open-pokedex-btn");
+const closePokedexBtnEl = document.getElementById("close-pokedex-btn");
+const pokedexBackdropEl = document.getElementById("pokedex-backdrop");
+const pokedexPanelEl = document.getElementById("pokedex-panel");
+
+function getBattleExplanationEl() {
+    return document.getElementById("battle-explanation");
+}
+
 /**
  * Sets the visibility and interactivity of swap arrows
  * @param {boolean} active - Whether arrows should be active
@@ -17,26 +39,22 @@ function setSwapArrowsInteractive(active) {
  * Shows the generation selection menu
  */
 function showMenu() {
-    const menu = document.getElementById("generation-selection");
-    const game = document.querySelector(".game-container");
-    if (!menu || !game) return;
-    game.classList.remove("screen--active");
-    menu.classList.add("screen--active");
-    menu.style.display = "flex";
-    game.style.display = "none";
+    if (!menuEl || !gameEl) return;
+    gameEl.classList.remove("screen--active");
+    menuEl.classList.add("screen--active");
+    menuEl.style.display = "flex";
+    gameEl.style.display = "none";
 }
 
 /**
  * Shows the game container
  */
 function showGameContainer() {
-    const menu = document.getElementById("generation-selection");
-    const game = document.querySelector(".game-container");
-    if (!menu || !game) return;
-    menu.classList.remove("screen--active");
-    menu.style.display = "none";
-    game.classList.add("screen--active");
-    game.style.display = "flex";
+    if (!menuEl || !gameEl) return;
+    menuEl.classList.remove("screen--active");
+    menuEl.style.display = "none";
+    gameEl.classList.add("screen--active");
+    gameEl.style.display = "flex";
 }
 
 /**
@@ -45,8 +63,8 @@ function showGameContainer() {
  * @param {number} cpuScore - CPU's score
  */
 function updateScoreDisplay(playerScore, cpuScore) {
-    document.getElementById("player-score").innerText = playerScore;
-    document.getElementById("cpu-score").innerText = cpuScore;
+    if (playerScoreEl) playerScoreEl.textContent = playerScore;
+    if (cpuScoreEl) cpuScoreEl.textContent = cpuScore;
 }
 
 /**
@@ -54,15 +72,15 @@ function updateScoreDisplay(playerScore, cpuScore) {
  * @param {string} text - Text to display
  */
 function updateStatusBubble(text) {
-    document.getElementById("status-bubble").innerText = text;
+    if (statusBubbleEl) statusBubbleEl.textContent = text;
 }
 
 /**
  * Clears the card slots
  */
 function clearCardSlots() {
-    document.getElementById("player-card-slot").innerHTML = "";
-    document.getElementById("cpu-card-slot").innerHTML = "";
+    if (playerSlotEl) playerSlotEl.replaceChildren();
+    if (cpuSlotEl) cpuSlotEl.replaceChildren();
 }
 
 /**
@@ -72,16 +90,20 @@ function resetUI() {
     updateScoreDisplay(0, 0);
     updateStatusBubble("READY?");
 
-    const explanation = document.getElementById("battle-explanation");
-    if (explanation) explanation.remove();
+    const explanation = getBattleExplanationEl();
+    if (explanation) {
+        explanation.remove();
+    }
 
-    document.getElementById("start-btn").style.display = "block";
-    document.getElementById("start-btn").classList.add("start-btn-pregame");
-    document.getElementById("next-btn").style.display = "none";
-    document.getElementById("menu-btn").style.display = "none";
+    if (startBtnEl) {
+        startBtnEl.style.display = "block";
+        startBtnEl.classList.add("start-btn-pregame");
+    }
+    if (nextBtnEl) nextBtnEl.style.display = "none";
+    if (menuBtnEl) menuBtnEl.style.display = "none";
 
     clearCardSlots();
-    document.getElementById("player-card-slot").style.pointerEvents = "auto";
+    if (playerSlotEl) playerSlotEl.style.pointerEvents = "auto";
     setSwapArrowsInteractive(false);
 }
 
@@ -89,10 +111,12 @@ function resetUI() {
  * Shows the start game UI state
  */
 function showStartGameUI() {
-    document.getElementById("start-btn").style.display = "none";
-    document.getElementById("start-btn").classList.remove("start-btn-pregame");
-    document.getElementById("next-btn").style.display = "none";
-    document.getElementById("menu-btn").style.display = "block";
+    if (startBtnEl) {
+        startBtnEl.style.display = "none";
+        startBtnEl.classList.remove("start-btn-pregame");
+    }
+    if (nextBtnEl) nextBtnEl.style.display = "none";
+    if (menuBtnEl) menuBtnEl.style.display = "block";
     updateStatusBubble("LOADING DECK...");
     setSwapArrowsInteractive(true);
 }
@@ -102,8 +126,10 @@ function showStartGameUI() {
  */
 function showErrorState() {
     updateStatusBubble("CONNECTION ERROR");
-    document.getElementById("start-btn").style.display = "block";
-    document.getElementById("start-btn").classList.add("start-btn-pregame");
+    if (startBtnEl) {
+        startBtnEl.style.display = "block";
+        startBtnEl.classList.add("start-btn-pregame");
+    }
     setSwapArrowsInteractive(false);
 }
 
@@ -152,7 +178,7 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
       <div class="pokemon-card card-back">
         <div class="card-back__label">POKÉMON</div>
       </div>`;
-        queueMicrotask(setupCardParallax);
+                setupCardParallax(container);
         return;
     }
 
@@ -185,7 +211,7 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
       ${ownerHtml}
     </div>`;
 
-    queueMicrotask(setupCardParallax);
+        setupCardParallax(container);
 }
 
 /**
@@ -193,7 +219,7 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
  * @returns {HTMLElement} The battle explanation element
  */
 function getOrCreateBattleExplanationEl() {
-    let explanation = document.getElementById("battle-explanation");
+    let explanation = getBattleExplanationEl();
     if (!explanation) {
         explanation = document.createElement("div");
         explanation.id = "battle-explanation";
@@ -302,7 +328,7 @@ function showBattleExplanation(winnerSide, comparison) {
  * Clears the battle explanation
  */
 function clearBattleExplanation() {
-    const explanation = document.getElementById("battle-explanation");
+    const explanation = getBattleExplanationEl();
     if (explanation) {
         explanation.innerHTML = "";
         explanation.style.display = "";
@@ -313,28 +339,28 @@ function clearBattleExplanation() {
  * Shows the next round button
  */
 function showNextButton() {
-    document.getElementById("next-btn").style.display = "block";
+    if (nextBtnEl) nextBtnEl.style.display = "block";
 }
 
 /**
  * Hides the next round button
  */
 function hideNextButton() {
-    document.getElementById("next-btn").style.display = "none";
+    if (nextBtnEl) nextBtnEl.style.display = "none";
 }
 
 /**
  * Disables player card interaction
  */
 function disablePlayerCardInteraction() {
-    document.getElementById("player-card-slot").style.pointerEvents = "none";
+    if (playerSlotEl) playerSlotEl.style.pointerEvents = "none";
 }
 
 /**
  * Enables player card interaction
  */
 function enablePlayerCardInteraction() {
-    document.getElementById("player-card-slot").style.pointerEvents = "auto";
+    if (playerSlotEl) playerSlotEl.style.pointerEvents = "auto";
 }
 
 /**
@@ -345,8 +371,8 @@ function enablePlayerCardInteraction() {
  * @param {boolean} cCardIsRare - Whether CPU's card is rare
  */
 function applyCardStyling(winner, stat, pCardIsRare, cCardIsRare) {
-    const playerCardEl = document.querySelector("#player-card-slot .pokemon-card");
-    const cpuCardEl = document.querySelector("#cpu-card-slot .pokemon-card");
+    const playerCardEl = playerSlotEl?.querySelector(".pokemon-card");
+    const cpuCardEl = cpuSlotEl?.querySelector(".pokemon-card");
 
     if (!playerCardEl || !cpuCardEl) return;
 
@@ -380,29 +406,54 @@ function applyCardStyling(winner, stat, pCardIsRare, cCardIsRare) {
 /**
  * Sets up card parallax effect
  */
-function setupCardParallax() {
-    const prefersFinePointer = window.matchMedia("(hover: hover)").matches;
+function setupCardParallax(container = document) {
+    const prefersFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (!prefersFinePointer) return;
 
-    document.querySelectorAll(".pokemon-card").forEach((card) => {
+    const cards = container.querySelectorAll(".pokemon-card");
+    cards.forEach((card) => {
         if (card.dataset.parallaxBound === "1") return;
         card.dataset.parallaxBound = "1";
 
-        card.addEventListener("mousemove", (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const rotateY = (x / rect.width - 0.5) * 18;
-            const rotateX = (y / rect.height - 0.5) * -18;
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-            card.style.setProperty("--shine-x", `${-rotateY * 2}px`);
-            card.style.setProperty("--shine-y", `${-rotateX * 2}px`);
-        });
+        let animationFrame = 0;
+        let lastPointer = null;
 
-        card.addEventListener("mouseleave", () => {
+        function resetCard() {
             card.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0px)";
             card.style.setProperty("--shine-x", "0px");
             card.style.setProperty("--shine-y", "0px");
+        }
+
+        function scheduleUpdate() {
+            if (animationFrame) return;
+            animationFrame = requestAnimationFrame(() => {
+                animationFrame = 0;
+                if (!lastPointer) return;
+
+                const rect = card.getBoundingClientRect();
+                const x = lastPointer.clientX - rect.left;
+                const y = lastPointer.clientY - rect.top;
+                const rotateY = (x / rect.width - 0.5) * 18;
+                const rotateX = (y / rect.height - 0.5) * -18;
+
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                card.style.setProperty("--shine-x", `${-rotateY * 2}px`);
+                card.style.setProperty("--shine-y", `${-rotateX * 2}px`);
+            });
+        }
+
+        card.addEventListener("pointermove", (e) => {
+            lastPointer = e;
+            scheduleUpdate();
+        });
+
+        card.addEventListener("pointerleave", () => {
+            lastPointer = null;
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = 0;
+            }
+            resetCard();
         });
     });
 }
@@ -411,9 +462,9 @@ function setupCardParallax() {
  * Sets up 3D card swapping
  */
 function setupCardSwapping() {
-    const viewport3D = document.querySelector(".cards-viewport");
-    const swapLeft = document.getElementById("swap-left");
-    const swapRight = document.getElementById("swap-right");
+    const viewport3D = cardsViewportEl;
+    const swapLeft = swapLeftEl;
+    const swapRight = swapRightEl;
     if (!viewport3D || !swapLeft || !swapRight) return;
 
     let isSwapping = false;
@@ -424,16 +475,14 @@ function setupCardSwapping() {
         viewport3D.classList.add("swapping");
 
         setTimeout(() => {
-            const playerSlot = document.getElementById("player-card-slot");
-            const cpuSlot = document.getElementById("cpu-card-slot");
-            if (!playerSlot || !cpuSlot) {
+            if (!playerSlotEl || !cpuSlotEl) {
                 isSwapping = false;
                 return;
             }
-            playerSlot.classList.toggle("slot-front");
-            playerSlot.classList.toggle("slot-back");
-            cpuSlot.classList.toggle("slot-front");
-            cpuSlot.classList.toggle("slot-back");
+            playerSlotEl.classList.toggle("slot-front");
+            playerSlotEl.classList.toggle("slot-back");
+            cpuSlotEl.classList.toggle("slot-front");
+            cpuSlotEl.classList.toggle("slot-back");
             viewport3D.classList.remove("swapping");
             isSwapping = false;
         }, 200);
@@ -447,10 +496,10 @@ function setupCardSwapping() {
  * Sets up Pokédex panel controls
  */
 function setupPokedexControls() {
-    const openBtn = document.getElementById("open-pokedex-btn");
-    const closeBtn = document.getElementById("close-pokedex-btn");
-    const backdrop = document.getElementById("pokedex-backdrop");
-    const panel = document.getElementById("pokedex-panel");
+    const openBtn = openPokedexBtnEl;
+    const closeBtn = closePokedexBtnEl;
+    const backdrop = pokedexBackdropEl;
+    const panel = pokedexPanelEl;
     if (!openBtn || !closeBtn || !backdrop || !panel) return;
 
     function setPokedexOpen(open) {
