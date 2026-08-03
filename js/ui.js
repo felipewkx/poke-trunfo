@@ -96,6 +96,52 @@ function showErrorState() {
     startBtnEl.classList.add("start-btn-pregame");
   }
   setSwapArrowsInteractive(false);
+  showMaintenanceOverlay();
+}
+
+/**
+ * Displays a clean maintenance fallback screen whenever the Pokémon API is
+ * unavailable, fails to respond, or returns invalid data.
+ */
+function showMaintenanceOverlay() {
+  const gameEl = document.querySelector(".game-container");
+  const menuEl = getEl("generation-selection");
+
+  if (menuEl) {
+    menuEl.classList.remove("screen--active");
+    menuEl.style.display = "none";
+  }
+  if (gameEl) {
+    gameEl.classList.remove("screen--active");
+    gameEl.style.display = "none";
+  }
+
+  const existing = getEl("maintenance-overlay");
+  if (existing) existing.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "maintenance-overlay";
+  overlay.setAttribute("role", "alert");
+  overlay.setAttribute("aria-live", "assertive");
+  overlay.innerHTML = `
+    <div class="maintenance-overlay__panel">
+      <img src="assets/logo.png" alt="PokeTrunfo Logo" class="maintenance-overlay__logo" />
+      <h2 class="maintenance-overlay__title">We are currently undergoing maintenance!</h2>
+      <p class="maintenance-overlay__subtitle">Our Pokémon database is temporarily unavailable.<br>Please try again in a few moments.</p>
+      <button type="button" id="maintenance-retry-btn" class="btn-neon maintenance-overlay__btn">
+        TRY AGAIN
+      </button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const retryBtn = getEl("maintenance-retry-btn");
+  if (retryBtn) {
+    retryBtn.addEventListener("click", () => {
+      overlay.remove();
+      showMenu();
+    });
+  }
 }
 
 function setSwapArrowsInteractive(active) {

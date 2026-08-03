@@ -19,9 +19,12 @@ async function fetchTypeSuperEffectiveTargets(typeName) {
         if (!res.ok) throw new Error(`Type fetch failed: ${key}`);
 
         const typeData = await res.json();
-        return new Set(
-            typeData.damage_relations.double_damage_to.map((t) => t.name)
-        );
+        // Validate the API response shape — invalid data triggers the maintenance fallback
+        const doubleDamageTo = typeData?.damage_relations?.double_damage_to;
+        if (!Array.isArray(doubleDamageTo)) {
+            throw new Error(`Type data invalid for: ${key}`);
+        }
+        return new Set(doubleDamageTo.map((t) => t.name));
     })().catch((error) => {
         typeMatchupCache.delete(key);
         throw error;
@@ -45,6 +48,19 @@ async function fetchPokemon(id) {
         if (!response.ok) throw new Error(`Pokémon ${key} fetch failed`);
 
         const data = await response.json();
+
+        // Validate API response shape — invalid/missing fields trigger the maintenance fallback
+        if (
+            !data ||
+            !Array.isArray(data.types) ||
+            !data.types[0]?.type?.name ||
+            !Array.isArray(data.stats) ||
+            data.stats.length < 6 ||
+            !data.sprites
+        ) {
+            throw new Error(`Pokémon ${key} data invalid`);
+        }
+
         const primaryType = data.types[0].type.name;
         const superEffectiveAgainst = await fetchTypeSuperEffectiveTargets(primaryType);
 
