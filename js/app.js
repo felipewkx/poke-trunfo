@@ -166,13 +166,13 @@ function finishGame() {
   let finalMsg;
 
   if (game.scores.player === 10) {
-    finalMsg = "WOW, FLAWLESS VICTORY!";
+    finalMsg = "WOW! PERFECT!\nFLAWLESS VICTORY!\nVOCÊ É O MESTRE!";
   } else if (game.scores.player > game.scores.cpu) {
-    finalMsg = "Congratz! YOU ARE THE MASTER!";
+    finalMsg = "YOU WIN!\nMANDOU BEM!";
   } else if (game.scores.cpu > game.scores.player) {
-    finalMsg = "OOPS, YOU LOST! TRY AGAIN!";
+    finalMsg = "YOU LOST!\nPERDEU!";
   } else {
-    finalMsg = "IT'S A TIE!";
+    finalMsg = "EMPATOU!\nIT'S A TIE!";
   }
 
   alert(finalMsg);
