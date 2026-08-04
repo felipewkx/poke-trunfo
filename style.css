@@ -1336,6 +1336,248 @@ header {
   z-index: 10;
 }
 
+/* Mobile-only: center and scale the "Ready?" bubble and "Start Game" button */
+@media (max-width: 899px) {
+  .game-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    width: 100%;
+  }
+
+  .game-center .status-bubble {
+    width: min(88vw, 320px);
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: clamp(1rem, 4.5vw, 1.3rem);
+    padding: clamp(12px, 3vw, 18px) clamp(20px, 5vw, 32px);
+  }
+
+  .game-center #start-btn {
+    position: static;
+    transform: none;
+    width: min(88vw, 320px);
+    max-width: 320px;
+    margin: 0 auto;
+    font-size: clamp(0.95rem, 4.2vw, 1.2rem);
+    padding: clamp(14px, 3.5vw, 20px) clamp(20px, 5vw, 32px);
+    text-align: center;
+  }
+
+  .game-center #next-btn {
+    width: min(88vw, 320px);
+    max-width: 320px;
+    margin: 0 auto;
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    padding: clamp(12px, 3vw, 18px) clamp(18px, 4.5vw, 28px);
+    text-align: center;
+  }
+}
+
+/* ===== Pokémon-style End-Game Modal ===== */
+.endgame-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  background: rgba(5, 8, 20, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: endgameBackdropFade 0.3s ease forwards;
+}
+
+.endgame-modal {
+  position: relative;
+  width: min(460px, 94vw);
+  padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 4vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.9rem, 3vw, 1.4rem);
+  text-align: center;
+  border-radius: 24px;
+  background: linear-gradient(
+    160deg,
+    #ffcb05 0%,
+    #ff9f1c 30%,
+    #e53935 100%
+  );
+  border: 4px solid #1a1a2e;
+  box-shadow:
+    0 0 0 4px #ffcb05,
+    0 0 0 8px #1a1a2e,
+    0 24px 64px rgba(0, 0, 0, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  animation: endgamePop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.endgame-modal::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 28px;
+  background: linear-gradient(180deg, #1a1a2e, #2e2e4a);
+  border-radius: 999px;
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.2) inset;
+}
+
+.endgame-modal::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #7ec8fc 40%, #2e6bcf);
+  box-shadow: 0 0 0 3px #1a1a2e;
+}
+
+.endgame-title {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow:
+    -2px -2px 0 #1a1a2e,
+    2px -2px 0 #1a1a2e,
+    -2px 2px 0 #1a1a2e,
+    2px 2px 0 #1a1a2e,
+    0 4px 0 rgba(0, 0, 0, 0.35),
+    0 8px 18px rgba(0, 0, 0, 0.4);
+  line-height: 1.15;
+}
+
+.endgame-score {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #1a1a2e;
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid #1a1a2e;
+  border-radius: 999px;
+  padding: clamp(0.5rem, 2vw, 0.7rem) clamp(1.2rem, 4vw, 2rem);
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+
+.endgame-score .endgame-score-player {
+  color: #2e6bcf;
+}
+
+.endgame-score .endgame-score-cpu {
+  color: #e53935;
+}
+
+.endgame-subtitle {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #1a1a2e,
+    1px -1px 0 #1a1a2e,
+    -1px 1px 0 #1a1a2e,
+    1px 1px 0 #1a1a2e,
+    0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.endgame-btn {
+  appearance: none;
+  margin-top: 0.4rem;
+  min-width: 200px;
+  padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 5vw, 2.5rem);
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(0.95rem, 4vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a2e;
+  background: linear-gradient(180deg, #ffcb05, #ff9f1c);
+  border: 3px solid #1a1a2e;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow:
+    0 6px 0 #1a1a2e,
+    0 10px 24px rgba(0, 0, 0, 0.35),
+    inset 0 2px 0 rgba(255, 255, 255, 0.5);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.endgame-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 #1a1a2e,
+    0 14px 30px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+.endgame-btn:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #1a1a2e,
+    0 6px 16px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+@keyframes endgameBackdropFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes endgamePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(30px) rotate(-3deg);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-6px) rotate(1deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .endgame-backdrop,
+  .endgame-modal {
+    animation: none !important;
+  }
+}
+
 #cpu-card-slot .pokemon-card {
   transform-style: preserve-3d;
 }

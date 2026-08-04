@@ -163,22 +163,53 @@ function nextRound() {
 }
 
 function finishGame() {
-  let finalMsg;
+  let title;
+  let subtitle;
 
   if (game.scores.player === 10) {
-    finalMsg = "WOW! PERFECT!\nFLAWLESS VICTORY!\nVOCÊ É O MESTRE!";
+    title = "PERFECT!";
+    subtitle = "FLAWLESS VICTORY! VOCÊ É O MESTRE!";
   } else if (game.scores.player > game.scores.cpu) {
-    finalMsg = "YOU WIN!\nMANDOU BEM!";
+    title = "YOU WIN!";
+    subtitle = "MANDOU BEM!";
   } else if (game.scores.cpu > game.scores.player) {
-    finalMsg = "YOU LOST!\nPERDEU!";
+    title = "YOU LOST!";
+    subtitle = "PERDEU!";
   } else {
-    finalMsg = "EMPATOU!\nIT'S A TIE!";
+    title = "IT'S A TIE!";
+    subtitle = "EMPATOU!";
   }
 
-  alert(finalMsg);
-  ui.updateStatusBubble("GAME OVER");
-  resetGame();
-  ui.showMenu();
+  const existing = document.getElementById("endgame-backdrop");
+  if (existing) existing.remove();
+
+  const backdrop = document.createElement("div");
+  backdrop.id = "endgame-backdrop";
+  backdrop.className = "endgame-backdrop";
+  backdrop.setAttribute("role", "dialog");
+  backdrop.setAttribute("aria-modal", "true");
+  backdrop.setAttribute("aria-labelledby", "endgame-title");
+  backdrop.innerHTML = `
+    <div class="endgame-modal">
+      <h2 id="endgame-title" class="endgame-title">${title}</h2>
+      <p class="endgame-score">
+        Final Result: <span class="endgame-score-player">Player ${game.scores.player}</span> - <span class="endgame-score-cpu">${game.scores.cpu} CPU</span>
+      </p>
+      <p class="endgame-subtitle">${subtitle}</p>
+      <button type="button" id="endgame-close-btn" class="endgame-btn">RETURN TO MENU</button>
+    </div>
+  `;
+  document.body.appendChild(backdrop);
+
+  const closeBtn = document.getElementById("endgame-close-btn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      backdrop.remove();
+      ui.updateStatusBubble("GAME OVER");
+      resetGame();
+      ui.showMenu();
+    });
+  }
 }
 
 function selectGeneration(min, max) {
