@@ -98,17 +98,54 @@ function resetUI() {
   if (startBtnEl) {
     startBtnEl.style.display = "block";
     startBtnEl.classList.add("start-btn-pregame");
-  function setupCardParallax() {
-
-
- */
-    startBtnEl.classList.remove("start-btn-pregame");
-}
-  updateStatusBubble("CONNECTION ERROR");
   }
+  if (nextBtnEl) nextBtnEl.style.display = "none";
+  if (menuBtnEl) menuBtnEl.style.display = "none";
+
+  clearCardSlots();
+  if (playerSlotEl) playerSlotEl.style.pointerEvents = "auto";
+  setSwapArrowsInteractive(false);
+}
+
+/**
+ * Shows the start game UI state
+ */
+function showStartGameUI() {
+  if (startBtnEl) {
+    startBtnEl.style.display = "none";
+    startBtnEl.classList.remove("start-btn-pregame");
+  }
+  if (nextBtnEl) nextBtnEl.style.display = "none";
+  if (menuBtnEl) menuBtnEl.style.display = "block";
+  updateStatusBubble("LOADING DECK...");
+  setSwapArrowsInteractive(true);
+}
+
+/**
+ * Shows the error state
+ */
+function showErrorState() {
+  updateStatusBubble("CONNECTION ERROR");
+  if (startBtnEl) {
+    startBtnEl.style.display = "block";
+    startBtnEl.classList.add("start-btn-pregame");
+  }
+  setSwapArrowsInteractive(false);
+}
+
+/**
  * Generates HTML for a stat row
+ * @param {Object} pokemon - Pokémon data
+ * @param {string} statKey - Stat key (HP, ATTACK, DEFENSE, SPEED)
+ * @param {string|null} bonusStat - Stat that has a type bonus
+ * @param {boolean} revealStats - Whether to show stat values
+ * @returns {string} HTML string
+ */
+function statRowHtml(pokemon, statKey, bonusStat, revealStats) {
+  const value = revealStats ? pokemon.stats[statKey] : "?";
   const hiddenClass = revealStats ? "" : " stat-val--hidden";
-    return;
+  const bonus =
+    bonusStat === statKey
       ? `<span class="type-bonus">+${TYPE_ADVANTAGE_BONUS}</span>`
       : "";
   return `
@@ -118,7 +155,7 @@ function resetUI() {
         <span>${statKey}</span>
       </span>
       <span class="stat-row__right">
-                <span class="stat-val${hiddenClass}">${value}</span>
+        <span class="stat-val${hiddenClass}">${value}</span>
         ${bonus}
       </span>
     </div>`;
@@ -129,7 +166,7 @@ function resetUI() {
  * @param {Object} pokemon - Pokémon data
  * @param {string} containerId - ID of the container element
  * @param {boolean} isFaceDown - Whether to show card back
- * @param {Object} options - Additional options (ownerLabel, bonusStat, revealStats)
+ * @param {Object} options - Additional options (ownerLabel, bonusStat, revealStats, interactive)
  */
 function renderCard(pokemon, containerId, isFaceDown, options = {}) {
   const container = document.getElementById(containerId);
@@ -159,15 +196,15 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
   const rareClass = pokemon.isRare ? "rare-card" : "";
   const statStateClass = revealStats ? "" : "card--stats-hidden";
   const interactiveClass = interactive ? "card--interactive" : "";
-  const rareBadge = pokemon.isRare
-    ? '<div class="rare-badge">RARE</div><div class="super-trunfo-badge">SUPER TRUNFO</div>'
-    : "";
   const ownerBadgeClass =
     ownerLabel === "YOU"
       ? "card-owner-badge--you"
       : ownerLabel === "CPU"
         ? "card-owner-badge--cpu"
         : "";
+  const rareBadge = pokemon.isRare
+    ? '<div class="rare-badge">RARE</div><div class="super-trunfo-badge">SUPER TRUNFO</div>'
+    : "";
   const nameColor = pokemon.isRare
     ? 'style="color: hotpink;"'
     : 'style="color: var(--poke-yellow);"';
@@ -175,24 +212,24 @@ function renderCard(pokemon, containerId, isFaceDown, options = {}) {
   const typeHtml = `<div class="card-type-line"><span class="card-type-name" aria-label="Element">${pokemon.type.toUpperCase()}</span></div>`;
 
   container.innerHTML = `
-                <div class="pokemon-card ${rareClass} ${statStateClass} ${interactiveClass}">
+    <div class="pokemon-card ${rareClass} ${statStateClass} ${interactiveClass}">
       ${rareBadge}
       <h2 ${nameColor}>
-                <span class="card-name-line">
-                    <img src="assets/logo.png" alt="" class="pokeball-icon" width="18" height="18" />
-                    <span class="card-owner-badge ${ownerBadgeClass}">${ownerLabel}</span>
-                    <span class="pokemon-name">${pokemon.name}</span>
-                </span>
-                <span class="card-result-tag" aria-hidden="true"></span>
+        <span class="card-name-line">
+          <img src="assets/logo.png" alt="" class="pokeball-icon" width="18" height="18" />
+          <span class="card-owner-badge ${ownerBadgeClass}">${ownerLabel}</span>
+          <span class="pokemon-name">${pokemon.name}</span>
+        </span>
+        <span class="card-result-tag" aria-hidden="true"></span>
       </h2>
       <img class="pokemon-sprite" src="${pokemon.image}" alt="${pokemon.name}" />
       <div class="stats-container" id="stats-${containerId}">
-                ${statRowHtml(pokemon, "HP", bonusStat, revealStats)}
-                ${statRowHtml(pokemon, "ATTACK", bonusStat, revealStats)}
-                ${statRowHtml(pokemon, "DEFENSE", bonusStat, revealStats)}
-                ${statRowHtml(pokemon, "SPEED", bonusStat, revealStats)}
+        ${statRowHtml(pokemon, "HP", bonusStat, revealStats)}
+        ${statRowHtml(pokemon, "ATTACK", bonusStat, revealStats)}
+        ${statRowHtml(pokemon, "DEFENSE", bonusStat, revealStats)}
+        ${statRowHtml(pokemon, "SPEED", bonusStat, revealStats)}
       </div>
-            ${typeHtml}
+      ${typeHtml}
     </div>`;
 
   setupCardParallax(container);
@@ -262,10 +299,10 @@ function showBattleExplanationTie(comparison) {
   const cpuNote = typeAdvantageNote(cCard, pCard.type, cpuBonus);
 
   explanation.innerHTML = `
-      🤝 TIE on <span class="battle-stat">${stat}</span><br>
-      ${playerLine}${playerNote}<br>
-      ${cpuLine}${cpuNote}<br>
-      <span class="battle-totals">Final: ${pTotal} vs ${cTotal}</span>`;
+    🤝 TIE on <span class="battle-stat">${stat}</span><br>
+    ${playerLine}${playerNote}<br>
+    ${cpuLine}${cpuNote}<br>
+    <span class="battle-totals">Final: ${pTotal} vs ${cTotal}</span>`;
   revealBattleExplanation(explanation);
 }
 
@@ -298,11 +335,11 @@ function showBattleExplanation(winnerSide, comparison) {
   const loserNote = typeAdvantageNote(loserCard, winnerCard.type, loserBonus);
 
   explanation.innerHTML = `
-      🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br>
-      ${winnerLine}${winnerNote}<br>
-      ${loserLine}${loserNote}<br>
-      <span class="battle-totals">Final: ${winnerTotal} vs ${loserTotal}</span><br>
-      <span class="battle-loser-note">${loserCard.name} lost the battle.</span>`;
+    🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br>
+    ${winnerLine}${winnerNote}<br>
+    ${loserLine}${loserNote}<br>
+    <span class="battle-totals">Final: ${winnerTotal} vs ${loserTotal}</span><br>
+    <span class="battle-loser-note">${loserCard.name} lost the battle.</span>`;
   revealBattleExplanation(explanation);
 }
 
@@ -524,8 +561,5 @@ window.hideNextButton = hideNextButton;
 window.disablePlayerCardInteraction = disablePlayerCardInteraction;
 window.enablePlayerCardInteraction = enablePlayerCardInteraction;
 window.applyCardStyling = applyCardStyling;
-window.setupCardSwapping = setupCardSwapping;
-window.setupPokedexControls = setupPokedexControls;
-
 window.setupCardSwapping = setupCardSwapping;
 window.setupPokedexControls = setupPokedexControls;

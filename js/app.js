@@ -216,6 +216,7 @@ function selectGeneration(min, max) {
   game.setGeneration(min, max);
   resetGame();
   ui.showGameContainer();
+  startGame();
 }
 
 function setupControls() {
