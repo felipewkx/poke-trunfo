@@ -149,7 +149,7 @@ body.pokedex-open {
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background: radial-gradient(circle at center, rgba(30, 48, 96, 0.95) 0%, rgba(10, 14, 26, 0.98) 100%);
+  background: transparent;
   backdrop-filter: blur(16px);
   opacity: 0;
   pointer-events: none;
