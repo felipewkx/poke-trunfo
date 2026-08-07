@@ -165,10 +165,12 @@ function nextRound() {
 function finishGame() {
   let title;
   let subtitle;
+  let modalClass = "endgame-modal"; // Classe base
 
   if (game.scores.player === 10) {
     title = "PERFECT!";
     subtitle = "FLAWLESS VICTORY! VOCÊ É O MESTRE!";
+    modalClass = "endgame-modal flawless-victory"; // Adiciona efeito brilhante
   } else if (game.scores.player > game.scores.cpu) {
     title = "YOU WIN!";
     subtitle = "MANDOU BEM!";
@@ -190,10 +192,11 @@ function finishGame() {
   backdrop.setAttribute("aria-modal", "true");
   backdrop.setAttribute("aria-labelledby", "endgame-title");
   backdrop.innerHTML = `
-    <div class="endgame-modal">
+    <div class="${modalClass}">
       <h2 id="endgame-title" class="endgame-title">${title}</h2>
-      <p class="endgame-score">
-        Final Result: <span class="endgame-score-player">Player ${game.scores.player}</span> - <span class="endgame-score-cpu">${game.scores.cpu} CPU</span>
+      <p class="endgame-score"> Final Result: 
+        <span class="endgame-score-player">Player ${game.scores.player}</span> - 
+        <span class="endgame-score-cpu">${game.scores.cpu} CPU</span>
       </p>
       <p class="endgame-subtitle">${subtitle}</p>
       <button type="button" id="endgame-close-btn" class="endgame-btn">RETURN TO MENU</button>
@@ -211,6 +214,7 @@ function finishGame() {
     });
   }
 }
+
 
 function selectGeneration(min, max) {
   game.setGeneration(min, max);
