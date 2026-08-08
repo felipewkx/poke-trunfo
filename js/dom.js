@@ -302,7 +302,7 @@ function showBattleExplanationTie(comparison) {
     🤝 TIE on <span class="battle-stat">${stat}</span><br>
     ${playerLine}${playerNote}<br>
     ${cpuLine}${cpuNote}<br>
-    <span class="battle-totals">Final: ${pTotal} vs ${cTotal}</span>`;
+    <span class="battle-totals" style="color: #0077b6;">Final: <strong style="color: #2d6a4f; font-weight: bold;">${pTotal} vs ${cTotal}</strong></span>`;
   revealBattleExplanation(explanation);
 }
 
@@ -338,7 +338,7 @@ function showBattleExplanation(winnerSide, comparison) {
     🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br>
     ${winnerLine}${winnerNote}<br>
     ${loserLine}${loserNote}<br>
-    <span class="battle-totals">Final: ${winnerTotal} vs ${loserTotal}</span><br>
+    <span class="battle-totals" style="color: #0077b6;">Final: <strong style="color: #2d6a4f; font-weight: bold;">${winnerTotal} vs ${loserTotal}</strong></span><br>
     <span class="battle-loser-note">${loserCard.name} lost the battle.</span>`;
   revealBattleExplanation(explanation);
 }
