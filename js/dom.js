@@ -264,10 +264,13 @@ function revealBattleExplanation(explanation) {
 function formatStatMath(card, stat, bonus) {
   const base = card.stats[stat];
   const total = base + bonus;
-  if (bonus > 0) {
-    return `${card.name}: ${base} + ${bonus} = <b>${total}</b>`;
-  }
-  return `${card.name}: ${base} = <b>${total}</b>`;
+  const detail =
+    bonus > 0 ? `${base} + ${bonus} = <b>${total}</b>` : `${base} = <b>${total}</b>`;
+  return `
+    <div class="battle-math-row">
+      <span class="battle-math-name">${card.name}</span>
+      <span class="battle-math-detail">${detail}</span>
+    </div>`;
 }
 
 /**
@@ -275,7 +278,7 @@ function formatStatMath(card, stat, bonus) {
  */
 function typeAdvantageNote(card, opponentType, bonus) {
   if (!bonus) return "";
-  return `<br><span class="battle-type-note">${card.type.toUpperCase()} is super-effective vs ${opponentType.toUpperCase()} (+${TYPE_ADVANTAGE_BONUS})</span>`;
+  return `<div class="battle-type-note">${card.type.toUpperCase()} is super-effective vs ${opponentType.toUpperCase()} (+${TYPE_ADVANTAGE_BONUS})</div>`;
 }
 
 /**
@@ -288,7 +291,10 @@ function showBattleExplanationTie(comparison) {
     comparison;
 
   if (pCard.isRare && cCard.isRare) {
-    explanation.innerHTML = `🤝 TIE — both are<br><span class="rare-text">SUPER TRUNFO CARDS</span>`;
+    explanation.innerHTML = `
+      <div class="battle-explanation__header">
+        🤝 TIE — both are <span class="rare-text">SUPER TRUNFO CARDS</span>
+      </div>`;
     revealBattleExplanation(explanation);
     return;
   }
@@ -299,10 +305,16 @@ function showBattleExplanationTie(comparison) {
   const cpuNote = typeAdvantageNote(cCard, pCard.type, cpuBonus);
 
   explanation.innerHTML = `
-    🤝 TIE on <span class="battle-stat">${stat}</span><br>
-    ${playerLine}${playerNote}<br>
-    ${cpuLine}${cpuNote}<br>
-    <span class="battle-totals" style="color: #0077b6;">Final: <strong style="color: #2d6a4f; font-weight: bold;">${pTotal} vs ${cTotal}</strong></span>`;
+    <div class="battle-explanation__header">
+      🤝 TIE on <span class="battle-stat">${stat}</span>
+    </div>
+    <div class="battle-explanation__math">
+      ${playerLine}
+      ${playerNote}
+      ${cpuLine}
+      ${cpuNote}
+    </div>
+    <div class="battle-totals">Final: <strong>${pTotal} vs ${cTotal}</strong></div>`;
   revealBattleExplanation(explanation);
 }
 
@@ -324,7 +336,10 @@ function showBattleExplanation(winnerSide, comparison) {
   const loserTotal = winnerSide === "player" ? cTotal : pTotal;
 
   if (winnerCard.isRare && !loserCard.isRare) {
-    explanation.innerHTML = `🌟 <span class="battle-winner">${winnerCard.name}</span> wins — <span class="rare-text">SUPER TRUNFO</span>`;
+    explanation.innerHTML = `
+      <div class="battle-explanation__header">
+        🌟 <span class="battle-winner">${winnerCard.name}</span> wins — <span class="rare-text">SUPER TRUNFO</span>
+      </div>`;
     revealBattleExplanation(explanation);
     return;
   }
@@ -335,11 +350,17 @@ function showBattleExplanation(winnerSide, comparison) {
   const loserNote = typeAdvantageNote(loserCard, winnerCard.type, loserBonus);
 
   explanation.innerHTML = `
-    🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span><br>
-    ${winnerLine}${winnerNote}<br>
-    ${loserLine}${loserNote}<br>
-    <span class="battle-totals" style="color: #0077b6;">Final: <strong style="color: #2d6a4f; font-weight: bold;">${winnerTotal} vs ${loserTotal}</strong></span><br>
-    <span class="battle-loser-note">${loserCard.name} lost the battle.</span>`;
+    <div class="battle-explanation__header">
+      🏆 <span class="battle-winner">${winnerCard.name}</span> wins on <span class="battle-stat">${stat}</span>
+    </div>
+    <div class="battle-explanation__math">
+      ${winnerLine}
+      ${winnerNote}
+      ${loserLine}
+      ${loserNote}
+    </div>
+    <div class="battle-totals">Final: <strong>${winnerTotal} vs ${loserTotal}</strong></div>
+    <div class="battle-loser-note">${loserCard.name} lost the battle.</div>`;
   revealBattleExplanation(explanation);
 }
 
