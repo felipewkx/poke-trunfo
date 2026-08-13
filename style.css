@@ -1018,8 +1018,9 @@ header {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: min(900px, 92vw);
-  height: 85vh;
+  width: min(440px, 92vw);
+  height: min(720px, 85vh);
+  aspect-ratio: 2 / 3;
   background: #0f172a;
   border: 3px solid var(--pk-red);
   border-radius: var(--radius-lg);
@@ -1410,7 +1411,7 @@ header {
   }
 
   .pokedex-panel {
-    width: 96vw;
-    height: 92vh;
+    width: min(96vw, calc(92vh * 2 / 3));
+    height: min(92vh, calc(96vw * 3 / 2));
   }
 }
