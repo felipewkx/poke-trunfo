@@ -83,14 +83,12 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  /* Integration of assets/bg.png with fallback pathing and subtle dark overlay */
   background:
     radial-gradient(circle at 50% 30%, rgba(42, 117, 187, 0.08) 0%, rgba(11, 15, 25, 0.25) 100%),
-    url('../assets/bg.png') center/cover no-repeat fixed,
     url('assets/bg.png') center/cover no-repeat fixed,
     linear-gradient(135deg, #0f172a 0%, #020617 100%);
-  background-blend-mode: normal, normal, normal, normal;
 }
+
 
 body.pokedex-open {
   overflow: hidden;
