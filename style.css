@@ -79,14 +79,32 @@ html, body {
 body {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh; /* Stabilize mobile dynamic viewport resizing */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background: transparent; /* Background handled entirely by GPU layer below */
+}
+
+/* 
+  MOBILE BACKGROUND SCROLL FIX:
+  Using a fixed-position layer instead of 'background-attachment: fixed' 
+  eliminates mobile browser jumping, flickering, and repainting during scroll.
+*/
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -10;
   background:
     radial-gradient(circle at 50% 30%, rgba(42, 117, 187, 0.08) 0%, rgba(11, 15, 25, 0.25) 100%),
-    url('assets/bg.png') center/cover no-repeat fixed,
+    url('assets/bg.png') center/cover no-repeat,
     linear-gradient(135deg, #0f172a 0%, #020617 100%);
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  pointer-events: none;
 }
 
 
