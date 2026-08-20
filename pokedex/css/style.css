@@ -10,7 +10,8 @@
 body {
   text-align: center;
   background: linear-gradient(to bottom, #6ab7f5, #fff);
-  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
 }
 
 html.embedded-pokedex,
@@ -51,8 +52,8 @@ html.embedded-pokedex main {
   display: inline-block;
   position: relative;
   line-height: 0;
-  width: min(100vw, calc(100vh * 2 / 3));
-  height: min(100vh, calc(100vw * 3 / 2));
+  width: min(100vw, calc(100dvh * 2 / 3));
+  height: min(100dvh, calc(100vw * 3 / 2));
   aspect-ratio: 2 / 3;
 }
 
