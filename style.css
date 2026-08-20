@@ -89,24 +89,28 @@ body {
 
 /* 
   STABLE MOBILE BACKGROUND FIX:
-  Using a locked HTML element wrapper (.bg-wrapper) positioned fixed to 100% dimensions 
+  Using a locked HTML element wrapper (.bg-wrapper) positioned fixed with inset: 0
   stops mobile address bars from triggering background resizes, jumps, or bottom black gaps.
+
+  Key optimizations for mobile scroll stability:
+  - inset: 0 replaces viewport units (100vh/100dvh) to avoid resize jumps when address bars show/hide
+  - Removed will-change: transform (element never transforms; was causing unnecessary compositing
+    layer management and flickering on mobile browsers)
+  - Removed transform: translateZ(0) (legacy GPU-acceleration hack that caused rendering glitches
+    on mobile when combined with position: fixed)
+  - background-attachment: scroll ensures the background stays fixed with the element (no mobile
+    repaint thrashing); explicitly set to prevent any framework default from using fixed attachment
+  - pointer-events: none ensures the background never blocks interaction
 */
 .bg-wrapper {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  inset: 0;
   z-index: -10;
   background:
     radial-gradient(circle at 50% 30%, rgba(42, 117, 187, 0.08) 0%, rgba(11, 15, 25, 0.25) 100%),
     url('assets/bg.png') center/cover no-repeat,
     linear-gradient(135deg, #0f172a 0%, #020617 100%);
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  background-attachment: scroll;
   pointer-events: none;
 }
 
