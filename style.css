@@ -79,23 +79,26 @@ html, body {
 body {
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh; /* Stabilize mobile dynamic viewport resizing */
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: transparent; /* Background handled entirely by GPU layer below */
+  background: transparent;
 }
 
 /* 
-  MOBILE BACKGROUND SCROLL FIX:
-  Using a fixed-position layer instead of 'background-attachment: fixed' 
-  eliminates mobile browser jumping, flickering, and repainting during scroll.
+  STABLE MOBILE BACKGROUND FIX:
+  Using a locked HTML element wrapper (.bg-wrapper) positioned fixed to 100% dimensions 
+  stops mobile address bars from triggering background resizes, jumps, or bottom black gaps.
 */
-body::before {
-  content: '';
+.bg-wrapper {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: -10;
   background:
     radial-gradient(circle at 50% 30%, rgba(42, 117, 187, 0.08) 0%, rgba(11, 15, 25, 0.25) 100%),
@@ -1172,6 +1175,7 @@ header {
   z-index: 210;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   display: none;
   flex-direction: column;
   justify-content: space-between;
