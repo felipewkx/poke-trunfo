@@ -77,7 +77,6 @@ html, body {
 
 html {
   overflow-x: hidden;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -88,8 +87,16 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: transparent;
+  background-color: #0b0f19; /* Solid color fallback to avoid black bar gaps */
   overflow-x: hidden;
+}
+
+/* Smooth scrolling only on desktop (hover-capable, fine-pointer devices).
+   On mobile it exacerbates scroll jank and perceived background jumps. */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* 
@@ -99,8 +106,11 @@ body {
 
   Key optimizations for mobile scroll stability:
   - inset: 0 replaces viewport units (100vh/100dvh) to avoid resize jumps when address bars show/hide
-  - Hardware-accelerated fixed pseudo-element (::before with will-change: transform; transform: translateZ(0))
-    handles the background to prevent jitter during mobile scroll.
+  - z-index: 0 (not negative) keeps the background in a stable compositing layer above the body,
+    avoiding the repaint/recomposite glitches that negative z-index fixed elements cause on mobile.
+  - contain: strict isolates the background from layout/paint of the rest of the page.
+  - No will-change/translateZ on the pseudo-element: those force re-rasterization of the heavy
+    background image whenever the viewport resizes (URL-bar show/hide), causing blur/jump.
   - background-attachment: scroll ensures the background stays fixed with the element (no mobile
     repaint thrashing); explicitly set to prevent any framework default from using fixed attachment
   - pointer-events: none ensures the background never blocks interaction
@@ -108,9 +118,10 @@ body {
 .bg-wrapper {
   position: fixed;
   inset: 0;
-  z-index: -10;
+  z-index: 0; /* Stable compositing layer; content sits above with positive z-index */
   background-color: #0b0f19; /* Solid color fallback to avoid CLS */
   pointer-events: none;
+  contain: strict; /* Isolate from layout/paint of the rest of the page */
 }
 
 .bg-wrapper::before {
@@ -123,9 +134,6 @@ body {
     linear-gradient(135deg, #0f172a 0%, #020617 100%);
   background-color: #0b0f19; /* Solid color fallback to avoid CLS */
   background-attachment: scroll;
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   pointer-events: none;
 }
 
@@ -146,11 +154,18 @@ body.pokedex-open {
   position: fixed;
   inset: 0;
   background: var(--bg-overlay);
-  backdrop-filter: blur(4px) saturate(120%);
-  -webkit-backdrop-filter: blur(4px) saturate(120%);
   z-index: 100;
   pointer-events: none; /* decorative backdrop - never blocks the game */
   transition: opacity var(--transition-normal);
+}
+
+/* backdrop-filter is extremely expensive on mobile (re-blurs the background
+   on every scroll frame). Only enable it on desktop hover-capable devices. */
+@media (hover: hover) and (pointer: fine) {
+  .glass-overlay {
+    backdrop-filter: blur(4px) saturate(120%);
+    -webkit-backdrop-filter: blur(4px) saturate(120%);
+  }
 }
 
 .glass-overlay::before {
@@ -189,11 +204,17 @@ body.pokedex-open {
   align-items: center;
   padding: 2rem;
   background: transparent;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-normal);
+}
+
+/* Only apply the blur on desktop to avoid mobile scroll repaint thrashing. */
+@media (hover: hover) and (pointer: fine) {
+  #generation-selection {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
 }
 
 #generation-selection.screen--active {
